@@ -1,7 +1,7 @@
 // content.js
 (function() {
     'use strict';
-    const scrollbarStyles = `
+const scrollbarStyles = `
         ::-webkit-scrollbar {
             width: 12px;
             background: #E1EBED;
@@ -35,32 +35,31 @@
     .popupExt.resizing iframe {
         pointer-events: none;
     }
-	
-	.bubble-ext-notification {
-            position: fixed;
-            bottom: 8%;
-            left: 50%;
-            box-shadow: 0 0 5px black;
-            background: #136857;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 24px;
-            font-size: 14px;
-            opacity: 0;
-            transform: translate(-50%, 20px);
-            transition: all 0.3s ease;
-            z-index: 2147483647;
-            pointer-events: none;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .bubble-ext-notification.show {
-            opacity: 1;
-            transform: translate(-50%, 0);
-        }
-        
+
+    .bubble-ext-notification {
+        position: fixed;
+        bottom: 8%;
+        left: 50%;
+        box-shadow: 0 0 5px black;
+        background: #136857;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 24px;
+        font-size: 14px;
+        opacity: 0;
+        transform: translate(-50%, 20px);
+        transition: all 0.3s ease;
+        z-index: 2147483647;
+        pointer-events: none;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .bubble-ext-notification.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
     `;
     const styleSheet = document.createElement("style");
     styleSheet.type = "text/css";
@@ -82,10 +81,10 @@ if (window.self === window.top) {
     const dictUrlKey = 'dictUrl';
     
 // Default URLs and modes
-const DEFAULT_POPUP_URL = 'https://dict.dhamma.gift/search_html?q='; // Оставим эту константу для кнопки
-const NEW_WINDOW_URL_EN = 'https://dict.dhamma.gift/search_html?q=';
-const NEW_WINDOW_URL_RU = 'https://dict.dhamma.gift/ru/search_html?q=';
-let currentModeOrUrl = 'newWindowExt'; // А здесь установим 'newWindowExt' как режим по умолчанию
+const DEFAULT_POPUP_URL = 'https://dict.dhamma.gift/?silent&q='; 
+const NEW_WINDOW_URL_EN = 'https://dict.dhamma.gift/?silent&q=';
+const NEW_WINDOW_URL_RU = 'https://dict.dhamma.gift/ru/?silent&q=';
+let currentModeOrUrl = 'newWindowExt';
 
     // Reset popup settings logic
     try {
@@ -394,23 +393,30 @@ async function showTranslation(word) {
         
         setTimeout(() => {
             bubble.classList.remove('show');
-        }, 2500);
+        }, 2000);
     }
 
     // Listen for messages from background.js
+// Listen for messages from background.js
     browserApi.runtime.onMessage.addListener((request) => {
         if (request.action === "show_extension_status") {
+            // Определяем язык на основе выбранного словаря или настроек сайта
             const isRu = currentModeOrUrl.includes('/ru/') || localStorage.getItem('siteLanguage') === 'ru';
+            
             let statusText;
             if (isRu) {
-                statusText = request.enabled ? "Dhamma.Gift расширение: Вкл" : "Dhamma.Gift расширение: Выкл";
+                statusText = request.enabled 
+                    ? "Dhamma.Gift расширение: Вкл" 
+                    : "Dhamma.Gift расширение: Выкл";
             } else {
-                statusText = request.enabled ? "Dhamma.Gift extension: On" : "Dhamma.Gift extension: Off";
+                statusText = request.enabled 
+                    ? "Dhamma.Gift extension: On" 
+                    : "Dhamma.Gift extension: Off";
             }
+            
             showStatusBubble(statusText);
         }
-    });
-	
+    });	
 	
     const handleClickExt = (event) => {
         if (!isEnabled || event.target.closest('a, button, input, textarea, select, .popupExt, video, .html5-video-player')) return;        const selectedText = getSelectedText();
