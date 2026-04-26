@@ -1,7 +1,7 @@
 // content.js
 (function() {
     'use strict';
-    const scrollbarStyles = `
+const scrollbarStyles = `
         ::-webkit-scrollbar {
             width: 12px;
             background: #E1EBED;
@@ -35,32 +35,31 @@
     .popupExt.resizing iframe {
         pointer-events: none;
     }
-	
-	.bubble-ext-notification {
-            position: fixed;
-            bottom: 8%;
-            left: 50%;
-            box-shadow: 0 0 5px black;
-            background: #136857;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 24px;
-            font-size: 14px;
-            opacity: 0;
-            transform: translate(-50%, 20px);
-            transition: all 0.3s ease;
-            z-index: 2147483647;
-            pointer-events: none;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .bubble-ext-notification.show {
-            opacity: 1;
-            transform: translate(-50%, 0);
-        }
-        
+
+    .bubble-ext-notification {
+        position: fixed;
+        bottom: 8%;
+        left: 50%;
+        box-shadow: 0 0 5px black;
+        background: #136857;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 24px;
+        font-size: 14px;
+        opacity: 0;
+        transform: translate(-50%, 20px);
+        transition: all 0.3s ease;
+        z-index: 2147483647;
+        pointer-events: none;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .bubble-ext-notification.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
     `;
     const styleSheet = document.createElement("style");
     styleSheet.type = "text/css";
@@ -121,6 +120,79 @@ let currentModeOrUrl = 'newWindowExt';
     });
 
     let isEnabled = true;
+	
+function getEffectiveThemeExt() {
+    const html = document.documentElement;
+    const body = document.body || document.getElementsByTagName('body')[0];
+
+    if (!body) {
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    // 1. Проверка по явным атрибутам и классам
+    const isDarkAttribute = html.getAttribute('data-theme') === 'dark' ||
+                            html.getAttribute('theme') === 'dark' ||
+                            body.getAttribute('data-theme') === 'dark';
+
+    const isDarkClass = html.classList.contains('dark') ||
+                        html.classList.contains('dark-mode') ||
+                        html.classList.contains('theme-dark') ||
+                        body.classList.contains('dark') ||
+                        body.classList.contains('dark-mode') ||
+                        body.classList.contains('theme-dark');
+
+    if (isDarkAttribute || isDarkClass) return 'dark';
+
+    const isLightAttribute = html.getAttribute('data-theme') === 'light' ||
+                             html.getAttribute('theme') === 'light' ||
+                             body.getAttribute('data-theme') === 'light';
+
+    const isLightClass = html.classList.contains('light') ||
+                         html.classList.contains('theme-light') ||
+                         body.classList.contains('light');
+
+    if (isLightAttribute || isLightClass) return 'light';
+
+    // 2. Определение по вычисленному цвету фона
+    function getBrightness(element) {
+        if (!element) return null;
+        
+        const style = window.getComputedStyle(element);
+        const bgColor = style.backgroundColor;
+        
+        // Пропускаем прозрачный фон, чтобы проверить родителя
+        if (bgColor === 'rgba(0, 0, 0, 0)' || bgColor === 'transparent') {
+            return null;
+        }
+
+        const rgb = bgColor.match(/\d+/g);
+        if (!rgb || rgb.length < 3) return null;
+
+        const r = parseInt(rgb[0], 10);
+        const g = parseInt(rgb[1], 10);
+        const b = parseInt(rgb[2], 10);
+
+        // Формула воспринимаемой яркости
+        return (r * 299 + g * 587 + b * 114) / 1000;
+    }
+
+    let brightness = getBrightness(body);
+    
+    if (brightness === null) {
+        brightness = getBrightness(html);
+    }
+
+    if (brightness !== null) {
+        return brightness < 127 ? 'dark' : 'light';
+    }
+
+    // 3. Фолбэк на системные настройки ОС/браузера
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+    }
+
+    return 'light';
+}
 
     // --- NEW WINDOW MODE LOGIC ---
     let dictionaryWindow = null;
@@ -253,6 +325,13 @@ let currentModeOrUrl = 'newWindowExt';
         };
         closeBtnExt.addEventListener('click', closePopupExt);
         overlayExt.addEventListener('click', closePopupExt);
+		
+		// Добавлено закрытие по клавише Esc
+        document.addEventListener('keydown', (event) => {
+                    if (event.key === 'Escape' && popupExt.style.display === 'block') {
+                        closePopupExt(event);
+                    }
+                });
 
         return { overlayExt, popupExt, iframeExt, openBtnExt, dictBtnExt };
     }
@@ -262,7 +341,6 @@ let currentModeOrUrl = 'newWindowExt';
     const getSelectedText = () => window.getSelection().toString().trim();
     const processWordExt = (word) => word.replace(/^[\s'‘—.–…"“”]+/, '').replace(/[\s'‘,—.—–"“…:;”]+$/, '').replace(/[‘'’‘"“””]+/g, "'").trim().toLowerCase();
     
-
 function calculateOffsetWithHTMLExt(element, targetNode, targetOffset) {
     let offset = 0;
     const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
@@ -359,15 +437,16 @@ function getWordUnderCursorExt(event) {
 async function showTranslation(word) {
         const processedWord = processWordExt(word);
         const encodedWord = encodeURIComponent(processedWord);
+        const theme = getEffectiveThemeExt(); // Получаем текущую тему сайта
         let url;
 
         switch (currentModeOrUrl) {
             case 'newWindowExt':
-                url = `${NEW_WINDOW_URL_EN}${encodedWord}`;
+                url = `https://dict.dhamma.gift/?silent&theme=${theme}&q=${encodedWord}`;
                 openDictionaryWindowExt(url);
                 break;
             case 'newWindowRuExt':
-                url = `${NEW_WINDOW_URL_RU}${encodedWord}`;
+                url = `https://dict.dhamma.gift/ru/?silent&theme=${theme}&q=${encodedWord}`;
                 openDictionaryWindowExt(url);
                 break;
             case 'dharmamitra':
@@ -381,17 +460,26 @@ async function showTranslation(word) {
                 triggerCustomProtocol(url);
                 break;
             default: // Handles all popup modes
-                url = `${currentModeOrUrl}${encodedWord}`;
+                const isRussianDict = currentModeOrUrl.includes('/ru/');
+                
+                // Встраиваем параметр темы, если открывается наш словарь
+                if (currentModeOrUrl.includes('dict.dhamma.gift')) {
+                    url = `https://dict.dhamma.gift${isRussianDict ? '/ru' : ''}/?silent&theme=${theme}&q=${encodedWord}`;
+                } else {
+                    url = `${currentModeOrUrl}${encodedWord}`;
+                }
+                
                 iframeExt.src = url;
                 popupExt.style.display = 'block';
                 overlayExt.style.display = 'block';
                 
-                // Проверка на русскую версию словаря
-                const isRussianDict = currentModeOrUrl.includes('/ru/');
                 const searchBaseUrl = isRussianDict ? 'https://f.dhamma.gift/?q=' : 'https://dhamma.gift/?q=';
                 openBtnExt.href = `${searchBaseUrl}${encodedWord}${dgParams}`;
                 
-                dictBtnExt.href = `${currentModeOrUrl.startsWith('http') ? currentModeOrUrl : DEFAULT_POPUP_URL}${encodedWord}`;
+                // Обновляем ссылку на иконку словаря с учетом темы
+                dictBtnExt.href = currentModeOrUrl.includes('dict.dhamma.gift')
+                    ? `https://dict.dhamma.gift${isRussianDict ? '/ru' : ''}/?silent&theme=${theme}&q=${encodedWord}`
+                    : `${currentModeOrUrl.startsWith('http') ? currentModeOrUrl : DEFAULT_POPUP_URL}${encodedWord}`;
                 break;
         }
     }
@@ -412,23 +500,30 @@ async function showTranslation(word) {
         
         setTimeout(() => {
             bubble.classList.remove('show');
-        }, 2500);
+        }, 2000);
     }
 
     // Listen for messages from background.js
+// Listen for messages from background.js
     browserApi.runtime.onMessage.addListener((request) => {
         if (request.action === "show_extension_status") {
+            // Определяем язык на основе выбранного словаря или настроек сайта
             const isRu = currentModeOrUrl.includes('/ru/') || localStorage.getItem('siteLanguage') === 'ru';
+            
             let statusText;
             if (isRu) {
-                statusText = request.enabled ? "Dhamma.Gift расширение: Вкл" : "Dhamma.Gift расширение: Выкл";
+                statusText = request.enabled 
+                    ? "Dhamma.Gift расширение: Вкл" 
+                    : "Dhamma.Gift расширение: Выкл";
             } else {
-                statusText = request.enabled ? "Dhamma.Gift extension: On" : "Dhamma.Gift extension: Off";
+                statusText = request.enabled 
+                    ? "Dhamma.Gift extension: On" 
+                    : "Dhamma.Gift extension: Off";
             }
+            
             showStatusBubble(statusText);
         }
-    });
-	
+    });	
 	
     const handleClickExt = (event) => {
         if (!isEnabled || event.target.closest('a, button, input, textarea, select, .popupExt, video, .html5-video-player')) return;        const selectedText = getSelectedText();
