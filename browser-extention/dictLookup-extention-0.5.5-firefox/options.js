@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Сохранение настроек
+// Сохранение настроек
     saveButton.addEventListener('click', function() {
         let selectedValue;
         
@@ -27,11 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
             selectedValue = customUrl.value.trim();
             if (!selectedValue) {
                 showStatus('Please enter a custom URL', 'error');
-                return;
-            }
-            
-            if (!selectedValue.includes('?q=') && !selectedValue.includes('?search=')) {
-                showStatus('Error: Custom URL for popup must contain "?q=" or "?search=" parameter', 'error');
                 return;
             }
         } else {
@@ -47,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-
+	
     // Сброс настроек
     resetButton.addEventListener('click', function() {
         // Используем browserApi вместо chrome

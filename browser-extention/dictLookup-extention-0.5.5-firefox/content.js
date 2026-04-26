@@ -4,25 +4,21 @@ if (typeof window.dhammaGiftExtInjected === 'undefined') {
 
     (function() {
         'use strict';
-        const scrollbarStyles = `
+        const extStyles = `
             ::-webkit-scrollbar {
-                width: 12px;
-                background: #E1EBED;
+                width: 6px !important;
+                height: 6px !important;
+                background: transparent !important;
+            }
+            ::-webkit-scrollbar-track {
+                background: transparent !important;
             }
             ::-webkit-scrollbar-thumb {
-                background: #B0C4DE;
-                border-radius: 6px;
-                border: 2px solid #E1EBED;
+                background: rgba(150, 150, 150, 0.4) !important;
+                border-radius: 3px !important;
             }
             ::-webkit-scrollbar-thumb:hover {
-                background: #a0b4ce;
-            }
-            [data-theme="dark"] ::-webkit-scrollbar, html.dark ::-webkit-scrollbar {
-                background: #07021D;
-            }
-            [data-theme="dark"] ::-webkit-scrollbar-thumb, html.dark ::-webkit-scrollbar-thumb {
-                background: #2D3E50;
-                border-color: #07021D;
+                background: rgba(150, 150, 150, 0.7) !important;
             }
 
             .popupExt.dragging {
@@ -63,10 +59,108 @@ if (typeof window.dhammaGiftExtInjected === 'undefined') {
                 opacity: 1;
                 transform: translate(-50%, 0);
             }
+
+            /* --- SLEEK POPUP STYLES --- */
+            .popupExt {
+                background: #E1EBED !important;
+                border: 1px solid #666 !important;
+                border-radius: 8px !important;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+                overflow: hidden !important;
+                color-scheme: light !important;
+            }
+            [data-theme="dark"] .popupExt, html.dark .popupExt, .popupExt.dark-theme {
+                background: #07021D !important;
+                border-color: #444 !important;
+                color-scheme: dark !important;
+            }
+
+            .dg-ext-header {
+                cursor: move !important;
+                height: 12px !important;
+                width: 100% !important;
+                background: transparent !important;
+                display: flex !important;
+                align-items: center !important;
+                padding: 0 10px !important;
+            }
+
+            .dg-ext-iframe {
+                width: 100% !important;
+                height: calc(100% - 12px) !important;
+                border: none !important;
+                display: block !important;
+                background: transparent !important;
+                color-scheme: light dark !important;
+            }
+
+            .dg-ext-btn {
+                position: absolute !important;
+                top: 12px !important;
+                border: none !important;
+                cursor: pointer !important;
+                width: 30px !important;
+                height: 30px !important;
+                border-radius: 50% !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                padding: 0 !important;
+                transition: background 0.2s !important;
+                z-index: 100001 !important;
+                text-decoration: none !important;
+            }
+            
+            .dg-ext-close-btn { 
+                right: 10px !important; 
+                background: rgba(206, 5, 32, 0.6) !important; 
+                color: white !important; 
+            }
+            .dg-ext-close-btn:hover { 
+                background: rgba(206, 5, 32, 0.9) !important; 
+            }
+            
+            .dg-ext-open-btn { 
+                right: 80px !important; 
+                background: rgba(45, 62, 80, 0.6) !important; 
+                color: white !important; 
+            }
+            .dg-ext-open-btn:hover { 
+                background: rgba(45, 62, 80, 0.9) !important; 
+            }
+
+            .dg-ext-dict-btn { 
+                right: 45px !important; 
+                background: rgba(45, 62, 80, 0.6) !important; 
+            }
+            .dg-ext-dict-btn:hover { 
+                background: rgba(45, 62, 80, 0.9) !important; 
+            }
+
+            .dg-ext-resize-corner {
+                position: absolute !important; 
+                right: 0 !important; 
+                bottom: 0 !important; 
+                width: 20px !important; 
+                height: 20px !important; 
+                cursor: nwse-resize !important; 
+                z-index: 100002 !important;
+            }
+            .dg-ext-resize-corner::after {
+                content: "" !important; 
+                position: absolute !important; 
+                right: 3px !important; 
+                bottom: 3px !important; 
+                width: 0 !important; 
+                height: 0 !important; 
+                border-style: solid !important; 
+                border-width: 0 0 12px 12px !important; 
+                border-color: transparent transparent #666 transparent !important;
+            }
         `;
         const styleSheet = document.createElement("style");
         styleSheet.type = "text/css";
-        styleSheet.innerText = scrollbarStyles;
+        styleSheet.innerText = extStyles;
         document.head.appendChild(styleSheet);
     })();
 
@@ -123,73 +217,73 @@ if (typeof window.dhammaGiftExtInjected === 'undefined') {
 
             let isEnabled = false; // По умолчанию выключено, как в версии 0.5.3
 
-function getEffectiveThemeExt() {
-    const html = document.documentElement;
-    const body = document.body || document.getElementsByTagName('body')[0];
+            function getEffectiveThemeExt() {
+                const html = document.documentElement;
+                const body = document.body || document.getElementsByTagName('body')[0];
 
-    if (!body) {
-        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
+                if (!body) {
+                    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
 
-    const isDarkAttribute = html.getAttribute('data-theme') === 'dark' ||
-                            html.getAttribute('theme') === 'dark' ||
-                            body.getAttribute('data-theme') === 'dark';
+                const isDarkAttribute = html.getAttribute('data-theme') === 'dark' ||
+                                        html.getAttribute('theme') === 'dark' ||
+                                        body.getAttribute('data-theme') === 'dark';
 
-    const isDarkClass = html.classList.contains('dark') ||
-                        html.classList.contains('dark-mode') ||
-                        html.classList.contains('theme-dark') ||
-                        body.classList.contains('dark') ||
-                        body.classList.contains('dark-mode') ||
-                        body.classList.contains('theme-dark');
+                const isDarkClass = html.classList.contains('dark') ||
+                                    html.classList.contains('dark-mode') ||
+                                    html.classList.contains('theme-dark') ||
+                                    body.classList.contains('dark') ||
+                                    body.classList.contains('dark-mode') ||
+                                    body.classList.contains('theme-dark');
 
-    if (isDarkAttribute || isDarkClass) return 'dark';
+                if (isDarkAttribute || isDarkClass) return 'dark';
 
-    const isLightAttribute = html.getAttribute('data-theme') === 'light' ||
-                             html.getAttribute('theme') === 'light' ||
-                             body.getAttribute('data-theme') === 'light';
+                const isLightAttribute = html.getAttribute('data-theme') === 'light' ||
+                                         html.getAttribute('theme') === 'light' ||
+                                         body.getAttribute('data-theme') === 'light';
 
-    const isLightClass = html.classList.contains('light') ||
-                         html.classList.contains('theme-light') ||
-                         body.classList.contains('light');
+                const isLightClass = html.classList.contains('light') ||
+                                     html.classList.contains('theme-light') ||
+                                     body.classList.contains('light');
 
-    if (isLightAttribute || isLightClass) return 'light';
+                if (isLightAttribute || isLightClass) return 'light';
 
-    function getBrightness(element) {
-        if (!element) return null;
-        
-        const style = window.getComputedStyle(element);
-        const bgColor = style.backgroundColor;
-        
-        if (bgColor === 'rgba(0, 0, 0, 0)' || bgColor === 'transparent') {
-            return null;
-        }
+                function getBrightness(element) {
+                    if (!element) return null;
+                    
+                    const style = window.getComputedStyle(element);
+                    const bgColor = style.backgroundColor;
+                    
+                    if (bgColor === 'rgba(0, 0, 0, 0)' || bgColor === 'transparent') {
+                        return null;
+                    }
 
-        const rgb = bgColor.match(/\d+/g);
-        if (!rgb || rgb.length < 3) return null;
+                    const rgb = bgColor.match(/\d+/g);
+                    if (!rgb || rgb.length < 3) return null;
 
-        const r = parseInt(rgb[0], 10);
-        const g = parseInt(rgb[1], 10);
-        const b = parseInt(rgb[2], 10);
+                    const r = parseInt(rgb[0], 10);
+                    const g = parseInt(rgb[1], 10);
+                    const b = parseInt(rgb[2], 10);
 
-        return (r * 299 + g * 587 + b * 114) / 1000;
-    }
+                    return (r * 299 + g * 587 + b * 114) / 1000;
+                }
 
-    let brightness = getBrightness(body);
-    
-    if (brightness === null) {
-        brightness = getBrightness(html);
-    }
+                let brightness = getBrightness(body);
+                
+                if (brightness === null) {
+                    brightness = getBrightness(html);
+                }
 
-    if (brightness !== null) {
-        return brightness < 127 ? 'dark' : 'light';
-    }
+                if (brightness !== null) {
+                    return brightness < 127 ? 'dark' : 'light';
+                }
 
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        return 'dark';
-    }
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    return 'dark';
+                }
 
-    return 'light';
-}
+                return 'light';
+            }
 
             // --- NEW WINDOW MODE LOGIC ---
             let dictionaryWindow = null;
@@ -207,27 +301,23 @@ function getEffectiveThemeExt() {
             function createPopupExt() {
                 const overlayExt = document.createElement('div');
                 overlayExt.className = 'overlayExt';
+                
                 const popupExt = document.createElement('div');
                 popupExt.className = 'popupExt';
+                
                 const closeBtnExt = document.createElement('button');
+                closeBtnExt.className = 'dg-ext-btn dg-ext-close-btn';
+                closeBtnExt.title = 'Close (Esc)';
+                closeBtnExt.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="17" height="17" fill="currentColor"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>`;
+
                 const openBtnExt = document.createElement('a');
-                const dictBtnExt = document.createElement('a');
-                const iframeExt = document.createElement('iframe');
-                const resizeHandleExt = document.createElement('div');
-                const headerExt = document.createElement('div');
-                
-                Object.assign(overlayExt.style, { position: 'fixed', top: '0', left: '0', width: '100%', height: '100%', background: 'rgba(0, 0, 0, 0.5)', zIndex: '99999', display: 'none' });
-                Object.assign(popupExt.style, { position: 'fixed', width: '80%', maxWidth: '600px', maxHeight: '600px', height: '80%', background: 'white', border: '2px solid #666', boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)', zIndex: '100000', display: 'none', overflow: 'hidden' });
-                Object.assign(closeBtnExt.style, { position: 'absolute', top: '10px', right: '10px', border: 'none', background: '#B71C1C', color: 'white', cursor: 'pointer', width: '30px', height: '30px', borderRadius: '50%', fontSize: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center' });
-                closeBtnExt.textContent = '×';
-                closeBtnExt.title = 'Close';
-                
-                Object.assign(openBtnExt.style, { position: 'absolute', top: '10px', right: '90px', border: 'none', background: '#244B26', color: 'white', cursor: 'pointer', width: '30px', height: '30px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' });
+                openBtnExt.className = 'dg-ext-btn dg-ext-open-btn';
                 openBtnExt.target = '_blank';
                 openBtnExt.title = 'Search with Dhamma.Gift';
                 openBtnExt.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16" fill="white" style="transform: scaleX(-1);"><path d="M505 442.7l-99.7-99.7c28.4-35.3 45.7-79.8 45.7-128C451 98.8 352.2 0 224 0S-3 98.8-3 224s98.8 224 224 224c48.2 0 92.7-17.3 128-45.7l99.7 99.7c6.2 6.2 14.4 9.4 22.6 9.4s16.4-3.1 22.6-9.4c12.5-12.5 12.5-32.8 0-45.3zM224 384c-88.4 0-160-71.6-160-160S135.6 64 224 64s160 71.6 160 160-71.6 160-160 160z"/></svg>`;
 
-                Object.assign(dictBtnExt.style, { position: 'absolute', top: '10px', right: '50px', border: 'none', background: '#2D3E50', color: 'white', cursor: 'pointer', width: '30px', height: '30px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' });
+                const dictBtnExt = document.createElement('a');
+                dictBtnExt.className = 'dg-ext-btn dg-ext-dict-btn';
                 dictBtnExt.target = '_blank';
                 dictBtnExt.title = 'Open in DPD full mode';
                 const dictIconExt = document.createElement('img');
@@ -235,10 +325,17 @@ function getEffectiveThemeExt() {
                 Object.assign(dictIconExt.style, { width: '16px', height: '16px' });
                 dictBtnExt.appendChild(dictIconExt);
 
-                Object.assign(iframeExt.style, { height: '100%', width: '100%', border: 'none', overflow: 'hidden' });
-                Object.assign(resizeHandleExt.style, { position: 'absolute', right: '0', bottom: '0', width: '20px', height: '20px', cursor: 'nwse-resize', zIndex: '10' });
-                resizeHandleExt.innerHTML = `<style>.resize-handle::after { content: ""; position: absolute; right: 3px; bottom: 3px; width: 0; height: 0; border-style: solid; border-width: 0 0 12px 12px; border-color: transparent transparent #666 transparent; }</style>`;
-                Object.assign(headerExt.style, { cursor: 'move', height: '10px', display: 'flex', alignItems: 'center', padding: '0 10px' });
+                const iframeExt = document.createElement('iframe');
+                iframeExt.className = 'dg-ext-iframe';
+                
+                const resizeHandleExt = document.createElement('div');
+                resizeHandleExt.className = 'dg-ext-resize-corner';
+                
+                const headerExt = document.createElement('div');
+                headerExt.className = 'dg-ext-header';
+
+                Object.assign(overlayExt.style, { position: 'fixed', top: '0', left: '0', width: '100%', height: '100%', background: 'rgba(0, 0, 0, 0.5)', zIndex: '99999', display: 'none' });
+                Object.assign(popupExt.style, { position: 'fixed', width: '80%', maxWidth: '600px', maxHeight: '600px', height: '80%', zIndex: '100000', display: 'none' });
 
                 popupExt.append(headerExt, dictBtnExt, openBtnExt, closeBtnExt, iframeExt, resizeHandleExt);
                 document.body.append(overlayExt, popupExt);
@@ -402,7 +499,7 @@ function getEffectiveThemeExt() {
 
             let translationTimeout; 
             
-async function showTranslation(word) {
+            async function showTranslation(word) {
                 clearTimeout(translationTimeout);
                 
                 translationTimeout = setTimeout(() => {
@@ -412,6 +509,12 @@ async function showTranslation(word) {
                     const encodedWord = encodeURIComponent(processedWord);
                     const theme = getEffectiveThemeExt(); 
                     let url;
+
+                    if (theme === 'dark') {
+                        popupExt.classList.add('dark-theme');
+                    } else {
+                        popupExt.classList.remove('dark-theme');
+                    }
 
                     switch (currentModeOrUrl) {
                         case 'newWindowExt':
@@ -485,7 +588,6 @@ async function showTranslation(word) {
                     }
                     showStatusBubble(statusText);
                 } else if (request.action === "translate_from_context_menu") {
-                    // Обработка перевода выделенного текста из контекстного меню
                     if (request.text) {
                         showTranslation(request.text);
                     }
