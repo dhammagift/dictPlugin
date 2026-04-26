@@ -68,7 +68,7 @@ const scrollbarStyles = `
 })();
 
 if (window.self === window.top) {
-(async function() { // Make the IIFE async to use await
+(async function() {
     'use strict';
 
     // 1. Cross-browser API helper
@@ -80,11 +80,12 @@ if (window.self === window.top) {
     const storageKey = 'dictPopupSize';
     const dictUrlKey = 'dictUrl';
     
-// Default URLs and modes
-const DEFAULT_POPUP_URL = 'https://dict.dhamma.gift/?silent&q='; 
-const NEW_WINDOW_URL_EN = 'https://dict.dhamma.gift/?silent&q=';
-const NEW_WINDOW_URL_RU = 'https://dict.dhamma.gift/ru/?silent&q=';
-let currentModeOrUrl = 'newWindowExt';
+    // Default URLs and modes
+    const DEFAULT_POPUP_URL = 'https://dict.dhamma.gift/?silent&q='; 
+    const NEW_WINDOW_URL_EN = 'https://dict.dhamma.gift/?silent&q=';
+    const NEW_WINDOW_URL_RU = 'https://dict.dhamma.gift/ru/?silent&q=';
+    let currentModeOrUrl = 'newWindowExt';
+    let contextMenuOnlyExt = false;
 
     // Reset popup settings logic
     try {
@@ -102,24 +103,26 @@ let currentModeOrUrl = 'newWindowExt';
         console.error("Error checking for popup reset flag:", error);
     }
 
-    // Load saved mode or URL from storage
+    // Load saved mode, URL and context menu preference from storage
     try {
-        const result = await browserApi.storage.sync.get(dictUrlKey);
-        if (result && result[dictUrlKey]) {
-            currentModeOrUrl = result[dictUrlKey];
+        const result = await browserApi.storage.sync.get([dictUrlKey, 'contextMenuOnly']);
+        if (result) {
+            if (result[dictUrlKey]) currentModeOrUrl = result[dictUrlKey];
+            if (result.contextMenuOnly !== undefined) contextMenuOnlyExt = result.contextMenuOnly;
         }
     } catch (error) {
-        console.error("Error loading mode/URL from storage:", error);
+        console.error("Error loading settings from storage:", error);
     }
 
     // Listen for changes
     browserApi.storage.onChanged.addListener((changes, namespace) => {
-        if (changes[dictUrlKey] && namespace === 'sync') {
-            currentModeOrUrl = changes[dictUrlKey].newValue;
+        if (namespace === 'sync') {
+            if (changes[dictUrlKey]) currentModeOrUrl = changes[dictUrlKey].newValue;
+            if (changes.contextMenuOnly) contextMenuOnlyExt = changes.contextMenuOnly.newValue;
         }
     });
 
-    let isEnabled = true;
+    let isEnabled = false; // ИЗМЕНЕНО: true -> false
 	
 function getEffectiveThemeExt() {
     const html = document.documentElement;
@@ -209,7 +212,6 @@ function getEffectiveThemeExt() {
 
     // --- POPUP MODE LOGIC ---
     function createPopupExt() {
-        // Create elements
         const overlayExt = document.createElement('div');
         overlayExt.className = 'overlayExt';
         const popupExt = document.createElement('div');
@@ -221,7 +223,6 @@ function getEffectiveThemeExt() {
         const resizeHandleExt = document.createElement('div');
         const headerExt = document.createElement('div');
         
-        // Styles and attributes
         Object.assign(overlayExt.style, { position: 'fixed', top: '0', left: '0', width: '100%', height: '100%', background: 'rgba(0, 0, 0, 0.5)', zIndex: '99999', display: 'none' });
         Object.assign(popupExt.style, { position: 'fixed', width: '80%', maxWidth: '600px', maxHeight: '600px', height: '80%', background: 'white', border: '2px solid #666', boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)', zIndex: '100000', display: 'none', overflow: 'hidden' });
         Object.assign(closeBtnExt.style, { position: 'absolute', top: '10px', right: '10px', border: 'none', background: '#B71C1C', color: 'white', cursor: 'pointer', width: '30px', height: '30px', borderRadius: '50%', fontSize: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center' });
@@ -249,7 +250,6 @@ function getEffectiveThemeExt() {
         popupExt.append(headerExt, dictBtnExt, openBtnExt, closeBtnExt, iframeExt, resizeHandleExt);
         document.body.append(overlayExt, popupExt);
 
-        // Positioning and Sizing
         function savePopupStateExt() {
             const rect = popupExt.getBoundingClientRect();
             localStorage.setItem('popupExtTop', `${rect.top}px`);
@@ -263,7 +263,6 @@ function getEffectiveThemeExt() {
         popupExt.style.width = localStorage.getItem('popupExtWidth') || '749px';
         popupExt.style.height = localStorage.getItem('popupExtHeight') || '600px';
 
-        // Event handling for dragging
         let isDraggingExt = false, startX, startY, initialLeft, initialTop;
         headerExt.addEventListener('mousedown', e => {
             isDraggingExt = true;
@@ -274,7 +273,6 @@ function getEffectiveThemeExt() {
             initialTop = parseInt(popupExt.style.top, 10);
         });
 
-        // Event handling for resizing
         let isResizingExt = false, startWidth, startHeight, startResizeExtX, startResizeExtY;
         resizeHandleExt.addEventListener('mousedown', e => {
             isResizingExt = true;
@@ -315,7 +313,6 @@ function getEffectiveThemeExt() {
             }
         });
 
-        // Close functionality
         const closePopupExt = (event) => {
             event.stopPropagation();
             savePopupStateExt();
@@ -326,12 +323,11 @@ function getEffectiveThemeExt() {
         closeBtnExt.addEventListener('click', closePopupExt);
         overlayExt.addEventListener('click', closePopupExt);
 		
-		// Добавлено закрытие по клавише Esc
         document.addEventListener('keydown', (event) => {
-                    if (event.key === 'Escape' && popupExt.style.display === 'block') {
-                        closePopupExt(event);
-                    }
-                });
+            if (event.key === 'Escape' && popupExt.style.display === 'block') {
+                closePopupExt(event);
+            }
+        });
 
         return { overlayExt, popupExt, iframeExt, openBtnExt, dictBtnExt };
     }
@@ -361,10 +357,9 @@ function getWordUnderCursorExt(event) {
     const y = event.clientY;
     let range;
 
-    // Используем стандартные методы для определения позиции курсора
     if (document.caretRangeFromPoint) {
         range = document.caretRangeFromPoint(x, y);
-    } else if (document.caretPositionFromPoint) { // Для Firefox
+    } else if (document.caretPositionFromPoint) {
         const pos = document.caretPositionFromPoint(x, y);
         if (!pos || !pos.offsetNode) {
             return null;
@@ -372,30 +367,25 @@ function getWordUnderCursorExt(event) {
         range = document.createRange();
         range.setStart(pos.offsetNode, pos.offset);
     } else {
-        return null; // Нет доступных методов
+        return null;
     }
 
     if (!range || !range.startContainer) {
         return null;
     }
 
-    // Цель клика должна быть текстовым узлом
     if (range.startContainer.nodeType !== Node.TEXT_NODE) {
         return null;
     }
 
-    // --- КЛЮЧЕВАЯ ГЕОМЕТРИЧЕСКАЯ ПРОВЕРКА ---
-    // Создаем диапазон для всего текстового узла, чтобы получить его границы
     const nodeRange = document.createRange();
     nodeRange.selectNode(range.startContainer);
     const nodeRect = nodeRange.getBoundingClientRect();
 
-    // Если клик был за пределами прямоугольника текста, выходим
     if (x < nodeRect.left || x > nodeRect.right || y < nodeRect.top || y > nodeRect.bottom) {
         return null;
     }
 
-    // Ищем подходящий контейнер-родитель, чтобы захватить слово целиком вместе с тегами
     const parentElement = range.startContainer.parentElement.closest('span, p, div, td, li, a, h1, h2, h3, h4, h5, h6') || range.startContainer.parentElement;
     if (!parentElement) {
         return null;
@@ -408,7 +398,6 @@ function getWordUnderCursorExt(event) {
         return null;
     }
 
-    // Ищем слово в полном тексте по глобальному смещению с учетом регулярного выражения
     const regex = /[^\s.,;"'!?()“"”–—]+/g;
     let match;
     while ((match = regex.exec(fullText)) !== null) {
@@ -423,7 +412,6 @@ function getWordUnderCursorExt(event) {
     return null;
 }
 
-    // Helper function to trigger custom protocols without opening a blank tab in Firefox
     function triggerCustomProtocol(url) {
         const iframe = document.createElement('iframe');
         iframe.style.display = 'none';
@@ -437,7 +425,7 @@ function getWordUnderCursorExt(event) {
 async function showTranslation(word) {
         const processedWord = processWordExt(word);
         const encodedWord = encodeURIComponent(processedWord);
-        const theme = getEffectiveThemeExt(); // Получаем текущую тему сайта
+        const theme = getEffectiveThemeExt();
         let url;
 
         switch (currentModeOrUrl) {
@@ -459,10 +447,9 @@ async function showTranslation(word) {
                 url = `${currentModeOrUrl}${encodedWord}`;
                 triggerCustomProtocol(url);
                 break;
-            default: // Handles all popup modes
+            default:
                 const isRussianDict = currentModeOrUrl.includes('/ru/');
                 
-                // Встраиваем параметр темы, если открывается наш словарь
                 if (currentModeOrUrl.includes('dict.dhamma.gift')) {
                     url = `https://dict.dhamma.gift${isRussianDict ? '/ru' : ''}/?silent&theme=${theme}&q=${encodedWord}`;
                 } else {
@@ -476,7 +463,6 @@ async function showTranslation(word) {
                 const searchBaseUrl = isRussianDict ? 'https://f.dhamma.gift/?q=' : 'https://dhamma.gift/?q=';
                 openBtnExt.href = `${searchBaseUrl}${encodedWord}${dgParams}`;
                 
-                // Обновляем ссылку на иконку словаря с учетом темы
                 dictBtnExt.href = currentModeOrUrl.includes('dict.dhamma.gift')
                     ? `https://dict.dhamma.gift${isRussianDict ? '/ru' : ''}/?silent&theme=${theme}&q=${encodedWord}`
                     : `${currentModeOrUrl.startsWith('http') ? currentModeOrUrl : DEFAULT_POPUP_URL}${encodedWord}`;
@@ -484,7 +470,6 @@ async function showTranslation(word) {
         }
     }
 	
-	// --- UI: Status Bubble ---
     function showStatusBubble(text) {
         let bubble = document.getElementById('bubble-ext-status');
         if (!bubble) {
@@ -495,7 +480,7 @@ async function showTranslation(word) {
         }
         bubble.textContent = text;
         bubble.classList.remove('show');
-        void bubble.offsetWidth; // Trigger reflow
+        void bubble.offsetWidth;
         bubble.classList.add('show');
         
         setTimeout(() => {
@@ -503,7 +488,6 @@ async function showTranslation(word) {
         }, 2000);
     }
 
-    // Listen for messages from background.js
 // Listen for messages from background.js
     browserApi.runtime.onMessage.addListener((request) => {
         if (request.action === "show_extension_status") {
@@ -522,14 +506,27 @@ async function showTranslation(word) {
             }
             
             showStatusBubble(statusText);
+        } else if (request.action === "translate_from_context_menu") {
+            // Обработка перевода выделенного текста из контекстного меню (правая кнопка мыши)
+            if (request.text) {
+                showTranslation(request.text);
+            }
         }
-    });	
-	
+    }); 
+    
     const handleClickExt = (event) => {
-        if (!isEnabled || event.target.closest('a, button, input, textarea, select, .popupExt, video, .html5-video-player')) return;        const selectedText = getSelectedText();
-        if (selectedText) { showTranslation(selectedText); return; }
+        if (!isEnabled || event.target.closest('a, button, input, textarea, select, .popupExt, video, .html5-video-player')) return;
+        
+        const selectedText = getSelectedText();
+        if (selectedText) { 
+            showTranslation(selectedText); 
+            return; 
+        }
+        
         const clickedWord = getWordUnderCursorExt(event);
-        if (clickedWord) { showTranslation(clickedWord); }
+        if (clickedWord) { 
+            showTranslation(clickedWord); 
+        }
     };
 
     // Initialize and add/remove event listeners

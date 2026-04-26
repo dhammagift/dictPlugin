@@ -5,7 +5,7 @@ const browserAPI = self.chrome || self.browser;
 
 // Загружаем сохраненное состояние расширения из хранилища
 browserAPI.storage.local.get(['isEnabled'], (result) => {
-  isEnabled = result.isEnabled !== undefined ? result.isEnabled : true;
+  isEnabled = result.isEnabled !== undefined ? result.isEnabled : false; // ИЗМЕНЕНО: true -> false
   updateIcon();
 });
 
@@ -36,7 +36,19 @@ browserAPI.runtime.onInstalled.addListener(() => {
       title: "DharmaMitra.org",
       contexts: ["action"]
     });
+
+    // Пункт меню для выделенного текста
+    browserAPI.contextMenus.create({
+      id: "translateSelection",
+      title: "Dhamma.gift",
+      contexts: ["selection"]
+    });
   });
+  
+  // ДОБАВЛЕНО: при первой установке принудительно выключаем расширение
+  browserAPI.storage.local.set({ isEnabled: false });
+  isEnabled = false;
+  updateIcon();
 });
 
 // Обработчик клика по пунктам контекстного меню
@@ -49,9 +61,16 @@ browserAPI.contextMenus.onClicked.addListener((info, tab) => {
     browserAPI.tabs.create({ url: "https://www.aksharamukha.com/converter" });
   } else if (info.menuItemId === "openMitra") {
     browserAPI.tabs.create({ url: "https://dharmamitra.org/?target_lang=english-explained" });
+  } else if (info.menuItemId === "translateSelection") {
+    // Работает всегда, независимо от isEnabled
+    browserAPI.tabs.sendMessage(tab.id, {
+        action: "translate_from_context_menu",
+        text: info.selectionText
+    }).catch(() => {
+        // Ошибка может возникнуть, если контентный скрипт еще не загружен на странице
+    });
   }
 });
-
 
 // Обработчик клика по значку расширения
 browserAPI.action.onClicked.addListener((tab) => {
@@ -63,9 +82,9 @@ browserAPI.action.onClicked.addListener((tab) => {
 // Обработчик сообщений (для сброса настроек)
 browserAPI.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'reset_extension_state') {
-        isEnabled = true; // Сброс состояния в памяти
-        browserAPI.storage.local.remove('isEnabled'); // Удаляем из хранилища
-        updateIcon(); // Обновляем иконку немедленно
+        isEnabled = true;
+        browserAPI.storage.local.remove('isEnabled');
+        updateIcon();
     }
 });
 
@@ -84,20 +103,22 @@ browserAPI.commands.onCommand.addListener((command) => {
 
 // Функция обновления состояния расширения
 function updateExtensionState(tab) {
-  if (tab && tab.id && tab.url && !tab.url.startsWith('chrome://') && !tab.url.startsWith('edge://') && !tab.url.startsWith('about:')) {
+  if (tab.id && tab.url && !tab.url.startsWith('chrome://') && !tab.url.startsWith('edge://')) {
     updateIcon();
 
-    // Отправляем сигнал для показа бабла
+    // Send notification to the content script to show the bubble
     browserAPI.tabs.sendMessage(tab.id, { 
         action: "show_extension_status", 
         enabled: isEnabled 
     }).catch(() => {
-        // Игнорируем ошибки, если скрипт еще не внедрен
+        // Fail silently if content script is not yet injected
     });
 
     if (isEnabled) {
+      // Запускаем content.js
       executeScript(tab.id, { files: ['content.js'] });
     } else {
+      // Выключаем попап на странице
       executeScript(tab.id, { func: disablePopup });
     }
   }
@@ -127,7 +148,7 @@ function executeScript(tabId, scriptDetails) {
   }
 }
 
-// Функция отключения попапа (исправлены селекторы под расширение)
+// Функция отключения попапа (выполняется в контексте страницы)
 function disablePopup() {
   const popup = document.querySelector('.popupExt');
   const overlay = document.querySelector('.overlayExt');

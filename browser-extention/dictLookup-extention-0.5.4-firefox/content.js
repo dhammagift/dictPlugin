@@ -87,6 +87,7 @@ if (typeof window.dhammaGiftExtInjected === 'undefined') {
             const NEW_WINDOW_URL_EN = 'https://dict.dhamma.gift/?silent&q=';
             const NEW_WINDOW_URL_RU = 'https://dict.dhamma.gift/ru/?silent&q=';
             let currentModeOrUrl = 'newWindowExt';
+            let contextMenuOnlyExt = false; // Добавлено для опции контекстного меню
 
             try {
                 const result = await browserApi.storage.local.get(['popup_reset_flag']);
@@ -103,21 +104,24 @@ if (typeof window.dhammaGiftExtInjected === 'undefined') {
             }
 
             try {
-                const result = await browserApi.storage.sync.get(dictUrlKey);
-                if (result && result[dictUrlKey]) {
-                    currentModeOrUrl = result[dictUrlKey];
+                // Изменено для загрузки двух параметров
+                const result = await browserApi.storage.sync.get([dictUrlKey, 'contextMenuOnly']);
+                if (result) {
+                    if (result[dictUrlKey]) currentModeOrUrl = result[dictUrlKey];
+                    if (result.contextMenuOnly !== undefined) contextMenuOnlyExt = result.contextMenuOnly;
                 }
             } catch (error) {
-                console.error("Error loading mode/URL from storage:", error);
+                console.error("Error loading settings from storage:", error);
             }
 
             browserApi.storage.onChanged.addListener((changes, namespace) => {
-                if (changes[dictUrlKey] && namespace === 'sync') {
-                    currentModeOrUrl = changes[dictUrlKey].newValue;
+                if (namespace === 'sync') {
+                    if (changes[dictUrlKey]) currentModeOrUrl = changes[dictUrlKey].newValue;
+                    if (changes.contextMenuOnly) contextMenuOnlyExt = changes.contextMenuOnly.newValue;
                 }
             });
 
-            let isEnabled = true;
+            let isEnabled = false; // По умолчанию выключено, как в версии 0.5.3
 
 function getEffectiveThemeExt() {
     const html = document.documentElement;
@@ -127,7 +131,6 @@ function getEffectiveThemeExt() {
         return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
 
-    // 1. Проверка по явным атрибутам и классам
     const isDarkAttribute = html.getAttribute('data-theme') === 'dark' ||
                             html.getAttribute('theme') === 'dark' ||
                             body.getAttribute('data-theme') === 'dark';
@@ -151,14 +154,12 @@ function getEffectiveThemeExt() {
 
     if (isLightAttribute || isLightClass) return 'light';
 
-    // 2. Определение по вычисленному цвету фона
     function getBrightness(element) {
         if (!element) return null;
         
         const style = window.getComputedStyle(element);
         const bgColor = style.backgroundColor;
         
-        // Пропускаем прозрачный фон, чтобы проверить родителя
         if (bgColor === 'rgba(0, 0, 0, 0)' || bgColor === 'transparent') {
             return null;
         }
@@ -170,7 +171,6 @@ function getEffectiveThemeExt() {
         const g = parseInt(rgb[1], 10);
         const b = parseInt(rgb[2], 10);
 
-        // Формула воспринимаемой яркости
         return (r * 299 + g * 587 + b * 114) / 1000;
     }
 
@@ -184,7 +184,6 @@ function getEffectiveThemeExt() {
         return brightness < 127 ? 'dark' : 'light';
     }
 
-    // 3. Фолбэк на системные настройки ОС/браузера
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         return 'dark';
     }
@@ -317,7 +316,6 @@ function getEffectiveThemeExt() {
                 closeBtnExt.addEventListener('click', closePopupExt);
                 overlayExt.addEventListener('click', closePopupExt);
 
-				// Добавлено закрытие по клавише Esc
                 document.addEventListener('keydown', (event) => {
                     if (event.key === 'Escape' && popupExt.style.display === 'block') {
                         closePopupExt(event);
@@ -402,7 +400,7 @@ function getEffectiveThemeExt() {
                 }, 500);
             }
 
-            let translationTimeout; // Таймер для предотвращения дублирования
+            let translationTimeout; 
             
 async function showTranslation(word) {
                 clearTimeout(translationTimeout);
@@ -412,7 +410,7 @@ async function showTranslation(word) {
                     if (!processedWord) return;
                     
                     const encodedWord = encodeURIComponent(processedWord);
-                    const theme = getEffectiveThemeExt(); // ОПРЕДЕЛЯЕМ ТЕМУ
+                    const theme = getEffectiveThemeExt(); 
                     let url;
 
                     switch (currentModeOrUrl) {
@@ -437,7 +435,6 @@ async function showTranslation(word) {
                         default: 
                             const isRussianDict = currentModeOrUrl.includes('/ru/');
                             
-                            // Встраиваем параметр темы, если открывается наш словарь
                             if (currentModeOrUrl.includes('dict.dhamma.gift')) {
                                 url = `https://dict.dhamma.gift${isRussianDict ? '/ru' : ''}/?silent&theme=${theme}&q=${encodedWord}`;
                             } else {
@@ -451,13 +448,12 @@ async function showTranslation(word) {
                             const searchBaseUrl = isRussianDict ? 'https://f.dhamma.gift/?q=' : 'https://dhamma.gift/?q=';
                             openBtnExt.href = `${searchBaseUrl}${encodedWord}${dgParams}`;
                             
-                            // Обновляем ссылку на иконку словаря с учетом темы
                             dictBtnExt.href = currentModeOrUrl.includes('dict.dhamma.gift')
                                 ? `https://dict.dhamma.gift${isRussianDict ? '/ru' : ''}/?silent&theme=${theme}&q=${encodedWord}`
                                 : `${currentModeOrUrl.startsWith('http') ? currentModeOrUrl : DEFAULT_POPUP_URL}${encodedWord}`;
                             break;
                     }
-                }, 150); // Задержка 150мс собирает двойные клики в один вызов
+                }, 150); 
             }
             
             function showStatusBubble(text) {
@@ -488,34 +484,65 @@ async function showTranslation(word) {
                         statusText = request.enabled ? "Dhamma.Gift extension: On" : "Dhamma.Gift extension: Off";
                     }
                     showStatusBubble(statusText);
+                } else if (request.action === "translate_from_context_menu") {
+                    // Обработка перевода выделенного текста из контекстного меню
+                    if (request.text) {
+                        showTranslation(request.text);
+                    }
                 }
             });
             
-            const handleClickExt = (event) => {
-                if (!isEnabled || event.target.closest('a, button, input, textarea, select, .popupExt, video, .html5-video-player')) return;        
-                
-                // Даем браузеру время (50мс) зафиксировать выделение текста перед проверкой
-                setTimeout(() => {
-                    const selectedText = getSelectedText();
-                    if (selectedText) { showTranslation(selectedText); return; }
-                    const clickedWord = getWordUnderCursorExt(event);
-                    if (clickedWord) { showTranslation(clickedWord); }
-                }, 50);
+            let mouseDownPosExt = { x: 0, y: 0 };
+
+            const handleMouseDownExt = (event) => {
+                mouseDownPosExt = { x: event.clientX, y: event.clientY };
             };
 
-            browserApi.storage.local.get(['isEnabled'], (result) => {
-                isEnabled = result.isEnabled !== false;
-                document.removeEventListener('click', handleClickExt);
-                if (isEnabled) document.addEventListener('click', handleClickExt);
+            const handleMouseUpExt = (event) => {
+                if (!isEnabled || contextMenuOnlyExt) return;
+
+                const targetElement = event.target.nodeType === 3 ? event.target.parentNode : event.target;
+                if (!targetElement || typeof targetElement.closest !== 'function') return;
+
+                if (targetElement.closest('a, button, input, textarea, select, .popupExt, video, .html5-video-player')) return;
+                
+                if (event.button !== 0) return;
+
+                const dx = event.clientX - mouseDownPosExt.x;
+                const dy = event.clientY - mouseDownPosExt.y;
+                const dragDistance = Math.sqrt(dx * dx + dy * dy);
+
+                setTimeout(() => {
+                    const selectedText = getSelectedText();
+
+                    if (selectedText.length > 0 && dragDistance > 3) {
+                        showTranslation(selectedText);
+                    } else if (dragDistance <= 3) {
+                        const clickedWord = getWordUnderCursorExt(event);
+                        if (clickedWord) {
+                            showTranslation(clickedWord);
+                        }
+                    }
+                }, 10);
+            };
+
+            browserApi.storage.local.get(['isEnabled']).then((result) => {
+                isEnabled = result.isEnabled !== undefined ? result.isEnabled : false;
+                if (isEnabled) {
+                    document.addEventListener('mousedown', handleMouseDownExt);
+                    document.addEventListener('mouseup', handleMouseUpExt);
+                }
             });
 
             browserApi.storage.onChanged.addListener((changes, namespace) => {
                 if (changes.isEnabled && namespace === 'local') {
                     isEnabled = changes.isEnabled.newValue;
-                    document.removeEventListener('click', handleClickExt);
                     if (isEnabled) {
-                        document.addEventListener('click', handleClickExt);
+                        document.addEventListener('mousedown', handleMouseDownExt);
+                        document.addEventListener('mouseup', handleMouseUpExt);
                     } else {
+                        document.removeEventListener('mousedown', handleMouseDownExt);
+                        document.removeEventListener('mouseup', handleMouseUpExt);
                         popupExt.style.display = 'none';
                         overlayExt.style.display = 'none';
                     }
