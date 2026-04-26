@@ -261,8 +261,22 @@ let currentModeOrUrl = 'newWindowExt';
     const getSelectedText = () => window.getSelection().toString().trim();
     const processWordExt = (word) => word.replace(/^[\s'‘—.–…"“”]+/, '').replace(/[\s'‘,—.—–"“…:;”]+$/, '').replace(/[‘'’‘"“””]+/g, "'").trim().toLowerCase();
     
-    // Full getWordUnderCursorExt function restored
- function getWordUnderCursorExt(event) {
+function calculateOffsetWithHTMLExt(element, targetNode, targetOffset) {
+    let offset = 0;
+    const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+
+    let node;
+    while ((node = walker.nextNode())) {
+        if (node === targetNode) {
+            return offset + targetOffset;
+        }
+        offset += node.textContent.length;
+    }
+
+    return -1; 
+}
+
+function getWordUnderCursorExt(event) {
     const x = event.clientX;
     const y = event.clientY;
     let range;
@@ -301,26 +315,29 @@ let currentModeOrUrl = 'newWindowExt';
         return null;
     }
 
-    // Если проверка пройдена, находим слово
-    const text = range.startContainer.textContent;
-    const offset = range.startOffset;
-
-    // Ищем начало слова, двигаясь назад от курсора
-    let start = offset;
-    while (start > 0 && text[start - 1] && !/\s|[.,;"'!?()“–—]/.test(text[start - 1])) {
-        start--;
+    // Ищем подходящий контейнер-родитель, чтобы захватить слово целиком вместе с тегами
+    const parentElement = range.startContainer.parentElement.closest('span, p, div, td, li, a, h1, h2, h3, h4, h5, h6') || range.startContainer.parentElement;
+    if (!parentElement) {
+        return null;
     }
 
-    // Ищем конец слова, двигаясь вперед
-    let end = offset;
-    while (end < text.length && text[end] && !/\s|[.,;"'!?()“–—]/.test(text[end])) {
-        end++;
+    const fullText = parentElement.textContent;
+    const globalOffset = calculateOffsetWithHTMLExt(parentElement, range.startContainer, range.startOffset);
+    
+    if (globalOffset === -1) {
+        return null;
     }
 
-    const word = text.substring(start, end);
-
-    if (word && word.trim().length > 0) {
-        return word;
+    // Ищем слово в полном тексте по глобальному смещению с учетом регулярного выражения
+    const regex = /[^\s.,;"'!?()“"”–—]+/g;
+    let match;
+    while ((match = regex.exec(fullText)) !== null) {
+        if (match.index <= globalOffset && regex.lastIndex >= globalOffset) {
+            const word = match[0];
+            if (word && word.trim().length > 0) {
+                return word;
+            }
+        }
     }
 
     return null;
@@ -352,7 +369,7 @@ async function showTranslation(word) {
                 openDictionaryWindowExt(url);
                 break;
             case 'dharmamitra':
-                url = `https://dharmamitra.org/?target_lang=english-explained&input_sentence=${encodedWord}`;
+                url = `https://dharmamitra.org/translate?input_sentence=${encodedWord}`;
                 openDictionaryWindowExt(url);
                 break;
             case 'goldendict://':
