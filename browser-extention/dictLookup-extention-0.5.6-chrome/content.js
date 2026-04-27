@@ -523,45 +523,62 @@ function getWordUnderCursorExt(event) {
         }, 500);
     }
 
+
 async function showTranslation(word) {
-        const processedWord = processWordExt(word);
-        const encodedWord = encodeURIComponent(processedWord);
-        const theme = getEffectiveThemeExt();
-        let url;
+    const processedWord = processWordExt(word);
+    const encodedWord = encodeURIComponent(processedWord);
+    const theme = getEffectiveThemeExt();
+    let url;
 
-        // Применяем класс темы к самому попапу, чтобы закрасить шапку
-        if (theme === 'dark') {
-            popupExt.classList.add('dark-theme');
-        } else {
-            popupExt.classList.remove('dark-theme');
-        }
+    // Применяем класс темы к самому попапу, чтобы закрасить шапку
+    if (theme === 'dark') {
+        popupExt.classList.add('dark-theme');
+    } else {
+        popupExt.classList.remove('dark-theme');
+    }
 
-        switch (currentModeOrUrl) {
-            case 'newWindowExt':
-                url = `https://dict.dhamma.gift/?silent&theme=${theme}&q=${encodedWord}`;
-                openDictionaryWindowExt(url);
-                break;
-            case 'newWindowRuExt':
-                url = `https://dict.dhamma.gift/ru/?silent&theme=${theme}&q=${encodedWord}`;
-                openDictionaryWindowExt(url);
-                break;
-            case 'dharmamitra':
-                url = `https://dharmamitra.org/translate?input_sentence=${encodedWord}`;
-                openDictionaryWindowExt(url);
-                break;
-            case 'goldendict://':
-            case 'dttp://app.dicttango/WordLookup?word=':
-            case 'mdict://mdict.cn/search?text=':
-                url = `${currentModeOrUrl}${encodedWord}`;
-                triggerCustomProtocol(url);
-                break;
-            default:
+    // Список ссылок, которые должны открываться строго в попапе (iframe)
+    const popupUrls = [
+        'https://dict.dhamma.gift/?silent&q=',
+        'https://dict.dhamma.gift/gd?search=',
+        'https://dict.dhamma.gift/ru/?silent&q=',
+        'https://dict.dhamma.gift/ru/gd?search='
+    ];
+
+    switch (currentModeOrUrl) {
+        // --- НОВЫЕ ОКНА ---
+        case 'newWindowExt':
+            url = `https://dict.dhamma.gift/?silent&theme=${theme}&q=${encodedWord}`;
+            openDictionaryWindowExt(url);
+            break;
+        case 'newWindowRuExt':
+            url = `https://dict.dhamma.gift/ru/?silent&theme=${theme}&q=${encodedWord}`;
+            openDictionaryWindowExt(url);
+            break;
+        case 'dharmamitra':
+            url = `https://dharmamitra.org/translate?input_sentence=${encodedWord}`;
+            openDictionaryWindowExt(url);
+            break;
+            
+        // --- ПРИЛОЖЕНИЯ ---
+        case 'goldendict://':
+        case 'dttp://app.dicttango/WordLookup?word=':
+        case 'mdict://mdict.cn/search?text=':
+            url = `${currentModeOrUrl}${encodedWord}`;
+            triggerCustomProtocol(url);
+            break;
+            
+        // --- ПОПАПЫ И CUSTOM URL ---
+        default:
+            if (popupUrls.includes(currentModeOrUrl)) {
+                // Это одна из 4 стандартных ссылок для попапа
                 const isRussianDict = currentModeOrUrl.includes('/ru/');
                 
-                if (currentModeOrUrl.includes('dict.dhamma.gift')) {
-                    url = `https://dict.dhamma.gift${isRussianDict ? '/ru' : ''}/?silent&theme=${theme}&q=${encodedWord}`;
+                // Формируем правильный URL в зависимости от режима (обычный или компактный gd)
+                if (currentModeOrUrl.includes('gd?search=')) {
+                    url = `https://dict.dhamma.gift${isRussianDict ? '/ru' : ''}/gd?search=${encodedWord}&theme=${theme}`;
                 } else {
-                    url = `${currentModeOrUrl}${encodedWord}`;
+                    url = `https://dict.dhamma.gift${isRussianDict ? '/ru' : ''}/?silent&theme=${theme}&q=${encodedWord}`;
                 }
                 
                 iframeExt.src = url;
@@ -570,13 +587,16 @@ async function showTranslation(word) {
                 
                 const searchBaseUrl = isRussianDict ? 'https://f.dhamma.gift/?q=' : 'https://dhamma.gift/?q=';
                 openBtnExt.href = `${searchBaseUrl}${encodedWord}${dgParams}`;
+                dictBtnExt.href = url;
                 
-                dictBtnExt.href = currentModeOrUrl.includes('dict.dhamma.gift')
-                    ? `https://dict.dhamma.gift${isRussianDict ? '/ru' : ''}/?silent&theme=${theme}&q=${encodedWord}`
-                    : `${currentModeOrUrl.startsWith('http') ? currentModeOrUrl : DEFAULT_POPUP_URL}${encodedWord}`;
-                break;
-        }
+            } else {
+                // Ссылки нет в списке попапов -> это Custom URL. Открываем в новом окне.
+                url = `${currentModeOrUrl}${encodedWord}`;
+                openDictionaryWindowExt(url);
+            }
+            break;
     }
+}
 	
     function showStatusBubble(text) {
         let bubble = document.getElementById('bubble-ext-status');
