@@ -13,8 +13,9 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
+      # Обновили до v4 для поддержки Node.js 24
       - name: Checkout source repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Clone target repo
         run: |
@@ -30,6 +31,7 @@ jobs:
           cp assets/standalone-dpd/dpd_i2h.js target-repo/assets/js/standalone-dpd/
           cp assets/standalone-dpd/ru/dpd_ebts.js target-repo/assets/js/standalone-dpd/ru/
 
+      # Наш основной патч для работы словаря без перезагрузки
       - name: Patch dictionary variables to VAR
         run: |
           find target-repo/assets/js/standalone-dpd -type f -name "*.js" -exec sed -i -E 's/(const|let)[[:space:]]+(dpd_i2h|dpd_deconstructor|dpd_ebts)[[:space:]]*=/var \2 =/g' {} +
