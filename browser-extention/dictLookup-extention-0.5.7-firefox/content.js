@@ -208,14 +208,52 @@ if (typeof window.dhammaGiftExtInjected === 'undefined') {
                 console.error("Error loading settings from storage:", error);
             }
 
-            browserApi.storage.onChanged.addListener((changes, namespace) => {
-                if (namespace === 'sync') {
-                    if (changes[dictUrlKey]) currentModeOrUrl = changes[dictUrlKey].newValue;
-                    if (changes.contextMenuOnly) contextMenuOnlyExt = changes.contextMenuOnly.newValue;
-                }
-            });
+// Listen for changes
+    browserApi.storage.onChanged.addListener((changes, namespace) => {
+        if (namespace === 'sync') {
+            if (changes[dictUrlKey]) currentModeOrUrl = changes[dictUrlKey].newValue;
+            if (changes.contextMenuOnly) contextMenuOnlyExt = changes.contextMenuOnly.newValue;
+        }
+    });
 
-            let isEnabled = false; // По умолчанию выключено, как в версии 0.5.3
+    // --- НОВОЕ: Слушатель смены языка из словаря (iframe или новое окно) ---
+    window.addEventListener('message', function(event) {
+        // Проверяем источник сообщения для безопасности
+        if (event.origin !== 'https://dict.dhamma.gift') return;
+
+        if (event.data && event.data.action === 'dg_language_changed') {
+            const newLang = event.data.lang; // 'ru' или 'en'
+            let newUrl = currentModeOrUrl;
+
+            // Логика сопоставления режимов
+            if (newLang === 'ru') {
+                if (currentModeOrUrl === 'https://dict.dhamma.gift/?silent&q=') {
+                    newUrl = 'https://dict.dhamma.gift/ru/?silent&q=';
+                } else if (currentModeOrUrl === 'https://dict.dhamma.gift/gd?search=') {
+                    newUrl = 'https://dict.dhamma.gift/ru/gd?search=';
+                } else if (currentModeOrUrl === 'newWindowExt') {
+                    newUrl = 'newWindowRuExt';
+                }
+            } else if (newLang === 'en') {
+                if (currentModeOrUrl === 'https://dict.dhamma.gift/ru/?silent&q=') {
+                    newUrl = 'https://dict.dhamma.gift/?silent&q=';
+                } else if (currentModeOrUrl === 'https://dict.dhamma.gift/ru/gd?search=') {
+                    newUrl = 'https://dict.dhamma.gift/gd?search=';
+                } else if (currentModeOrUrl === 'newWindowRuExt') {
+                    newUrl = 'newWindowExt';
+                }
+            }
+
+            // Если режим изменился, сохраняем его
+            if (newUrl !== currentModeOrUrl) {
+                currentModeOrUrl = newUrl;
+                browserApi.storage.sync.set({ [dictUrlKey]: newUrl });
+            }
+        }
+    });
+    // --- КОНЕЦ НОВОГО БЛОКА ---
+
+    let isEnabled = false;
 
             function getEffectiveThemeExt() {
                 const html = document.documentElement;
