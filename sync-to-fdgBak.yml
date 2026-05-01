@@ -30,13 +30,9 @@ jobs:
           cp assets/standalone-dpd/dpd_i2h.js target-repo/assets/js/standalone-dpd/
           cp assets/standalone-dpd/ru/dpd_ebts.js target-repo/assets/js/standalone-dpd/ru/
 
-      - name: Patch dictionary variables to VAR
-        run: |
-          find target-repo/assets/js/standalone-dpd -type f -name "*.js" -exec sed -i -E 's/(const|let)[[:space:]]+(dpd_i2h|dpd_deconstructor|dpd_ebts)[[:space:]]*=/var \2 =/g' {} +
-
       - name: Commit & push changes
         run: |
           cd target-repo
           git add .
-          git commit -m "Sync selected standalone-dpd files from dictPlugin (with VAR patch)" || echo "No changes"
+          git commit -m "Sync selected standalone-dpd files from dictPlugin" || echo "No changes"
           git push
