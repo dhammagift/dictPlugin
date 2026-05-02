@@ -1,4 +1,4 @@
-name: Sync selected files to fdg repo
+name: Sync selected files to dg repo
 
 on:
   push:
@@ -13,7 +13,6 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      # Обновили до v4 для поддержки Node.js 24
       - name: Checkout source repo
         uses: actions/checkout@v4
 
@@ -21,7 +20,7 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          git clone https://x-access-token:${{ secrets.TARGET_REPO_TOKEN }}@github.com/o28o/fdg.git target-repo
+          git clone https://x-access-token:${{ secrets.TARGET_REPO_TOKEN }}@github.com/dhammagift/dg.git target-repo
 
       - name: Copy selected files
         run: |
@@ -31,7 +30,6 @@ jobs:
           cp assets/standalone-dpd/dpd_i2h.js target-repo/assets/js/standalone-dpd/
           cp assets/standalone-dpd/ru/dpd_ebts.js target-repo/assets/js/standalone-dpd/ru/
 
-      # Наш основной патч для работы словаря без перезагрузки
       - name: Patch dictionary variables to VAR
         run: |
           find target-repo/assets/js/standalone-dpd -type f -name "*.js" -exec sed -i -E 's/(const|let)[[:space:]]+(dpd_i2h|dpd_deconstructor|dpd_ebts)[[:space:]]*=/var \2 =/g' {} +
