@@ -32,7 +32,7 @@ jobs:
 
       - name: Patch dictionary variables to VAR
         run: |
-          find target-repo/assets/js/standalone-dpd -type f -name "*.js" -exec sed -i -E 's/(const|let)[[:space:]]+(dpd_i2h|dpd_deconstructor|dpd_ebts)[[:space:]]*=/var \2 =/g' {} +
+          find target-repo/assets/js/standalone-dpd -type f -name "*.js" -exec sed -i -E 's/^([[:space:]]*(const|let|var)?[[:space:]]*)?(dpd_i2h|dpd_deconstructor|dpd_ebts)([[:space:]]*=)/var \3\4/' {} +
 
       - name: Commit & push changes
         run: |
