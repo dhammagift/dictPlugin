@@ -44,6 +44,7 @@ dpd_i2h = {
     "akampana",
     "akampaniya",
     "akampanīya",
+    "akampaneyyatā",
     "akampamāna",
     "akammaññatara",
     "akammaniyavagga",
@@ -755,7 +756,8 @@ dpd_i2h = {
     "aññakula",
     "aññakhantika",
     "aññacetāpanasikkhāpada",
-    "aññajana",
+    "aññajana 1.1",
+    "aññajana 2.1",
     "aññañña",
     "aññataraññataramethunasaṃyoga",
     "aññataratherīgāthā",
@@ -1232,7 +1234,8 @@ dpd_i2h = {
     "atīradakkhiṇī",
     "atīradakkhī",
     "atīsaraṃdiṭṭhi",
-    "atuccha",
+    "atuccha 1",
+    "atuccha 2",
     "atuladassana",
     "atulla",
     "atussanaka",
@@ -1342,6 +1345,7 @@ dpd_i2h = {
     "atthasampadā",
     "atthasutta 1",
     "atthasutta 2",
+    "atthaso",
     "atthassa viññāpanāya",
     "atthassadvārajātaka",
     "atthassāyaṃ",
@@ -2804,6 +2808,7 @@ dpd_i2h = {
     "andhakāravagga",
     "andhakārasutta",
     "andhakārābhinivesa",
+    "andhagaṇa",
     "andhantamas",
     "andhandhaṃ",
     "andhabadhira",
@@ -5095,7 +5100,6 @@ dpd_i2h = {
     "avyayaggamanasa",
     "avyayaggamānasa",
     "avyayena",
-    "avyāpajjha",
     "avyāyataddhita",
     "avyāyika",
     "avyāvaṭa",
@@ -5124,6 +5128,7 @@ dpd_i2h = {
     "asaṅgati",
     "asaṅgahaka",
     "asaṅghaṭṭenta",
+    "asajjitvā",
     "asajjhāya",
     "asajjhāyakiriyā",
     "asajjhāyanta",
@@ -5150,6 +5155,7 @@ dpd_i2h = {
     "asantaka",
     "asantatta",
     "asantasambhāvanicchā",
+    "asantāsaṭṭhena",
     "asantāsana",
     "asantiyā",
     "asantuṭṭhatā",
@@ -5487,6 +5493,7 @@ dpd_i2h = {
     "ahiguṇṭhika",
     "ahicchattaka",
     "ahituṇḍikajātaka",
+    "ahidīpa",
     "ahinakula",
     "ahināga",
     "ahipheṇa",
@@ -6045,7 +6052,8 @@ dpd_i2h = {
     "āyakammika",
     "āyacikā",
     "āyatanapaṇṇattidesanā",
-    "āyatanaso",
+    "āyatanaso 1",
+    "āyatanaso 2",
     "āyatanika 1",
     "āyatanika 2",
     "āyatapaṇhitāditilakkhaṇa",
@@ -6213,6 +6221,7 @@ dpd_i2h = {
     "ālimpāpeti",
     "ālimpita 1.1",
     "ālimpita 2.1",
+    "āliyati",
     "ālu",
     "āluppa",
     "ālumpakāraṃ",
@@ -7420,6 +7429,7 @@ dpd_i2h = {
     "upakūjati",
     "upakūji",
     "upakūjita",
+    "upakūjī",
     "upakka",
     "upakkamavant",
     "upakkamitukāma",
@@ -10021,6 +10031,7 @@ dpd_i2h = {
     "kāraṇīka",
     "kāraṇḍava",
     "kāraṇḍavasutta",
+    "kāradīpa",
     "kārabhedakacoravatthu",
     "kāraḷimba",
     "kārāghara",
@@ -10540,7 +10551,7 @@ dpd_i2h = {
     "kumāravaṇṇa",
     "kumāravaṇṇī",
     "kumārikathā",
-    "kumārikavaṇṇādivasena",
+    "kumārikavaṇṇa",
     "kumārikasutta",
     "kumāribhūtavagga",
     "kumāribhūtasikkhāpada",
@@ -10821,6 +10832,7 @@ dpd_i2h = {
     "koṭika 1",
     "koṭika 2",
     "koṭika 3",
+    "koṭika 4",
     "koṭikara",
     "koṭigāmavagga",
     "koṭigāmesaccakathā",
@@ -12052,6 +12064,7 @@ dpd_i2h = {
     "cakkavattīdhammika",
     "cakkavākajātaka 1",
     "cakkavākajātaka 2",
+    "cakkavākapakūjita",
     "cakkavālapabbata",
     "cakkavāḷagabbha",
     "cakkasutta",
@@ -12321,6 +12334,7 @@ dpd_i2h = {
     "candaggāha",
     "candattharaka",
     "candanagaṇṭhi",
+    "candanagandhika",
     "candanaghaṭikā",
     "candanattheragāthā",
     "candanaphalaka",
@@ -13181,6 +13195,7 @@ dpd_i2h = {
     "jappe",
     "jambāra 1",
     "jambāra 2",
+    "jambāla",
     "jambālīsutta",
     "jambīra 2",
     "jambukajātaka",
@@ -14830,6 +14845,7 @@ dpd_i2h = {
     "thambhaka",
     "thambhasahassa",
     "thambhita",
+    "tharuggaha",
     "thalaṭṭhāna",
     "thalapatha",
     "thalavappa",
@@ -16236,6 +16252,7 @@ dpd_i2h = {
     "dūsayamāna 2",
     "dūsayamāna 3",
     "dūsika",
+    "dūsitabba",
     "dūsī 1",
     "dūsī 2",
     "dūsetukāma",
@@ -16402,6 +16419,7 @@ dpd_i2h = {
     "dvayatā",
     "dvayadhamma",
     "dvayaṃdvaya",
+    "dvarati",
     "dvasīti",
     "dvākkhāta",
     "dvāgārika",
@@ -17170,6 +17188,7 @@ dpd_i2h = {
     "navānukampita",
     "navāyata",
     "navāhappaṭicchanna",
+    "navāhā",
     "navāhuppanna",
     "navuṭṭhāpanasikkhāpada",
     "navutika",
@@ -17404,7 +17423,7 @@ dpd_i2h = {
     "nāphala",
     "nāphusanta",
     "nābbhanumodi",
-    "nābrāhmaṇa",
+    "nābrāhmaṇo",
     "nābhasa",
     "nābhikkhaṇaṃ",
     "nābhijjhātar",
@@ -18114,7 +18133,6 @@ dpd_i2h = {
     "nillehitvā",
     "nilloketi",
     "nivaṭṭetvā",
-    "nivattabīja",
     "nivattayati",
     "nivattāpetuṃ",
     "nivattāpetvā",
@@ -18463,6 +18481,7 @@ dpd_i2h = {
     "pakuddha 2",
     "pakudhakaccāyanavāda",
     "pakuppi",
+    "pakūjī",
     "pakopana 1",
     "pakopana 2",
     "pakkagatta",
@@ -19772,6 +19791,7 @@ dpd_i2h = {
     "patiṭṭhituṃ",
     "patitapaṇṇa",
     "patitapaṇṇasanthara",
+    "patitaphala",
     "patitaphalabhojī",
     "patitthīna",
     "patitthīyi",
@@ -19926,6 +19946,8 @@ dpd_i2h = {
     "padumaka",
     "padumakalāpa",
     "padumajātaka",
+    "padumanāḷa",
+    "padumanāḷasutta",
     "padumapalāsa",
     "padumapuppha 1",
     "padumapuppha 2",
@@ -19934,6 +19956,7 @@ dpd_i2h = {
     "paduminīpatta",
     "padumuttarabuddha",
     "padumuttarasambuddha",
+    "padumuppalaka",
     "padussana 1",
     "padussana 2",
     "padussamāna",
@@ -21473,7 +21496,6 @@ dpd_i2h = {
     "pidhānī",
     "pidhetvā",
     "pipati",
-    "pipanta",
     "pipillikā",
     "pipīlikā",
     "pippali",
@@ -22802,7 +22824,8 @@ dpd_i2h = {
     "bhajjīyati",
     "bhañjaka",
     "bhañjana",
-    "bhañjanaka",
+    "bhañjanaka 1",
+    "bhañjanaka 2",
     "bhañjamāna",
     "bhañjituṃ",
     "bhañña",
@@ -23212,7 +23235,7 @@ dpd_i2h = {
     "bhūtapariñña",
     "bhūtapasaṃsaka",
     "bhūtapubbāhaṃ",
-    "bhūtamattha",
+    "bhūtamatthaṃ",
     "bhūtamidaṃ",
     "bhūtavejjaka",
     "bhūtasutta",
@@ -23508,8 +23531,8 @@ dpd_i2h = {
     "majjhimasahagata",
     "majjhimā paṭipadā",
     "majjhimānukampita",
+    "majjhimitthi",
     "majjhimitthivaṇṇasata",
-    "majjhimitthī",
     "majjhegaṅgā",
     "majjhegabbha",
     "majjhesiṅghāṭake",
@@ -23756,6 +23779,8 @@ dpd_i2h = {
     "mandasappi",
     "mandākinī",
     "mandāmukhisata",
+    "mandāraka",
+    "mandālaka",
     "mandāhāra",
     "mandhātujātaka",
     "mama vacanena",
@@ -24640,6 +24665,7 @@ dpd_i2h = {
     "meghadundubhi",
     "meghanāda",
     "meghanibha",
+    "meghasamānavaṇṇa",
     "meghiyattheragāthā",
     "meghiyavagga",
     "meghiyasutta 1",
@@ -24744,6 +24770,7 @@ dpd_i2h = {
     "moneyyasutta 1",
     "moneyyasutta 2",
     "momuhato",
+    "moyhati",
     "moragū",
     "morajātaka",
     "moranivāpasutta",
@@ -24752,6 +24779,7 @@ dpd_i2h = {
     "morapiñchakalāpamanohara",
     "morapiñja",
     "mosana",
+    "mosetvā",
     "mohakkhandha",
     "mohagāmitā",
     "mohagāmī",
@@ -24774,6 +24802,7 @@ dpd_i2h = {
     "mohāgati",
     "mohādhikaraṇaṃ",
     "mohāpana",
+    "mohitabba",
     "mohussada",
     "mohetukāma",
     "mohetuṃ",
@@ -25404,8 +25433,6 @@ dpd_i2h = {
     "ramaṇīyavihāritthera",
     "ramaṇīyavihārittheragāthā",
     "ramaṇīyavihārī",
-    "ramana",
-    "ramanī",
     "ramāna",
     "ramāmahaṃ",
     "ramita",
@@ -26294,6 +26321,7 @@ dpd_i2h = {
     "vaḍḍhisaṅkhāta",
     "vaḍḍhisutta",
     "vaḍḍhīsutta",
+    "vaṇaghaṭṭita",
     "vaṇacolaka",
     "vaṇappaṭikamma",
     "vaṇabandhana",
@@ -26320,6 +26348,7 @@ dpd_i2h = {
     "vaṇṇārohajātaka",
     "vaṇṇika",
     "vaṇṇimant",
+    "vaṇṇiyamāna",
     "vaṇṇu",
     "vaṇṇupathajātaka",
     "vaṇṇetvā",
@@ -28707,6 +28736,7 @@ dpd_i2h = {
     "sajjhāyaṃ karoti",
     "sajjhāyaṃ karonta",
     "sajjhāyitvā",
+    "sajjhukāra",
     "sajjhubhāra",
     "sañātisālohita",
     "sañcayabelaṭṭhaputtavāda",
@@ -28916,6 +28946,7 @@ dpd_i2h = {
     "sattakanipāta 4",
     "sattakanipātapāḷi",
     "sattakamma",
+    "sattakammapatha",
     "sattakammapathasutta",
     "sattakammasutta",
     "sattakavāra",
@@ -29067,6 +29098,7 @@ dpd_i2h = {
     "sadosatta",
     "saddakaṇṭaka",
     "saddakaṇṭakatta",
+    "saddakaraṇa",
     "saddagaṇa",
     "saddanītipadamālā",
     "saddaparittāsī",
@@ -30548,6 +30580,7 @@ dpd_i2h = {
     "sahassatthavikā",
     "sahassathavikā",
     "sahassanayapaṭimaṇḍita",
+    "sahassapāda",
     "sahassapāpa",
     "sahassabhikkhunisaṅgha",
     "sahassabhikkhunisaṅghasutta",
@@ -31055,7 +31088,6 @@ dpd_i2h = {
     "sāriputtaupasamasutta",
     "sāriputtattheragāthā",
     "sāriputtattheramātupetivatthu",
-    "sāriputtamoggalānā",
     "sāriputtamoggallānapabbajjākathā",
     "sāriputtamoggallānappamukha",
     "sāriputtavagga",
@@ -31826,6 +31858,7 @@ dpd_i2h = {
     "suppatīta 1",
     "suppatīta 2",
     "suppadhota",
+    "suppanā",
     "suppabuddhakuṭṭhisutta",
     "supparodha",
     "suppavārita",
@@ -32578,6 +32611,7 @@ dpd_i2h = {
     "hadayābhimukha",
     "hananatā",
     "hanamāna",
+    "hanuka",
     "hanujappana",
     "hanuta",
     "hanutta",
@@ -32673,7 +32707,6 @@ dpd_i2h = {
     "himavantasutta 2",
     "himavāññe",
     "himavāvaññe",
-    "himaviparāmosa",
     "hiyyopabhuti",
     "hiraññaṭṭhika",
     "hirika",
@@ -35018,15 +35051,6 @@ dpd_i2h = {
   "akhādane": [
     "akhādana"
   ],
-  "akhādita": [
-    "akhādita"
-  ],
-  "akhādito": [
-    "akhādita"
-  ],
-  "akhāditā": [
-    "akhādita"
-  ],
   "akhāditapubbāni": [
     "akhāditapubba"
   ],
@@ -37256,9 +37280,6 @@ dpd_i2h = {
   "acittā": [
     "acitta"
   ],
-  "acittaṃ": [
-    "acitta"
-  ],
   "acittako": [
     "acittaka 1",
     "acittaka 2"
@@ -37515,9 +37536,6 @@ dpd_i2h = {
   ],
   "acorisaññā": [
     "acorisañña"
-  ],
-  "acorī": [
-    "acorī"
   ],
   "acoriyā": [
     "acorī"
@@ -38305,6 +38323,9 @@ dpd_i2h = {
   "acchādetukāmā": [
     "acchādetukāma"
   ],
+  "acchādetukāme": [
+    "acchādetukāma"
+  ],
   "acchādetuṃ": [
     "acchādetuṃ"
   ],
@@ -38533,6 +38554,9 @@ dpd_i2h = {
   ],
   "acchinnacīvarikāya": [
     "acchinnacīvaraka"
+  ],
+  "acchinnadasa": [
+    "acchinnadasa"
   ],
   "acchinnadasāni": [
     "acchinnadasa"
@@ -39635,10 +39659,6 @@ dpd_i2h = {
   "ajjhāpannapubbo": [
     "ajjhāpannapubba"
   ],
-  "ajjhāya": [
-    "ajjhāya",
-    "ajjhāyati"
-  ],
   "ajjhāyako": [
     "ajjhāyaka 1.1",
     "ajjhāyaka 1.2",
@@ -40717,7 +40737,8 @@ dpd_i2h = {
     "aññacetiya"
   ],
   "aññajanena": [
-    "aññajana"
+    "aññajana 1.1",
+    "aññajana 2.1"
   ],
   "aññaññaṃ": [
     "aññañña"
@@ -40837,6 +40858,9 @@ dpd_i2h = {
     "aññatarabrāhmaṇasutta 1",
     "aññatarabrāhmaṇasutta 2",
     "aññatarabrāhmaṇasutta 3"
+  ],
+  "aññatarabhikkhu": [
+    "aññatarabhikkhu"
   ],
   "aññatarabhikkhusutta": [
     "aññatarabhikkhusutta 1",
@@ -41565,6 +41589,7 @@ dpd_i2h = {
     "aṭṭāna"
   ],
   "aṭṭito": [
+    "aṭṭi",
     "aṭṭita"
   ],
   "aṭṭitā": [
@@ -42174,6 +42199,9 @@ dpd_i2h = {
     "aṭṭhāsi 2"
   ],
   "aṭṭhu": [
+    "aṭṭhā"
+  ],
+  "aṭṭhamha": [
     "aṭṭhā"
   ],
   "aṭṭhiṃ": [
@@ -43283,6 +43311,12 @@ dpd_i2h = {
   ],
   "atikkantasaññī": [
     "atikkantasaññī"
+  ],
+  "atikkamo": [
+    "atikkama 1",
+    "atikkama 2",
+    "atikkami 1",
+    "atikkami 2"
   ],
   "atikkamā": [
     "atikkama 1",
@@ -45723,10 +45757,12 @@ dpd_i2h = {
     "atthakāraṇa"
   ],
   "atthakusalo": [
-    "atthakusala"
+    "atthakusala 1",
+    "atthakusala 2"
   ],
   "atthakusalena": [
-    "atthakusala"
+    "atthakusala 1",
+    "atthakusala 2"
   ],
   "atthakkhāyī": [
     "atthakkhāyī"
@@ -46345,10 +46381,6 @@ dpd_i2h = {
     "atthi 2.1",
     "atthī"
   ],
-  "atthiṃ": [
-    "atthi 2.1",
-    "atthī"
-  ],
   "atthiko": [
     "atthika 1.1",
     "atthika 1.2",
@@ -46885,6 +46917,9 @@ dpd_i2h = {
     "adā"
   ],
   "adamha": [
+    "adā"
+  ],
+  "adatthaṃ": [
     "adā"
   ],
   "adatthāti": [
@@ -48437,12 +48472,6 @@ dpd_i2h = {
   "adhikaraṇanirodhagāminiṃ": [
     "adhikaraṇanirodhagāmī"
   ],
-  "adhikaraṇapaccaya": [
-    "adhikaraṇapaccaya"
-  ],
-  "adhikaraṇapaccayā": [
-    "adhikaraṇapaccaya"
-  ],
   "adhikaraṇapaccayavāra": [
     "adhikaraṇapaccayavāra"
   ],
@@ -49241,14 +49270,6 @@ dpd_i2h = {
   ],
   "adhippayāso": [
     "adhippayāsa"
-  ],
-  "adhippāya": [
-    "adhippāya 1.1",
-    "adhippāya 1.2",
-    "adhippāya 1.3",
-    "adhippāya 1.4",
-    "adhippāya 1.5",
-    "adhippāya 2.1"
   ],
   "adhippāyo": [
     "adhippāya 1.1",
@@ -53498,9 +53519,6 @@ dpd_i2h = {
   "anidassanasappaṭighaṃ": [
     "anidassanasappaṭigha"
   ],
-  "anidāna": [
-    "anidāna"
-  ],
   "anidāno": [
     "anidāna"
   ],
@@ -54152,7 +54170,8 @@ dpd_i2h = {
   "anukkamaṃ": [
     "anukkama 1",
     "anukkama 2",
-    "anukkama 3"
+    "anukkama 3",
+    "anukkamanta"
   ],
   "anukkame": [
     "anukkama 1",
@@ -57612,10 +57631,6 @@ dpd_i2h = {
   "anuvātapaṭivātampi": [
     "anuvātapaṭivātaṃ"
   ],
-  "anuvāda": [
-    "anuvāda 1",
-    "anuvāda 2"
-  ],
   "anuvādo": [
     "anuvāda 1",
     "anuvāda 2"
@@ -58731,9 +58746,6 @@ dpd_i2h = {
   ],
   "anussukāti": [
     "anussuka"
-  ],
-  "anūna": [
-    "anūna"
   ],
   "anūnāni": [
     "anūna"
@@ -60739,6 +60751,9 @@ dpd_i2h = {
   "andhasutta": [
     "andhasutta"
   ],
+  "andhasuttaṃ": [
+    "andhasutta"
+  ],
   "andhīkatā": [
     "andhīkata"
   ],
@@ -61024,9 +61039,6 @@ dpd_i2h = {
     "apakassati"
   ],
   "apakassi": [
-    "apakassi"
-  ],
-  "apakasso": [
     "apakassi"
   ],
   "apakāse": [
@@ -62206,6 +62218,9 @@ dpd_i2h = {
   "aparavambhi": [
     "aparavambhī"
   ],
+  "aparavambhīhi": [
+    "aparavambhī"
+  ],
   "aparavambhīti": [
     "aparavambhī"
   ],
@@ -62671,13 +62686,16 @@ dpd_i2h = {
     "aparimāṇavaṇṇa"
   ],
   "aparimitā": [
-    "aparimita"
+    "aparimita 1",
+    "aparimita 2"
   ],
   "aparimitaṃ": [
-    "aparimita"
+    "aparimita 1",
+    "aparimita 2"
   ],
   "aparimitañca": [
-    "aparimita"
+    "aparimita 1",
+    "aparimita 2"
   ],
   "aparimitadassinā": [
     "aparimitadassī"
@@ -63329,11 +63347,6 @@ dpd_i2h = {
     "apassamāna 1",
     "apassamāna 2"
   ],
-  "apassayaṃ": [
-    "apassaya 1",
-    "apassaya 2",
-    "apassayi"
-  ],
   "apassayitā": [
     "apassayitar"
   ],
@@ -63478,9 +63491,6 @@ dpd_i2h = {
     "apāna"
   ],
   "apānako": [
-    "apānaka"
-  ],
-  "apānakā": [
     "apānaka"
   ],
   "apānakopi": [
@@ -63959,11 +63969,6 @@ dpd_i2h = {
     "apubba 2",
     "apubba 3",
     "apubbaṃ"
-  ],
-  "apubbāni": [
-    "apubba 1",
-    "apubba 2",
-    "apubba 3"
   ],
   "apurakkhato": [
     "apurakkhata"
@@ -65996,9 +66001,6 @@ dpd_i2h = {
   ],
   "appaharitepi": [
     "appaharita"
-  ],
-  "appahāna": [
-    "appahāna"
   ],
   "appahānaṃ": [
     "appahāna"
@@ -68095,11 +68097,6 @@ dpd_i2h = {
     "abhavanta",
     "abhavi"
   ],
-  "abhavaṃ": [
-    "abhava",
-    "abhavanta",
-    "abhavi"
-  ],
   "abhave": [
     "abhava"
   ],
@@ -68204,6 +68201,9 @@ dpd_i2h = {
     "abhāsi 2.1"
   ],
   "abhāsamāno": [
+    "abhāsamāna"
+  ],
+  "abhāsamānaṃ": [
     "abhāsamāna"
   ],
   "abhāsayi": [
@@ -71403,6 +71403,9 @@ dpd_i2h = {
     "abhūta 3",
     "abhūtena"
   ],
+  "abhūtattha": [
+    "abhūtattha"
+  ],
   "abhūtabbhakkhānasaṃvattaniko": [
     "abhūtabbhakkhānasaṃvattanika"
   ],
@@ -71449,11 +71452,6 @@ dpd_i2h = {
     "abhedi"
   ],
   "abhedo": [
-    "abheda 1",
-    "abheda 2",
-    "abhedi"
-  ],
-  "abhedaṃ": [
     "abheda 1",
     "abheda 2",
     "abhedi"
@@ -72305,6 +72303,9 @@ dpd_i2h = {
   "amahaggataṃ": [
     "amahaggata"
   ],
+  "amā": [
+    "amā"
+  ],
   "amātāputtikaṃ": [
     "amātāputtika"
   ],
@@ -72596,9 +72597,6 @@ dpd_i2h = {
     "amūlikā"
   ],
   "amūlakaṃ": [
-    "amūlaka"
-  ],
-  "amūlakāni": [
     "amūlaka"
   ],
   "amūlakena": [
@@ -73293,10 +73291,6 @@ dpd_i2h = {
     "ayaji 1",
     "ayaji 2"
   ],
-  "ayajā": [
-    "ayaji 1",
-    "ayaji 2"
-  ],
   "ayañcettha": [
     "ayañcettha"
   ],
@@ -73369,10 +73363,6 @@ dpd_i2h = {
   ],
   "ayasova": [
     "ayas",
-    "ayasa",
-    "ayasas"
-  ],
-  "ayasa": [
     "ayasa",
     "ayasas"
   ],
@@ -74237,13 +74227,6 @@ dpd_i2h = {
     "arahati 4",
     "arahati 5"
   ],
-  "arahantu": [
-    "arahati 1",
-    "arahati 2",
-    "arahati 3",
-    "arahati 4",
-    "arahati 5"
-  ],
   "arahantaṃ": [
     "arahati 1",
     "arahati 2",
@@ -75007,6 +74990,9 @@ dpd_i2h = {
   "arukūpamacitto": [
     "arukūpamacitta"
   ],
+  "arukkha": [
+    "arukkha"
+  ],
   "arugatto": [
     "arugatta"
   ],
@@ -75105,6 +75091,9 @@ dpd_i2h = {
   "arūpehi": [
     "arūpa 1",
     "arūpa 2"
+  ],
+  "arūpāhi": [
+    "arūpa 1"
   ],
   "arūpassa": [
     "arūpa 1",
@@ -75429,6 +75418,9 @@ dpd_i2h = {
   ],
   "alajjussannā": [
     "alajjussanna"
+  ],
+  "alattakakata": [
+    "alattakakata"
   ],
   "alattakakato": [
     "alattakakata"
@@ -75852,10 +75844,6 @@ dpd_i2h = {
   "alohitāpi": [
     "alohita 1",
     "alohita 2"
-  ],
-  "alla": [
-    "alla 1",
-    "alla 2"
   ],
   "allā": [
     "alla 1",
@@ -76783,9 +76771,6 @@ dpd_i2h = {
   ],
   "avātātapahatāni": [
     "avātātapahata"
-  ],
-  "avādita": [
-    "avādita"
   ],
   "avāpuraṇaṃ": [
     "avāpuraṇa"
@@ -78554,6 +78539,10 @@ dpd_i2h = {
     "asati 3.1",
     "asati 4.1"
   ],
+  "asesu": [
+    "asa 2.1",
+    "asa 4.1"
+  ],
   "asāhi": [
     "asa 4.1",
     "asati 3.1",
@@ -79594,9 +79583,6 @@ dpd_i2h = {
   "asappāyakārī": [
     "asappāyakārī"
   ],
-  "asappāyakārīsu": [
-    "asappāyakārī"
-  ],
   "asappāyakiriyā": [
     "asappāyakiriyā"
   ],
@@ -79722,13 +79708,6 @@ dpd_i2h = {
   ],
   "asabhāgavuttikā": [
     "asabhāgavuttika"
-  ],
-  "asama": [
-    "asama 1",
-    "asama 2",
-    "asama 3",
-    "asama 4",
-    "asamā"
   ],
   "asamo": [
     "asama 1",
@@ -80622,9 +80601,6 @@ dpd_i2h = {
   "asāyitapubbā": [
     "asāyitapubba"
   ],
-  "asāra": [
-    "asāra"
-  ],
   "asāro": [
     "asāra"
   ],
@@ -80703,6 +80679,10 @@ dpd_i2h = {
   ],
   "asāvetukāmo": [
     "asāvetukāma"
+  ],
+  "asāhasa": [
+    "asāhasa 1",
+    "asāhasa 2"
   ],
   "asāhaso": [
     "asāhasa 1"
@@ -84679,11 +84659,6 @@ dpd_i2h = {
     "ākoṭesi 2"
   ],
   "āga": [
-    "āga",
-    "āgā 1",
-    "āgā 2"
-  ],
-  "āgo": [
     "āga",
     "āgā 1",
     "āgā 2"
@@ -89712,6 +89687,11 @@ dpd_i2h = {
   "āpucchanti": [
     "āpucchati"
   ],
+  "āpuccha": [
+    "āpucchati",
+    "āpucchanta",
+    "āpucchi"
+  ],
   "āpuccheyyaṃ": [
     "āpucchati"
   ],
@@ -90828,7 +90808,8 @@ dpd_i2h = {
     "āyatanapabba"
   ],
   "āyatanaso": [
-    "āyatanaso"
+    "āyatanaso 1",
+    "āyatanaso 2"
   ],
   "āyatani": [
     "āyatanī"
@@ -91893,9 +91874,6 @@ dpd_i2h = {
   "ārācāriṃ": [
     "ārācārī"
   ],
-  "ārādha": [
-    "ārādha"
-  ],
   "ārādhako": [
     "ārādhaka 1",
     "ārādhaka 2"
@@ -92278,7 +92256,8 @@ dpd_i2h = {
     "āruyha 1",
     "āruyha 2",
     "āruyhati",
-    "āruyhanta"
+    "āruyhanta",
+    "āruyhi"
   ],
   "āruhaṃ": [
     "āruha 1",
@@ -94541,6 +94520,9 @@ dpd_i2h = {
     "āsavasutta 3",
     "āsavasutta 4"
   ],
+  "āsavi": [
+    "āsavi"
+  ],
   "āsasāno": [
     "āsasāna"
   ],
@@ -95826,12 +95808,6 @@ dpd_i2h = {
   "āḷiṃ": [
     "āḷi"
   ],
-  "āḷito": [
-    "āḷi"
-  ],
-  "āḷiyaṃ": [
-    "āḷi"
-  ],
   "āḷindā": [
     "āḷinda"
   ],
@@ -96170,9 +96146,6 @@ dpd_i2h = {
   "icchitaṃ": [
     "icchita 1",
     "icchita 2"
-  ],
-  "icchitabbaṃ": [
-    "icchitabba"
   ],
   "icchitabbake": [
     "icchitabbaka"
@@ -97606,6 +97579,9 @@ dpd_i2h = {
   "idhūpacaranti": [
     "idhūpacarati"
   ],
+  "idhūpapanna": [
+    "idhūpapanna"
+  ],
   "idhūpapanno": [
     "idhūpapanna",
     "idhūpapanno"
@@ -98066,6 +98042,9 @@ dpd_i2h = {
   "imissaṃ": [
     "ima 1.1",
     "imissaṃ"
+  ],
+  "imissāya": [
+    "ima 1.1"
   ],
   "imāsu": [
     "ima 1.1"
@@ -98566,11 +98545,9 @@ dpd_i2h = {
     "issara 2",
     "issara 3",
     "issara 4",
+    "issara 5",
     "issarā 1",
     "issarā 2"
-  ],
-  "issāma": [
-    "issati"
   ],
   "ississāmi": [
     "issati"
@@ -98604,13 +98581,15 @@ dpd_i2h = {
     "issara 1",
     "issara 2",
     "issara 3",
-    "issara 4"
+    "issara 4",
+    "issara 5"
   ],
   "issarā": [
     "issara 1",
     "issara 2",
     "issara 3",
     "issara 4",
+    "issara 5",
     "issarā 1",
     "issarā 2"
   ],
@@ -98619,13 +98598,15 @@ dpd_i2h = {
     "issara 2",
     "issara 3",
     "issara 4",
+    "issara 5",
     "issarā 1"
   ],
   "issarena": [
     "issara 1",
     "issara 2",
     "issara 3",
-    "issara 4"
+    "issara 4",
+    "issara 5"
   ],
   "issarakuttaṃ": [
     "issarakutta"
@@ -98725,6 +98706,9 @@ dpd_i2h = {
   ],
   "issāmanikā": [
     "issāmanaka"
+  ],
+  "issāmalaṃ": [
+    "issāmala"
   ],
   "issāmānena": [
     "issāmāna"
@@ -101580,9 +101564,6 @@ dpd_i2h = {
     "utta 2.1",
     "utta 2.2"
   ],
-  "utto": [
-    "utta 2.1"
-  ],
   "uttā": [
     "utta 2.1",
     "utta 2.2"
@@ -102725,7 +102706,6 @@ dpd_i2h = {
   ],
   "udakato": [
     "udaka 1.1",
-    "udaka 1.2",
     "udaka 1.3",
     "udaka 2.1"
   ],
@@ -103107,9 +103087,6 @@ dpd_i2h = {
   "udakāka": [
     "udakāka"
   ],
-  "udakākā": [
-    "udakāka"
-  ],
   "udakācamanāni": [
     "udakācamana"
   ],
@@ -103284,9 +103261,6 @@ dpd_i2h = {
     "udapatta"
   ],
   "udapatto": [
-    "udapatta"
-  ],
-  "udapattā": [
     "udapatta"
   ],
   "udapatte": [
@@ -104292,6 +104266,12 @@ dpd_i2h = {
   "uddositanti": [
     "uddosita"
   ],
+  "uddha": [
+    "uddha"
+  ],
+  "uddhā": [
+    "uddha"
+  ],
   "uddhaṃ": [
     "uddha",
     "uddhaṃ 1",
@@ -104494,9 +104474,6 @@ dpd_i2h = {
   ],
   "uddhampādaṃ": [
     "uddhampādaṃ"
-  ],
-  "uddhambhāgiya": [
-    "uddhambhāgiya"
   ],
   "uddhambhāgiyā": [
     "uddhambhāgiya"
@@ -106598,6 +106575,9 @@ dpd_i2h = {
     "upaṭṭhitassatī"
   ],
   "upaṭṭhitassatinā": [
+    "upaṭṭhitassatī"
+  ],
+  "upaṭṭhitassatihi": [
     "upaṭṭhitassatī"
   ],
   "upaṭṭhitassatīhi": [
@@ -108711,7 +108691,8 @@ dpd_i2h = {
   ],
   "upavāsassa": [
     "upavāsa 1",
-    "upavāsa 2"
+    "upavāsa 2",
+    "upavāsa 3"
   ],
   "upavāḷo": [
     "upavāḷa"
@@ -112554,6 +112535,9 @@ dpd_i2h = {
   "ubholokavijayāya": [
     "ubholokavijaya"
   ],
+  "umāto": [
+    "umā"
+  ],
   "umāpupphaṃ": [
     "umāpuppha"
   ],
@@ -113075,7 +113059,8 @@ dpd_i2h = {
     "uyyojetuṃ"
   ],
   "uyyojetvā": [
-    "uyyojetvā"
+    "uyyojetvā 1",
+    "uyyojetvā 2"
   ],
   "uyyojento": [
     "uyyojenta 1",
@@ -113292,9 +113277,6 @@ dpd_i2h = {
     "uresaya"
   ],
   "ulanti": [
-    "ulati"
-  ],
-  "ule": [
     "ulati"
   ],
   "ula": [
@@ -113554,7 +113536,8 @@ dpd_i2h = {
     "usabhasata"
   ],
   "usīraṃ": [
-    "usīra"
+    "usīra 1",
+    "usīra 2"
   ],
   "usīrattho": [
     "usīrattha"
@@ -116274,9 +116257,6 @@ dpd_i2h = {
     "ekasālaka"
   ],
   "ekasālāyaṃ": [
-    "ekasālā"
-  ],
-  "ekasāla": [
     "ekasālā"
   ],
   "ekasutta": [
@@ -120283,10 +120263,12 @@ dpd_i2h = {
     "odhārita"
   ],
   "odhi": [
-    "odhi"
+    "odhi 1",
+    "odhi 2"
   ],
   "odhinā": [
-    "odhi",
+    "odhi 1",
+    "odhi 2",
     "odhinā",
     "odhini"
   ],
@@ -121366,13 +121348,6 @@ dpd_i2h = {
   ],
   "olaṅghenti": [
     "olaṅgheti"
-  ],
-  "olamba": [
-    "olamba 1",
-    "olamba 2",
-    "olambati",
-    "olambanta",
-    "olambi"
   ],
   "olambakaṃ": [
     "olambaka 1",
@@ -123259,11 +123234,12 @@ dpd_i2h = {
   ],
   "kiñcanaṃ": [
     "kaci",
-    "kiñcana 1",
-    "kiñcana 2",
-    "kiñcana 3",
-    "kiñcana 4",
-    "kiñcana 5",
+    "kiñcana 1.1",
+    "kiñcana 1.2",
+    "kiñcana 1.3",
+    "kiñcana 1.4",
+    "kiñcana 1.5",
+    "kiñcana 2.1",
     "kiñcanaṃ"
   ],
   "kenaci": [
@@ -123309,11 +123285,12 @@ dpd_i2h = {
   ],
   "kiñcananti": [
     "kaci",
-    "kiñcana 1",
-    "kiñcana 2",
-    "kiñcana 3",
-    "kiñcana 4",
-    "kiñcana 5",
+    "kiñcana 1.1",
+    "kiñcana 1.2",
+    "kiñcana 1.3",
+    "kiñcana 1.4",
+    "kiñcana 1.5",
+    "kiñcana 2.1",
     "kiñcanaṃ"
   ],
   "kiñcideva": [
@@ -124865,6 +124842,9 @@ dpd_i2h = {
   "katakusalānaṃ": [
     "katakusala"
   ],
+  "kataṅga": [
+    "kataṅga"
+  ],
   "kataṅgavippahīnaṃ": [
     "kataṅgavippahīna"
   ],
@@ -125268,9 +125248,6 @@ dpd_i2h = {
     "katipucchāvāra"
   ],
   "katimo": [
-    "katima"
-  ],
-  "katimā": [
     "katima"
   ],
   "katimī": [
@@ -126165,11 +126142,6 @@ dpd_i2h = {
   "kanakatanusannibho": [
     "kanakatanusannibha"
   ],
-  "kaniṭṭha": [
-    "kaniṭṭha 1",
-    "kaniṭṭha 2",
-    "kaniṭṭhā"
-  ],
   "kaniṭṭho": [
     "kaniṭṭha 1",
     "kaniṭṭha 2"
@@ -126924,9 +126896,6 @@ dpd_i2h = {
     "kappati"
   ],
   "kappati": [
-    "kappati"
-  ],
-  "kappatu": [
     "kappati"
   ],
   "kappantu": [
@@ -127994,9 +127963,6 @@ dpd_i2h = {
   "kammakāmā": [
     "kammakāma"
   ],
-  "kammakāra": [
-    "kammakāra 1"
-  ],
   "kammakāro": [
     "kammakāra 1"
   ],
@@ -128873,6 +128839,10 @@ dpd_i2h = {
   "karaṇapaccayā": [
     "karaṇapaccayā"
   ],
+  "karaṇī": [
+    "karaṇī 1",
+    "karaṇī 2"
+  ],
   "karaṇi": [
     "karaṇī 1",
     "karaṇī 2"
@@ -128959,10 +128929,6 @@ dpd_i2h = {
   ],
   "karaṇīyādhikaraṇīyesu": [
     "karaṇīyādhikaraṇīya"
-  ],
-  "karaṇḍa": [
-    "karaṇḍa 1",
-    "karaṇḍa 2"
   ],
   "karaṇḍo": [
     "karaṇḍa 1",
@@ -130360,6 +130326,13 @@ dpd_i2h = {
   "kasāmi": [
     "kasati"
   ],
+  "kasa": [
+    "kasati",
+    "kasanta 1",
+    "kasanta 2",
+    "kasā",
+    "kasi 2"
+  ],
   "kasāhi": [
     "kasati",
     "kasā"
@@ -131492,6 +131465,11 @@ dpd_i2h = {
     "kāmaguṇa 3"
   ],
   "kāmaguṇe": [
+    "kāmaguṇa 1",
+    "kāmaguṇa 2",
+    "kāmaguṇa 3"
+  ],
+  "kāmaguṇena": [
     "kāmaguṇa 1",
     "kāmaguṇa 2",
     "kāmaguṇa 3"
@@ -134978,28 +134956,32 @@ dpd_i2h = {
     "kiñceti"
   ],
   "kiñcana": [
-    "kiñcana 1",
-    "kiñcana 2",
-    "kiñcana 3",
-    "kiñcana 4",
-    "kiñcana 5"
+    "kiñcana 1.1",
+    "kiñcana 1.2",
+    "kiñcana 1.3",
+    "kiñcana 1.4",
+    "kiñcana 1.5",
+    "kiñcana 2.1"
   ],
   "kiñcano": [
-    "kiñcana 1"
+    "kiñcana 1.1",
+    "kiñcana 2.1"
   ],
   "kiñcanā": [
-    "kiñcana 1",
-    "kiñcana 2",
-    "kiñcana 3",
-    "kiñcana 4",
-    "kiñcana 5"
+    "kiñcana 1.1",
+    "kiñcana 1.2",
+    "kiñcana 1.3",
+    "kiñcana 1.4",
+    "kiñcana 1.5",
+    "kiñcana 2.1"
   ],
   "kiñcanato": [
-    "kiñcana 1",
-    "kiñcana 2",
-    "kiñcana 3",
-    "kiñcana 4",
-    "kiñcana 5"
+    "kiñcana 1.1",
+    "kiñcana 1.2",
+    "kiñcana 1.3",
+    "kiñcana 1.4",
+    "kiñcana 1.5",
+    "kiñcana 2.1"
   ],
   "kiñcanatasmiṃ": [
     "kiñcanatasmiṃ"
@@ -136400,12 +136382,13 @@ dpd_i2h = {
   "kīvaciraṃ": [
     "kīvaciraṃ"
   ],
+  "kīvatikā": [
+    "kīvataka",
+    "kīvatika"
+  ],
   "kīvatakaṃ": [
     "kīvataka",
     "kīvatakaṃ"
-  ],
-  "kīvatikā": [
-    "kīvatika"
   ],
   "kīvadīgho": [
     "kīvadīgha"
@@ -137436,10 +137419,6 @@ dpd_i2h = {
   ],
   "kudāssu": [
     "kudāssu"
-  ],
-  "kuddāla": [
-    "kuddāla",
-    "kuddālā"
   ],
   "kuddālako": [
     "kuddālaka"
@@ -139969,6 +139948,9 @@ dpd_i2h = {
   "kokanado": [
     "kokanada 2"
   ],
+  "kokanadāhi": [
+    "kokanadā"
+  ],
   "kokanudo": [
     "kokanuda"
   ],
@@ -140432,9 +140414,6 @@ dpd_i2h = {
     "kodhajāta"
   ],
   "kodhataṃ": [
-    "kodhatā"
-  ],
-  "kodhata": [
     "kodhatā"
   ],
   "kodhano": [
@@ -141336,9 +141315,6 @@ dpd_i2h = {
   ],
   "kvettha": [
     "kvettha"
-  ],
-  "khaṃ": [
-    "kha 2"
   ],
   "khā": [
     "kha 2"
@@ -143130,9 +143106,6 @@ dpd_i2h = {
   "khāditāni": [
     "khādita"
   ],
-  "khāditapubbāni": [
-    "khāditapubba"
-  ],
   "khāditabbaṃ": [
     "khāditabba"
   ],
@@ -144753,6 +144726,11 @@ dpd_i2h = {
   "gehi": [
     "ga 1.1"
   ],
+  "gāhi": [
+    "ga 1.1",
+    "gāhī 1",
+    "gāhī 2"
+  ],
   "gato": [
     "ga 1.1",
     "gata 1",
@@ -146333,6 +146311,9 @@ dpd_i2h = {
   "gatimantānaṃ": [
     "gatimant 1",
     "gatimant 2"
+  ],
+  "gativaggo": [
+    "gativagga"
   ],
   "gativaggoti": [
     "gativagga"
@@ -148356,6 +148337,7 @@ dpd_i2h = {
     "gaha 1",
     "gaha 4",
     "gaha 5",
+    "gaha 6",
     "gahi"
   ],
   "gahe": [
@@ -148364,6 +148346,7 @@ dpd_i2h = {
     "gaha 3",
     "gaha 4",
     "gaha 5",
+    "gaha 6",
     "gahati"
   ],
   "gahakāni": [
@@ -149640,9 +149623,6 @@ dpd_i2h = {
   ],
   "gāyitabbo": [
     "gāyitabba"
-  ],
-  "gārayha": [
-    "gārayha"
   ],
   "gārayho": [
     "gārayha"
@@ -152420,12 +152400,14 @@ dpd_i2h = {
     "ghaṭā 2.1",
     "ghaṭā 3.1",
     "ghaṭeti 1.1",
+    "ghaṭeti 1.2",
     "ghaṭeti 2.1"
   ],
   "ghaṭehi": [
     "ghaṭa 1.1",
     "ghaṭa 1.2",
     "ghaṭeti 1.1",
+    "ghaṭeti 1.2",
     "ghaṭeti 2.1"
   ],
   "ghaṭāya": [
@@ -152451,6 +152433,7 @@ dpd_i2h = {
     "ghaṭā 2.1",
     "ghaṭā 3.1",
     "ghaṭeti 1.1",
+    "ghaṭeti 1.2",
     "ghaṭeti 2.1"
   ],
   "ghaṭakaṃ": [
@@ -152476,11 +152459,13 @@ dpd_i2h = {
   "ghaṭetha": [
     "ghaṭati",
     "ghaṭeti 1.1",
+    "ghaṭeti 1.2",
     "ghaṭeti 2.1"
   ],
   "ghaṭeyyātha": [
     "ghaṭati",
     "ghaṭeti 1.1",
+    "ghaṭeti 1.2",
     "ghaṭeti 2.1"
   ],
   "ghaṭissaṃ": [
@@ -152619,10 +152604,12 @@ dpd_i2h = {
   ],
   "ghaṭenti": [
     "ghaṭeti 1.1",
+    "ghaṭeti 1.2",
     "ghaṭeti 2.1"
   ],
   "ghaṭessāma": [
     "ghaṭeti 1.1",
+    "ghaṭeti 1.2",
     "ghaṭeti 2.1"
   ],
   "ghaṭṭehi": [
@@ -153303,6 +153290,9 @@ dpd_i2h = {
     "ghosa 1",
     "ghosa 2",
     "ghosa 3"
+  ],
+  "ghosakaseṭṭhi": [
+    "ghosakaseṭṭhī"
   ],
   "ghosappamāṇo": [
     "ghosappamāṇa"
@@ -154975,6 +154965,9 @@ dpd_i2h = {
   ],
   "catubbhāgaṃ": [
     "catubbhāga"
+  ],
+  "catubhāga": [
+    "catubhāga"
   ],
   "catubhāgaṃ": [
     "catubhāga"
@@ -159086,37 +159079,44 @@ dpd_i2h = {
   "cunda": [
     "cunda 1",
     "cunda 2",
-    "cunda 3"
+    "cunda 3",
+    "cunda 4"
   ],
   "cundo": [
     "cunda 1",
     "cunda 2",
-    "cunda 3"
+    "cunda 3",
+    "cunda 4"
   ],
   "cundaṃ": [
     "cunda 1",
     "cunda 2",
-    "cunda 3"
+    "cunda 3",
+    "cunda 4"
   ],
   "cundena": [
     "cunda 1",
     "cunda 2",
-    "cunda 3"
+    "cunda 3",
+    "cunda 4"
   ],
   "cundassa": [
     "cunda 1",
     "cunda 2",
-    "cunda 3"
+    "cunda 3",
+    "cunda 4"
   ],
   "cundāti": [
     "cunda 1",
     "cunda 2",
-    "cunda 3"
+    "cunda 3",
+    "cunda 4"
   ],
   "cundopi": [
     "cunda 1",
     "cunda 2",
-    "cunda 3"
+    "cunda 3",
+    "cunda 4"
   ],
   "cundaka": [
     "cundaka"
@@ -160342,11 +160342,6 @@ dpd_i2h = {
     "codesi 2"
   ],
   "codemi": [
-    "codeti 1",
-    "codeti 2",
-    "codeti 3"
-  ],
-  "codentu": [
     "codeti 1",
     "codeti 2",
     "codeti 3"
@@ -161645,12 +161640,6 @@ dpd_i2h = {
   "chandī": [
     "chandī"
   ],
-  "chandi": [
-    "chandī"
-  ],
-  "chandiṃ": [
-    "chandī"
-  ],
   "chandūpasaṃhita": [
     "chandūpasaṃhita"
   ],
@@ -162029,11 +162018,6 @@ dpd_i2h = {
   ],
   "chayojanikāpi": [
     "chayojanika"
-  ],
-  "chava": [
-    "chava 1",
-    "chava 2",
-    "chava 3"
   ],
   "chave": [
     "chava 1",
@@ -164421,9 +164405,6 @@ dpd_i2h = {
   "jambucchāyāya": [
     "jambucchāyā"
   ],
-  "jambudīpa": [
-    "jambudīpa"
-  ],
   "jambudīpo": [
     "jambudīpa"
   ],
@@ -166147,11 +166128,6 @@ dpd_i2h = {
     "jānapada 3"
   ],
   "jānapade": [
-    "jānapada 1",
-    "jānapada 2",
-    "jānapada 3"
-  ],
-  "jānapadassa": [
     "jānapada 1",
     "jānapada 2",
     "jānapada 3"
@@ -168267,11 +168243,6 @@ dpd_i2h = {
   "jotanti": [
     "jotati"
   ],
-  "jota": [
-    "jotati",
-    "jotanta",
-    "joti 4"
-  ],
   "jotayanti": [
     "jotayati"
   ],
@@ -170260,8 +170231,7 @@ dpd_i2h = {
     "ṭhāpayati"
   ],
   "ṭhāpaye": [
-    "ṭhāpayati",
-    "ṭhāpaye"
+    "ṭhāpayati"
   ],
   "ṭhāyāmi": [
     "ṭhāyati"
@@ -171000,9 +170970,6 @@ dpd_i2h = {
     "ta 1.1",
     "tāsu"
   ],
-  "nāsu": [
-    "ta 1.1"
-  ],
   "tañca": [
     "ta 1.1",
     "tañca 1",
@@ -171684,16 +171651,6 @@ dpd_i2h = {
   "taconaddhe": [
     "taconaddha"
   ],
-  "taccha": [
-    "taccha 1",
-    "taccha 2",
-    "tacchati 1",
-    "tacchati 2",
-    "tacchati 3",
-    "tacchati 4",
-    "tacchanta",
-    "tacchi"
-  ],
   "taccho": [
     "taccha 1",
     "tacchi"
@@ -171980,9 +171937,6 @@ dpd_i2h = {
     "taṇhā 2",
     "taṇhā 3",
     "taṇhā 4"
-  ],
-  "taṇho": [
-    "taṇha"
   ],
   "taṇhā": [
     "taṇha",
@@ -172826,11 +172780,6 @@ dpd_i2h = {
   "tatohaṃ": [
     "tatohaṃ"
   ],
-  "tatta": [
-    "tatta 1.1",
-    "tatta 1.2",
-    "tatta 3.1"
-  ],
   "tatto": [
     "tatta 1.1",
     "tatta 1.2"
@@ -173353,6 +173302,10 @@ dpd_i2h = {
     "tathārūpa 1",
     "tathārūpa 2"
   ],
+  "tathārūpī": [
+    "tathārūpa 1",
+    "tathārūpa 2"
+  ],
   "tathārūpaṃ": [
     "tathārūpa 1",
     "tathārūpa 2"
@@ -173578,9 +173531,6 @@ dpd_i2h = {
   ],
   "tadattāya": [
     "tadatta"
-  ],
-  "tadattha": [
-    "tadattha"
   ],
   "tadatthāya": [
     "tadattha",
@@ -174969,11 +174919,6 @@ dpd_i2h = {
   "taritunti": [
     "tarituṃ"
   ],
-  "taruṇa": [
-    "taruṇa 1",
-    "taruṇa 2",
-    "taruṇa 3"
-  ],
   "taruṇo": [
     "taruṇa 1",
     "taruṇa 2",
@@ -176130,21 +176075,6 @@ dpd_i2h = {
   "tāḷāvacaraṃ": [
     "tāḷāvacara 1",
     "tāḷāvacara 2"
-  ],
-  "tāḷita": [
-    "tāḷita 1",
-    "tāḷita 2",
-    "tāḷita 3"
-  ],
-  "tāḷitā": [
-    "tāḷita 1",
-    "tāḷita 2",
-    "tāḷita 3"
-  ],
-  "tāḷito": [
-    "tāḷita 2",
-    "tāḷita 3",
-    "tāḷī"
   ],
   "tāḷenti": [
     "tāḷeti"
@@ -179442,12 +179372,6 @@ dpd_i2h = {
   "tusseyya": [
     "tussati"
   ],
-  "tūriya": [
-    "tūriya 1",
-    "tūriya 2",
-    "tūriya 3",
-    "tūriya 4"
-  ],
   "tūriyā": [
     "tūriya 1",
     "tūriya 2",
@@ -179472,12 +179396,6 @@ dpd_i2h = {
     "tūriya 4"
   ],
   "tūriyassa": [
-    "tūriya 1",
-    "tūriya 2",
-    "tūriya 3",
-    "tūriya 4"
-  ],
-  "tūriyato": [
     "tūriya 1",
     "tūriya 2",
     "tūriya 3",
@@ -180948,7 +180866,8 @@ dpd_i2h = {
     "thutuṃ"
   ],
   "thunaṃ": [
-    "thunanta",
+    "thunanta 1.1",
+    "thunanta 2.1",
     "thuni"
   ],
   "thunanti": [
@@ -181085,10 +181004,6 @@ dpd_i2h = {
   ],
   "thuso": [
     "thusa 1"
-  ],
-  "thusā": [
-    "thusa 1",
-    "thusa 2"
   ],
   "thusaṃ": [
     "thusa 1",
@@ -181874,11 +181789,15 @@ dpd_i2h = {
   "dakkhasīti": [
     "dakkhati 1",
     "dakkhati 2",
-    "dakkhati 3"
+    "dakkhati 3",
+    "dakkhasī"
   ],
   "dakkhissatīti": [
     "dakkhati 1",
     "dakkhissati"
+  ],
+  "dakkhasī": [
+    "dakkhasī"
   ],
   "dakkhuṃ": [
     "dakkhi 1.1",
@@ -187144,13 +187063,6 @@ dpd_i2h = {
     "deti 3",
     "deti 4"
   ],
-  "dissantu": [
-    "dissati 1.1",
-    "dissati 1.2",
-    "dissati 1.3",
-    "dissati 1.4",
-    "dissati 2.1"
-  ],
   "dissatīti": [
     "dissati 1.1",
     "dissati 1.2",
@@ -187188,6 +187100,9 @@ dpd_i2h = {
     "deti 4"
   ],
   "dissanta": [
+    "dissanta"
+  ],
+  "dissanto": [
     "dissanta"
   ],
   "dissatī": [
@@ -187350,7 +187265,7 @@ dpd_i2h = {
     "dīghamaddhāna 2"
   ],
   "dīghamaddhānaṃ": [
-    "dīghamaddhāna",
+    "dīghamaddhāna 1",
     "dīghamaddhānaṃ"
   ],
   "dīghamāyu": [
@@ -188209,9 +188124,6 @@ dpd_i2h = {
     "dukkhabahula"
   ],
   "dukkhama": [
-    "dukkhama"
-  ],
-  "dukkhamā": [
     "dukkhama"
   ],
   "dukkhamaṃ": [
@@ -194434,6 +194346,9 @@ dpd_i2h = {
   "dosavasena": [
     "dosavasena"
   ],
+  "dosavinaya": [
+    "dosavinaya"
+  ],
   "dosavinayo": [
     "dosavinaya"
   ],
@@ -194698,9 +194613,6 @@ dpd_i2h = {
     "dvādasa 1",
     "dvādasa 2"
   ],
-  "dvādaso": [
-    "dvādasa 2"
-  ],
   "dvādasā": [
     "dvādasa 2"
   ],
@@ -194807,67 +194719,80 @@ dpd_i2h = {
   "dvāra": [
     "dvāra 1",
     "dvāra 2",
-    "dvāra 3"
+    "dvāra 3",
+    "dvāra 4"
   ],
   "dvāraṃ": [
     "dvāra 1",
     "dvāra 2",
-    "dvāra 3"
+    "dvāra 3",
+    "dvāra 4"
   ],
   "dvārā": [
     "dvāra 1",
     "dvāra 2",
-    "dvāra 3"
+    "dvāra 3",
+    "dvāra 4"
   ],
   "dvārāni": [
     "dvāra 1",
     "dvāra 2",
-    "dvāra 3"
+    "dvāra 3",
+    "dvāra 4"
   ],
   "dvāre": [
     "dvāra 1",
     "dvāra 2",
-    "dvāra 3"
+    "dvāra 3",
+    "dvāra 4"
   ],
   "dvārena": [
     "dvāra 1",
     "dvāra 2",
-    "dvāra 3"
+    "dvāra 3",
+    "dvāra 4"
   ],
   "dvārehi": [
     "dvāra 1",
     "dvāra 2",
-    "dvāra 3"
+    "dvāra 3",
+    "dvāra 4"
   ],
   "dvārassa": [
     "dvāra 1",
     "dvāra 2",
-    "dvāra 3"
+    "dvāra 3",
+    "dvāra 4"
   ],
   "dvāresu": [
     "dvāra 1",
     "dvāra 2",
-    "dvāra 3"
+    "dvāra 3",
+    "dvāra 4"
   ],
   "dvāranti": [
     "dvāra 1",
     "dvāra 2",
-    "dvāra 3"
+    "dvāra 3",
+    "dvāra 4"
   ],
   "dvārampi": [
     "dvāra 1",
     "dvāra 2",
-    "dvāra 3"
+    "dvāra 3",
+    "dvāra 4"
   ],
   "dvārāti": [
     "dvāra 1",
     "dvāra 2",
-    "dvāra 3"
+    "dvāra 3",
+    "dvāra 4"
   ],
   "dvāreneva": [
     "dvāra 1",
     "dvāra 2",
-    "dvāra 3"
+    "dvāra 3",
+    "dvāra 4"
   ],
   "dvārakoṭṭhakā": [
     "dvārakoṭṭhaka 1",
@@ -197646,23 +197571,28 @@ dpd_i2h = {
   ],
   "dhammarakkhito": [
     "dhammarakkhita 1",
-    "dhammarakkhita 2"
+    "dhammarakkhita 2",
+    "dhammarakkhita 3"
   ],
   "dhammarakkhitā": [
     "dhammarakkhita 1",
-    "dhammarakkhita 2"
+    "dhammarakkhita 2",
+    "dhammarakkhita 3"
   ],
   "dhammarakkhitaṃ": [
     "dhammarakkhita 1",
-    "dhammarakkhita 2"
+    "dhammarakkhita 2",
+    "dhammarakkhita 3"
   ],
   "dhammarakkhitāya": [
     "dhammarakkhita 1",
-    "dhammarakkhita 2"
+    "dhammarakkhita 2",
+    "dhammarakkhita 3"
   ],
   "dhammarakkhitañca": [
     "dhammarakkhita 1",
-    "dhammarakkhita 2"
+    "dhammarakkhita 2",
+    "dhammarakkhita 3"
   ],
   "dhammarato": [
     "dhammarata 1",
@@ -199698,10 +199628,6 @@ dpd_i2h = {
   "dhutavādānaṃ": [
     "dhutavāda"
   ],
-  "dhutta": [
-    "dhutta 1",
-    "dhutta 2"
-  ],
   "dhuttā": [
     "dhutta 1",
     "dhutta 2"
@@ -200413,9 +200339,6 @@ dpd_i2h = {
   "nakayavikkayasaññī": [
     "nakayavikkayasaññī"
   ],
-  "nakāra": [
-    "nakāra"
-  ],
   "nakula": [
     "nakula 1",
     "nakula 2"
@@ -200785,6 +200708,9 @@ dpd_i2h = {
   ],
   "nagarassāmīti": [
     "nagarassāmī"
+  ],
+  "nagari": [
+    "nagarī"
   ],
   "nagarūpakārikāsu": [
     "nagarūpakārikā"
@@ -203237,7 +203163,8 @@ dpd_i2h = {
     "navāvuta"
   ],
   "navāhā": [
-    "navāha"
+    "navāha",
+    "navāhā"
   ],
   "navāhappaṭicchannā": [
     "navāhappaṭicchanna"
@@ -204827,9 +204754,6 @@ dpd_i2h = {
   "nānattasitā": [
     "nānattasita"
   ],
-  "nānattha": [
-    "nānattha"
-  ],
   "nānatthā": [
     "nānattha"
   ],
@@ -204844,9 +204768,6 @@ dpd_i2h = {
   ],
   "nānantavā": [
     "nānantavant"
-  ],
-  "nānappakāra": [
-    "nānappakāra"
   ],
   "nānappakārassa": [
     "nānappakāra"
@@ -205237,7 +205158,8 @@ dpd_i2h = {
     "nānuggaṇhāpenta"
   ],
   "nānujaññā": [
-    "nānujaññā"
+    "nānujaññā 1",
+    "nānujaññā 2"
   ],
   "nānujānāti": [
     "nānujānāti"
@@ -206691,12 +206613,6 @@ dpd_i2h = {
     "nāseti 3",
     "nāseti 4"
   ],
-  "nāsentu": [
-    "nāseti 1",
-    "nāseti 2",
-    "nāseti 3",
-    "nāseti 4"
-  ],
   "nāsessanti": [
     "nāseti 1",
     "nāseti 2",
@@ -206724,6 +206640,9 @@ dpd_i2h = {
   ],
   "nāsetvā": [
     "nāsetvā"
+  ],
+  "nāsenta": [
+    "nāsenta"
   ],
   "nāsento": [
     "nāsenta"
@@ -208201,9 +208120,6 @@ dpd_i2h = {
     "nigghosa 2.4",
     "nigghosa 2.5"
   ],
-  "nigghosasaddaṃ": [
-    "nigghosasadda"
-  ],
   "nigrodha": [
     "nigrodha 1",
     "nigrodha 2",
@@ -208452,9 +208368,6 @@ dpd_i2h = {
     "niccuyyuta"
   ],
   "nicchati": [
-    "nicchati"
-  ],
-  "niccha": [
     "nicchati"
   ],
   "niccheyya": [
@@ -212665,10 +212578,12 @@ dpd_i2h = {
     "nivattanta 2"
   ],
   "nivattāpeti": [
-    "nivattāpeti"
+    "nivattāpeti 1",
+    "nivattāpeti 2"
   ],
   "nivattāpetīti": [
-    "nivattāpeti"
+    "nivattāpeti 1",
+    "nivattāpeti 2"
   ],
   "nivattāpetvā": [
     "nivattāpetvā"
@@ -213260,9 +213175,6 @@ dpd_i2h = {
   ],
   "nisammakārino": [
     "nisammakārī"
-  ],
-  "nisa": [
-    "nisā"
   ],
   "nisāmakajātiko": [
     "nisāmakajātika"
@@ -215310,6 +215222,9 @@ dpd_i2h = {
     "negamajānapada"
   ],
   "negamajānapadā": [
+    "negamajānapada"
+  ],
+  "negamajānapadaṃ": [
     "negamajānapada"
   ],
   "negamajānapadassa": [
@@ -219866,9 +219781,6 @@ dpd_i2h = {
     "pacchābhatta",
     "pacchābhattaṃ"
   ],
-  "pacchābhūma": [
-    "pacchābhūma"
-  ],
   "pacchābhūmaṃ": [
     "pacchābhūma"
   ],
@@ -221345,6 +221257,9 @@ dpd_i2h = {
   "pañcasatikāti": [
     "pañcasatikā"
   ],
+  "pañcasatimaṃ": [
+    "pañcasatima"
+  ],
   "pañcasatī": [
     "pañcasatī"
   ],
@@ -221648,13 +221563,6 @@ dpd_i2h = {
     "paññā 1",
     "paññā 2"
   ],
-  "paññāyo": [
-    "pañña",
-    "paññā 1",
-    "paññāyi 1",
-    "paññāyi 2",
-    "paññāyi 3"
-  ],
   "paññaṃ": [
     "pañña",
     "paññā 1"
@@ -221675,13 +221583,6 @@ dpd_i2h = {
   ],
   "paññassa": [
     "pañña"
-  ],
-  "paññāyaṃ": [
-    "pañña",
-    "paññā 1",
-    "paññāyi 1",
-    "paññāyi 2",
-    "paññāyi 3"
   ],
   "paññañca": [
     "pañña",
@@ -223082,9 +222983,6 @@ dpd_i2h = {
   ],
   "pañhāsamudāhāro": [
     "pañhāsamudāhāra"
-  ],
-  "paṭa": [
-    "paṭa"
   ],
   "paṭo": [
     "paṭa"
@@ -228460,10 +228358,6 @@ dpd_i2h = {
   "paṭhamasmiṃ": [
     "paṭhama 1"
   ],
-  "paṭhamāsu": [
-    "paṭhama 1",
-    "paṭhamā"
-  ],
   "paṭhamañca": [
     "paṭhama 1",
     "paṭhamaṃ 1",
@@ -229421,7 +229315,8 @@ dpd_i2h = {
   ],
   "paṇāmetvā": [
     "paṇāmetvā 1",
-    "paṇāmetvā 2"
+    "paṇāmetvā 2",
+    "paṇāmetvā 3"
   ],
   "paṇāmento": [
     "paṇāmenta 1",
@@ -231888,7 +231783,8 @@ dpd_i2h = {
     "pathati"
   ],
   "pathantaṃ": [
-    "pathati"
+    "pathati",
+    "pathanta"
   ],
   "pathabyo": [
     "pathabya"
@@ -233855,10 +233751,6 @@ dpd_i2h = {
   ],
   "papupphakāni": [
     "papupphaka"
-  ],
-  "pappaṭako": [
-    "pappaṭaka 1",
-    "pappaṭaka 2"
   ],
   "pappaṭakojaṃ": [
     "pappaṭakojas"
@@ -236048,7 +235940,8 @@ dpd_i2h = {
     "para 5",
     "parama 1",
     "parama 2",
-    "paramaṃ",
+    "paramaṃ 1",
+    "paramaṃ 2",
     "paraṃ"
   ],
   "parampi": [
@@ -236580,7 +236473,8 @@ dpd_i2h = {
   "paramaṃ": [
     "parama 1",
     "parama 2",
-    "paramaṃ"
+    "paramaṃ 1",
+    "paramaṃ 2"
   ],
   "paramāni": [
     "parama 1",
@@ -236601,7 +236495,8 @@ dpd_i2h = {
   "paramanti": [
     "parama 1",
     "parama 2",
-    "paramaṃ"
+    "paramaṃ 1",
+    "paramaṃ 2"
   ],
   "paramakusalo": [
     "paramakusala"
@@ -238907,6 +238802,10 @@ dpd_i2h = {
   ],
   "parittāṇakiṭikaṃ": [
     "parittāṇakiṭika"
+  ],
+  "parittābha": [
+    "parittābha",
+    "parittābhā"
   ],
   "parittābhā": [
     "parittābha",
@@ -241536,7 +241435,8 @@ dpd_i2h = {
   ],
   "pariyāyavacanaṃ": [
     "pariyāyavacana 1",
-    "pariyāyavacana 2"
+    "pariyāyavacana 2",
+    "pariyāyavacana 3"
   ],
   "pariyāyasutta": [
     "pariyāyasutta"
@@ -241897,6 +241797,9 @@ dpd_i2h = {
     "pariyosāna 2",
     "pariyosāna 3",
     "pariyosāna 4"
+  ],
+  "pariyosāno": [
+    "pariyosāna 2"
   ],
   "pariyosānakalyāṇā": [
     "pariyosānakalyāṇa"
@@ -242432,6 +242335,12 @@ dpd_i2h = {
   "parivīmaṃseyya": [
     "parivīmaṃsati"
   ],
+  "parivīmaṃsana": [
+    "parivīmaṃsana"
+  ],
+  "parivīmaṃsanā": [
+    "parivīmaṃsana"
+  ],
   "parivīmaṃsanasutta": [
     "parivīmaṃsanasutta"
   ],
@@ -242887,7 +242796,7 @@ dpd_i2h = {
   "parisuddhājīvatāya": [
     "parisuddhājīvatā"
   ],
-  "parisuddhābhā": [
+  "parisuddhābha": [
     "parisuddhābha",
     "parisuddhābhā"
   ],
@@ -242900,10 +242809,6 @@ dpd_i2h = {
     "parisuddhābhā"
   ],
   "parisuddhi": [
-    "parisuddhi 1",
-    "parisuddhi 2"
-  ],
-  "parisuddhī": [
     "parisuddhi 1",
     "parisuddhi 2"
   ],
@@ -244575,10 +244480,6 @@ dpd_i2h = {
   ],
   "pavassu": [
     "pavāti"
-  ],
-  "pavāda": [
-    "pavāda 1",
-    "pavāda 2"
   ],
   "pavādiyāse": [
     "pavādiya"
@@ -246922,9 +246823,6 @@ dpd_i2h = {
     "passati 3",
     "passati 4"
   ],
-  "passaddha": [
-    "passaddha"
-  ],
   "passaddho": [
     "passaddha"
   ],
@@ -247272,7 +247170,8 @@ dpd_i2h = {
   ],
   "pahara": [
     "paharati",
-    "paharanta",
+    "paharanta 1",
+    "paharanta 2",
     "pahari"
   ],
   "pahareyya": [
@@ -248278,9 +248177,6 @@ dpd_i2h = {
   ],
   "pācittiyadiṭṭhino": [
     "pācittiyadiṭṭhi"
-  ],
-  "pācittiyapāḷi": [
-    "pācittiyapāḷi"
   ],
   "pācittiyāpatti": [
     "pācittiyāpatti"
@@ -249974,7 +249870,9 @@ dpd_i2h = {
     "pādamaṇḍanānuyogamanuyutta"
   ],
   "pādamūle": [
-    "pādamūla",
+    "pādamūla 1",
+    "pādamūla 2",
+    "pādamūla 3",
     "pādamūle"
   ],
   "pādalolo": [
@@ -250081,9 +249979,6 @@ dpd_i2h = {
     "pāna 1",
     "pāna 2",
     "pāna 3"
-  ],
-  "pānakā": [
-    "pānaka"
   ],
   "pānakathā": [
     "pānakathā"
@@ -251278,6 +251173,9 @@ dpd_i2h = {
   ],
   "pāyāsā": [
     "pāyāsa"
+  ],
+  "pāyaṃsu": [
+    "pāyāsi 1"
   ],
   "pāyiṃsu": [
     "pāyāsi 1",
@@ -253273,9 +253171,6 @@ dpd_i2h = {
     "piti",
     "pitito"
   ],
-  "pite": [
-    "piti"
-  ],
   "pituaṅke": [
     "pituaṅka"
   ],
@@ -253874,9 +253769,6 @@ dpd_i2h = {
   "piyaṃvadā": [
     "piyaṃvada"
   ],
-  "piyāto": [
-    "piyā"
-  ],
   "piyāpāyo": [
     "piyāpāya"
   ],
@@ -254326,37 +254218,48 @@ dpd_i2h = {
     "piḷandhanavikati"
   ],
   "pīṭha": [
-    "pīṭha"
+    "pīṭha 1",
+    "pīṭha 2"
   ],
   "pīṭhaṃ": [
-    "pīṭha"
+    "pīṭha 1",
+    "pīṭha 2"
   ],
   "pīṭhāni": [
-    "pīṭha"
+    "pīṭha 1",
+    "pīṭha 2"
   ],
   "pīṭhe": [
-    "pīṭha"
+    "pīṭha 1",
+    "pīṭha 2"
   ],
   "pīṭhena": [
-    "pīṭha"
+    "pīṭha 1",
+    "pīṭha 2"
   ],
   "pīṭhassa": [
-    "pīṭha"
+    "pīṭha 1",
+    "pīṭha 2"
   ],
   "pīṭhañca": [
-    "pīṭha"
+    "pīṭha 1",
+    "pīṭha 2"
   ],
   "pīṭhanti": [
-    "pīṭha"
+    "pīṭha 1",
+    "pīṭha 2"
   ],
   "pīṭhampi": [
-    "pīṭha"
+    "pīṭha 1",
+    "pīṭha 2"
   ],
   "pīṭhassapi": [
-    "pīṭha"
+    "pīṭha 1",
+    "pīṭha 2"
   ],
   "pīṭhepi": [
-    "pīṭha"
+    "pīṭha 1",
+    "pīṭha 2"
   ],
   "pīṭhakaṃ": [
     "pīṭhaka"
@@ -256921,11 +256824,6 @@ dpd_i2h = {
     "pubbaṃ 2",
     "pubbā"
   ],
-  "pubbāni": [
-    "pubba 1.1",
-    "pubba 1.2",
-    "pubba 1.3"
-  ],
   "pubbe": [
     "pubba 1.1",
     "pubba 1.2",
@@ -257820,13 +257718,6 @@ dpd_i2h = {
   ],
   "purindadoti": [
     "purindada"
-  ],
-  "purima": [
-    "purima 1",
-    "purima 2",
-    "purima 3",
-    "purima 4",
-    "purima 5"
   ],
   "purimo": [
     "purima 1",
@@ -260188,9 +260079,6 @@ dpd_i2h = {
     "poriseyya"
   ],
   "porī": [
-    "porī"
-  ],
-  "pori": [
     "porī"
   ],
   "poriyā": [
@@ -262671,6 +262559,7 @@ dpd_i2h = {
     "bandhana 8"
   ],
   "bandhano": [
+    "bandhana 5",
     "bandhana 7",
     "bandhana 8"
   ],
@@ -263828,10 +263717,6 @@ dpd_i2h = {
   "bahupāyāsaṃ": [
     "bahupāyāsa"
   ],
-  "bahuputta": [
-    "bahuputta 1",
-    "bahuputta 2"
-  ],
   "bahuputtaṃ": [
     "bahuputta 1",
     "bahuputta 2"
@@ -264241,6 +264126,12 @@ dpd_i2h = {
   ],
   "baḷisasutta": [
     "baḷisasutta"
+  ],
+  "bā": [
+    "bā"
+  ],
+  "ba": [
+    "bā"
   ],
   "bākula": [
     "bākula 1",
@@ -269413,7 +269304,8 @@ dpd_i2h = {
     "bhañjati 2"
   ],
   "bhañjanake": [
-    "bhañjanaka"
+    "bhañjanaka 1",
+    "bhañjanaka 2"
   ],
   "bhañji": [
     "bhañji"
@@ -271287,9 +271179,6 @@ dpd_i2h = {
   "bhayānakaṃ": [
     "bhayānaka"
   ],
-  "bhayānake": [
-    "bhayānaka"
-  ],
   "bhayānakataro": [
     "bhayānakatara"
   ],
@@ -272428,14 +272317,6 @@ dpd_i2h = {
     "bhasmapuṭa 1",
     "bhasmapuṭa 2"
   ],
-  "bhassa": [
-    "bhassa 1.1",
-    "bhassa 1.2",
-    "bhassa 2.1",
-    "bhassati",
-    "bhassanta 1.1",
-    "bhassi"
-  ],
   "bhassā": [
     "bhassa 1.1",
     "bhassa 1.2",
@@ -272523,9 +272404,6 @@ dpd_i2h = {
   ],
   "bhassārāmataṃ": [
     "bhassārāmatā"
-  ],
-  "bhassi": [
-    "bhassi"
   ],
   "bhāya": [
     "bhā 1.1",
@@ -272625,9 +272503,6 @@ dpd_i2h = {
   ],
   "bhāgimā": [
     "bhāgimant"
-  ],
-  "bhāgiya": [
-    "bhāgiya"
   ],
   "bhāgiyā": [
     "bhāgiya",
@@ -272924,10 +272799,6 @@ dpd_i2h = {
     "bhāsati 2.2",
     "bhāsā",
     "bhāse"
-  ],
-  "bhassu": [
-    "bhāti 1.1",
-    "bheti"
   ],
   "bhātiriva": [
     "bhāti 1.1",
@@ -273656,12 +273527,14 @@ dpd_i2h = {
     "bhāsati 2.2",
     "bhāsanta",
     "bhāsā",
+    "bhāsi 1.1",
     "bhāsi 1.3",
     "bhāsi 2.1"
   ],
   "bhāso": [
     "bhāsa 1.1",
     "bhāsa 2.1",
+    "bhāsi 1.1",
     "bhāsi 1.3",
     "bhāsi 2.1"
   ],
@@ -273670,6 +273543,7 @@ dpd_i2h = {
     "bhāsa 2.1",
     "bhāsanta",
     "bhāsā",
+    "bhāsi 1.1",
     "bhāsi 1.3",
     "bhāsi 2.1"
   ],
@@ -273678,6 +273552,7 @@ dpd_i2h = {
     "bhāsa 2.1",
     "bhāsanta",
     "bhāsā",
+    "bhāsi 1.1",
     "bhāsi 1.3",
     "bhāsi 2.1"
   ],
@@ -273974,6 +273849,11 @@ dpd_i2h = {
   "bhāsasī": [
     "bhāsasī"
   ],
+  "bhāsiṃsu": [
+    "bhāsi 1.1",
+    "bhāsi 1.3",
+    "bhāsi 2.1"
+  ],
   "bhāsittha": [
     "bhāsi 1.1",
     "bhāsi 1.2",
@@ -273986,10 +273866,6 @@ dpd_i2h = {
     "bhāsi 1.3",
     "bhāsi 2.1",
     "bhāsī"
-  ],
-  "bhāsiṃsu": [
-    "bhāsi 1.3",
-    "bhāsi 2.1"
   ],
   "bhāsita": [
     "bhāsita 1",
@@ -274433,9 +274309,6 @@ dpd_i2h = {
     "bhikkhuniparisā"
   ],
   "bhikkhunivibhaṅga": [
-    "bhikkhunivibhaṅga"
-  ],
-  "bhikkhunivibhaṅgo": [
     "bhikkhunivibhaṅga"
   ],
   "bhikkhunivibhaṅge": [
@@ -276271,6 +276144,9 @@ dpd_i2h = {
     "bhūtatta 1",
     "bhūtatta 2"
   ],
+  "bhūtattha": [
+    "bhūtattha"
+  ],
   "bhūtattheragāthā": [
     "bhūtattheragāthā"
   ],
@@ -276752,11 +276628,6 @@ dpd_i2h = {
   ],
   "bhedajananiṃ": [
     "bhedajananī"
-  ],
-  "bhedana": [
-    "bhedana 1",
-    "bhedana 2",
-    "bhedana 3"
   ],
   "bhedanaṃ": [
     "bhedana 1",
@@ -283221,10 +283092,6 @@ dpd_i2h = {
   "malitavambhattheragāthā": [
     "malitavambhattheragāthā"
   ],
-  "malla": [
-    "malla",
-    "mallā"
-  ],
   "mallo": [
     "malla"
   ],
@@ -283321,6 +283188,9 @@ dpd_i2h = {
   "mallike": [
     "mallikā 1",
     "mallikā 2"
+  ],
+  "mallikādevī": [
+    "mallikādevī"
   ],
   "mallikādevīsutta": [
     "mallikādevīsutta"
@@ -284846,16 +284716,7 @@ dpd_i2h = {
   "mahāpuñño": [
     "mahāpuñña"
   ],
-  "mahāpuññakkhandha": [
-    "mahāpuññakkhandha"
-  ],
   "mahāpuññakkhandho": [
-    "mahāpuññakkhandha"
-  ],
-  "mahāpuññakkhandhā": [
-    "mahāpuññakkhandha"
-  ],
-  "mahāpuññakkhandhaṃ": [
     "mahāpuññakkhandha"
   ],
   "mahāpuṇṇa": [
@@ -286198,7 +286059,8 @@ dpd_i2h = {
     "mahogha"
   ],
   "mahodakaṃ": [
-    "mahodaka"
+    "mahodaka 1",
+    "mahodaka 2"
   ],
   "mahodadhī": [
     "mahodadhi"
@@ -286365,6 +286227,7 @@ dpd_i2h = {
   "mānaṃ": [
     "mā 2.1",
     "māna 1.1",
+    "māna 1.2",
     "māna 2.1"
   ],
   "māto": [
@@ -286393,6 +286256,7 @@ dpd_i2h = {
   "mānañca": [
     "mā 2.1",
     "māna 1.1",
+    "māna 1.2",
     "māna 2.1"
   ],
   "māyañca": [
@@ -287251,29 +287115,36 @@ dpd_i2h = {
   ],
   "māna": [
     "māna 1.1",
+    "māna 1.2",
     "māna 2.1"
   ],
   "māno": [
-    "māna 1.1"
+    "māna 1.1",
+    "māna 1.2"
   ],
   "mānā": [
     "māna 1.1",
+    "māna 1.2",
     "māna 2.1"
   ],
   "mānena": [
     "māna 1.1",
+    "māna 1.2",
     "māna 2.1"
   ],
   "mānassa": [
     "māna 1.1",
+    "māna 1.2",
     "māna 2.1"
   ],
   "mānato": [
     "māna 1.1",
+    "māna 1.2",
     "māna 2.1"
   ],
   "mānasmiṃ": [
     "māna 1.1",
+    "māna 1.2",
     "māna 2.1"
   ],
   "mānakāmassa": [
@@ -287292,10 +287163,12 @@ dpd_i2h = {
     "mānagata"
   ],
   "mānaganthā": [
-    "mānagantha"
+    "mānagantha 1",
+    "mānagantha 2"
   ],
   "mānaganthassa": [
-    "mānagantha"
+    "mānagantha 1",
+    "mānagantha 2"
   ],
   "mānaganthābhibhuno": [
     "mānaganthābhibhū"
@@ -290963,32 +290836,38 @@ dpd_i2h = {
   "mudu": [
     "mudu 1",
     "mudu 2",
-    "mudu 3"
+    "mudu 3",
+    "mudu 4"
   ],
   "mudū": [
     "mudu 1",
     "mudu 2",
-    "mudu 3"
+    "mudu 3",
+    "mudu 4"
   ],
   "mudūni": [
     "mudu 1",
     "mudu 2",
-    "mudu 3"
+    "mudu 3",
+    "mudu 4"
   ],
   "muduṃ": [
     "mudu 1",
     "mudu 2",
-    "mudu 3"
+    "mudu 3",
+    "mudu 4"
   ],
   "mudunā": [
     "mudu 1",
     "mudu 2",
-    "mudu 3"
+    "mudu 3",
+    "mudu 4"
   ],
   "muduñca": [
     "mudu 1",
     "mudu 2",
-    "mudu 3"
+    "mudu 3",
+    "mudu 4"
   ],
   "mudukā": [
     "muduka"
@@ -291824,11 +291703,6 @@ dpd_i2h = {
     "mūlaka 1",
     "mūlaka 2",
     "mūlaka 3",
-    "mūlaka 4"
-  ],
-  "mūlakāni": [
-    "mūlaka 1",
-    "mūlaka 2",
     "mūlaka 4"
   ],
   "mūlakasutta": [
@@ -292992,9 +292866,6 @@ dpd_i2h = {
   "mocentassa": [
     "mocenta"
   ],
-  "moṇatā": [
-    "moṇatā"
-  ],
   "motabbaṃ": [
     "motabba"
   ],
@@ -293467,6 +293338,9 @@ dpd_i2h = {
   ],
   "mohavasena": [
     "mohavasena"
+  ],
+  "mohavinaya": [
+    "mohavinaya"
   ],
   "mohavinayo": [
     "mohavinaya"
@@ -295143,7 +295017,8 @@ dpd_i2h = {
     "yanta"
   ],
   "yantakaṃ": [
-    "yantaka"
+    "yantaka 1",
+    "yantaka 2"
   ],
   "yanti": [
     "yanti",
@@ -295264,7 +295139,8 @@ dpd_i2h = {
     "yamataggi"
   ],
   "yamāmase": [
-    "yamati"
+    "yamati 1",
+    "yamati 2"
   ],
   "yamadaggi": [
     "yamadaggi"
@@ -296012,9 +295888,6 @@ dpd_i2h = {
   "yājetvā": [
     "yājetvā"
   ],
-  "yāto": [
-    "yāta"
-  ],
   "yātaṃ": [
     "yāta"
   ],
@@ -296030,10 +295903,6 @@ dpd_i2h = {
     "yāti 1",
     "yāti 2"
   ],
-  "yātu": [
-    "yāti 1",
-    "yāti 2"
-  ],
   "yatha": [
     "yāti 1",
     "yāti 2"
@@ -296042,9 +295911,6 @@ dpd_i2h = {
     "yātrā 1",
     "yātrā 2",
     "yātrā 3"
-  ],
-  "yātvā": [
-    "yātvā"
   ],
   "yāthāvaṃ": [
     "yāthāva"
@@ -296133,9 +295999,6 @@ dpd_i2h = {
     "yāna 1",
     "yāna 2",
     "yāna 3"
-  ],
-  "yānake": [
-    "yānaka"
   ],
   "yānakathā": [
     "yānakathā"
@@ -299375,12 +299238,6 @@ dpd_i2h = {
   "rabhasā": [
     "rabhasa"
   ],
-  "rama": [
-    "rama",
-    "ramati",
-    "ramanta",
-    "rami"
-  ],
   "rame": [
     "rama",
     "ramati",
@@ -299950,9 +299807,6 @@ dpd_i2h = {
   ],
   "rasmiggāho": [
     "rasmiggāha"
-  ],
-  "rassa": [
-    "rassa 1"
   ],
   "rasso": [
     "rassa 1"
@@ -301907,6 +301761,10 @@ dpd_i2h = {
     "rūpa 5",
     "rūpa 8"
   ],
+  "rūpāhi": [
+    "rūpa 4",
+    "rūpa 5"
+  ],
   "rūpaaññāṇasutta": [
     "rūpaaññāṇasutta"
   ],
@@ -303550,9 +303408,6 @@ dpd_i2h = {
   "lajjīdhammo": [
     "lajjīdhamma"
   ],
-  "lañcassa": [
-    "lañca"
-  ],
   "lañchetabbaṃ": [
     "lañchetabba"
   ],
@@ -304355,6 +304210,9 @@ dpd_i2h = {
   "lanti": [
     "lāti"
   ],
+  "lāsi": [
+    "lāti"
+  ],
   "leyya": [
     "lāti",
     "leyya 1",
@@ -304676,6 +304534,9 @@ dpd_i2h = {
   ],
   "lāsentiyāpi": [
     "lāsenta"
+  ],
+  "lāḷudāyī": [
+    "lāḷudāyī"
   ],
   "likhati": [
     "likhati 1",
@@ -307728,41 +307589,47 @@ dpd_i2h = {
     "vacchāyana"
   ],
   "vaja": [
-    "vaja 1.1",
-    "vaja 1.2",
-    "vaja 1.3",
-    "vaja 2.1",
+    "vaja 1",
+    "vaja 2",
+    "vaja 3",
+    "vaja 4",
+    "vaja 5",
     "vajati",
     "vajanta",
     "vaji"
   ],
   "vajo": [
-    "vaja 1.1",
-    "vaja 1.2",
-    "vaja 1.3",
+    "vaja 1",
+    "vaja 2",
+    "vaja 3",
+    "vaja 4",
+    "vaja 5",
     "vaji"
   ],
   "vajaṃ": [
-    "vaja 1.1",
-    "vaja 1.2",
-    "vaja 1.3",
-    "vaja 2.1",
+    "vaja 1",
+    "vaja 2",
+    "vaja 3",
+    "vaja 4",
+    "vaja 5",
     "vajanta",
     "vaji"
   ],
   "vaje": [
-    "vaja 1.1",
-    "vaja 1.2",
-    "vaja 1.3",
-    "vaja 2.1",
+    "vaja 1",
+    "vaja 2",
+    "vaja 3",
+    "vaja 4",
+    "vaja 5",
     "vajati",
     "vaje"
   ],
   "vajeti": [
-    "vaja 1.1",
-    "vaja 1.2",
-    "vaja 1.3",
-    "vaja 2.1",
+    "vaja 1",
+    "vaja 2",
+    "vaja 3",
+    "vaja 4",
+    "vaja 5",
     "vajati",
     "vaje"
   ],
@@ -308384,13 +308251,6 @@ dpd_i2h = {
     "vaḍḍha 3",
     "vaḍḍhi 6"
   ],
-  "vaḍḍhā": [
-    "vaḍḍha 1",
-    "vaḍḍha 2",
-    "vaḍḍha 3",
-    "vaḍḍhanta",
-    "vaḍḍhi 6"
-  ],
   "vaḍḍhaṃ": [
     "vaḍḍha 1",
     "vaḍḍha 2",
@@ -308408,12 +308268,6 @@ dpd_i2h = {
     "vaḍḍha 2",
     "vaḍḍha 3"
   ],
-  "vaḍḍhato": [
-    "vaḍḍha 1",
-    "vaḍḍha 2",
-    "vaḍḍha 3",
-    "vaḍḍhanta"
-  ],
   "vaḍḍhateva": [
     "vaḍḍha 1",
     "vaḍḍha 2",
@@ -308427,9 +308281,6 @@ dpd_i2h = {
   "vaḍḍhanti": [
     "vaḍḍhati"
   ],
-  "vaḍḍhate": [
-    "vaḍḍhati"
-  ],
   "vaḍḍhante": [
     "vaḍḍhati",
     "vaḍḍhanta"
@@ -308438,9 +308289,6 @@ dpd_i2h = {
     "vaḍḍhati"
   ],
   "vaḍḍhāma": [
-    "vaḍḍhati"
-  ],
-  "vaḍḍhatu": [
     "vaḍḍhati"
   ],
   "vaḍḍheyyuṃ": [
@@ -309794,10 +309642,6 @@ dpd_i2h = {
     "vattanta 2"
   ],
   "vattanto": [
-    "vattanta 1",
-    "vattanta 2"
-  ],
-  "vattantā": [
     "vattanta 1",
     "vattanta 2"
   ],
@@ -312672,6 +312516,9 @@ dpd_i2h = {
   "vasitabbanti": [
     "vasitabba"
   ],
+  "vasitar": [
+    "vasitar"
+  ],
   "vasitvā": [
     "vasitvā"
   ],
@@ -315324,10 +315171,6 @@ dpd_i2h = {
   "vāsiṭṭhagottaṃ": [
     "vāsiṭṭhagotta"
   ],
-  "vāsita": [
-    "vāsita 1.1",
-    "vāsita 2.1"
-  ],
   "vāsitaṃ": [
     "vāsita 1.1",
     "vāsita 2.1"
@@ -317824,10 +317667,12 @@ dpd_i2h = {
     "viññattibahula 2"
   ],
   "viññatvā": [
-    "viññatvā"
+    "viññatvā 1",
+    "viññatvā 2"
   ],
   "viññatvāti": [
-    "viññatvā"
+    "viññatvā 1",
+    "viññatvā 2"
   ],
   "viññassanti": [
     "viññassati"
@@ -318560,16 +318405,16 @@ dpd_i2h = {
     "viññāpenta"
   ],
   "viññāpesuṃ": [
-    "viññāpesi",
-    "viññāpesi 1"
+    "viññāpesi 1",
+    "viññāpesi 2"
   ],
   "viññāpesiṃ": [
-    "viññāpesi",
-    "viññāpesi 1"
+    "viññāpesi 1",
+    "viññāpesi 2"
   ],
   "viññāpesinti": [
-    "viññāpesi",
-    "viññāpesi 1"
+    "viññāpesi 1",
+    "viññāpesi 2"
   ],
   "viññāya": [
     "viññāya",
@@ -320125,9 +319970,6 @@ dpd_i2h = {
     "vināseti 2",
     "vināseti 3"
   ],
-  "vini": [
-    "vini"
-  ],
   "vinikkhepā": [
     "vinikkhepa"
   ],
@@ -321231,6 +321073,10 @@ dpd_i2h = {
     "vippaṭipajjanta"
   ],
   "vippaṭipanna": [
+    "vippaṭipanna 1",
+    "vippaṭipanna 2"
+  ],
+  "vippaṭipanno": [
     "vippaṭipanna 1",
     "vippaṭipanna 2"
   ],
@@ -323580,9 +323426,6 @@ dpd_i2h = {
     "vilagga 2",
     "vilagga 3"
   ],
-  "vilaṅghakena": [
-    "vilaṅghaka"
-  ],
   "vilapanti": [
     "vilapati"
   ],
@@ -325756,7 +325599,8 @@ dpd_i2h = {
   ],
   "visodhehi": [
     "visodha",
-    "visodheti"
+    "visodheti 1",
+    "visodheti 2"
   ],
   "visodhaye": [
     "visodhayati"
@@ -325780,13 +325624,16 @@ dpd_i2h = {
     "visodhita 2"
   ],
   "visodheti": [
-    "visodheti"
+    "visodheti 1",
+    "visodheti 2"
   ],
   "visodhenti": [
-    "visodheti"
+    "visodheti 1",
+    "visodheti 2"
   ],
   "visodheyya": [
-    "visodheti"
+    "visodheti 1",
+    "visodheti 2"
   ],
   "visodhetvā": [
     "visodhetvā 1",
@@ -328139,6 +327986,9 @@ dpd_i2h = {
     "vīsā"
   ],
   "vīsati": [
+    "vīsati"
+  ],
+  "vīsatiṃ": [
     "vīsati"
   ],
   "vīsatiyā": [
@@ -338374,18 +338224,6 @@ dpd_i2h = {
   "saññapanañca": [
     "saññapana"
   ],
-  "saññama": [
-    "saññama"
-  ],
-  "saññamo": [
-    "saññama"
-  ],
-  "saññamā": [
-    "saññama"
-  ],
-  "saññamaṃ": [
-    "saññama"
-  ],
   "saññamena": [
     "saññama"
   ],
@@ -341054,11 +340892,11 @@ dpd_i2h = {
     "satthaka 1",
     "satthaka 2"
   ],
-  "satthakaṃ": [
+  "satthakā": [
     "satthaka 1",
     "satthaka 2"
   ],
-  "satthakā": [
+  "satthakaṃ": [
     "satthaka 1",
     "satthaka 2"
   ],
@@ -347124,9 +346962,6 @@ dpd_i2h = {
   "sabhattena": [
     "sabhatta"
   ],
-  "sabhaya": [
-    "sabhaya"
-  ],
   "sabhayo": [
     "sabhaya"
   ],
@@ -347134,9 +346969,6 @@ dpd_i2h = {
     "sabhaya"
   ],
   "sabhayaṃ": [
-    "sabhaya"
-  ],
-  "sabhayāna": [
     "sabhaya"
   ],
   "sabhayānake": [
@@ -350457,9 +350289,6 @@ dpd_i2h = {
   "samānavāso": [
     "samānavāsa"
   ],
-  "samānasaṃvāsa": [
-    "samānasaṃvāsa"
-  ],
   "samānasaṃvāsā": [
     "samānasaṃvāsa"
   ],
@@ -351983,9 +351812,6 @@ dpd_i2h = {
   "samūpamā": [
     "samūpama"
   ],
-  "samūla": [
-    "samūla"
-  ],
   "samūlaṃ": [
     "samūla"
   ],
@@ -352124,20 +351950,24 @@ dpd_i2h = {
   "sameta": [
     "sameta 1",
     "sameta 2",
+    "sameta 3",
     "sametar"
   ],
   "sameto": [
     "sameta 1",
-    "sameta 2"
+    "sameta 2",
+    "sameta 3"
   ],
   "sametā": [
     "sameta 1",
     "sameta 2",
+    "sameta 3",
     "sametar"
   ],
   "sametaṃ": [
     "sameta 1",
     "sameta 2",
+    "sameta 3",
     "sameti 1.1",
     "sameti 2.1",
     "sameti 2.2",
@@ -352146,7 +351976,8 @@ dpd_i2h = {
   ],
   "sametassa": [
     "sameta 1",
-    "sameta 2"
+    "sameta 2",
+    "sameta 3"
   ],
   "sametu": [
     "sametar",
@@ -352475,7 +352306,8 @@ dpd_i2h = {
     "sampajjalita"
   ],
   "sampajjiṃsu": [
-    "sampajji"
+    "sampajji 1",
+    "sampajji 2"
   ],
   "sampajjhāyati": [
     "sampajjhāyati"
@@ -356707,9 +356539,6 @@ dpd_i2h = {
   "sarāpehīti": [
     "sarāpeti"
   ],
-  "sarāvaṃ": [
-    "sarāva"
-  ],
   "sarāvanti": [
     "sarāva"
   ],
@@ -360758,6 +360587,10 @@ dpd_i2h = {
     "saṃhita",
     "saṃhitā"
   ],
+  "saṃhitaṃ": [
+    "saṃhita",
+    "saṃhitā"
+  ],
   "saṃhīrati": [
     "saṃhīrati"
   ],
@@ -363498,9 +363331,6 @@ dpd_i2h = {
   "sāriputtattheragāthā": [
     "sāriputtattheragāthā"
   ],
-  "sāriputtamoggalānā": [
-    "sāriputtamoggalānā"
-  ],
   "sāriputtamoggallāna": [
     "sāriputtamoggallāna",
     "sāriputtamoggallānā"
@@ -366037,6 +365867,18 @@ dpd_i2h = {
   "simbalismiṃ": [
     "simbalī"
   ],
+  "siyanti": [
+    "siyati",
+    "siyaṃ",
+    "siyā 1",
+    "siyā 2"
+  ],
+  "siyase": [
+    "siyati"
+  ],
+  "siya": [
+    "siyati"
+  ],
   "siyāti": [
     "siyati",
     "siyā 1",
@@ -366683,18 +366525,21 @@ dpd_i2h = {
   "sīdati": [
     "sīdati 1",
     "sīdati 2",
-    "sīdati 3"
+    "sīdati 3",
+    "sīdati 4"
   ],
   "sīde": [
     "sīdati 1",
     "sīdati 2",
     "sīdati 3",
+    "sīdati 4",
     "sīdā"
   ],
   "sīdatīti": [
     "sīdati 1",
     "sīdati 2",
-    "sīdati 3"
+    "sīdati 3",
+    "sīdati 4"
   ],
   "sīdha": [
     "sīdha"
@@ -372583,9 +372428,6 @@ dpd_i2h = {
   "suppārakamhā": [
     "suppāraka"
   ],
-  "suppi": [
-    "suppi"
-  ],
   "suppiṃ": [
     "suppi"
   ],
@@ -372648,6 +372490,9 @@ dpd_i2h = {
   ],
   "suppiyabhāṇavāro": [
     "suppiyabhāṇavāra"
+  ],
+  "suppiyāto": [
+    "suppiyā 2"
   ],
   "suppiyātveva": [
     "suppiyā 2"
@@ -374460,7 +374305,8 @@ dpd_i2h = {
     "susambudha"
   ],
   "susammaṭṭhaṃ": [
-    "susammaṭṭha"
+    "susammaṭṭha 1",
+    "susammaṭṭha 2"
   ],
   "susammuṭṭhā": [
     "susammuṭṭha"
@@ -377511,7 +377357,8 @@ dpd_i2h = {
     "soṇā"
   ],
   "soṇako": [
-    "soṇaka"
+    "soṇaka 1",
+    "soṇaka 2"
   ],
   "soṇakāyana": [
     "soṇakāyana"
@@ -379474,9 +379321,6 @@ dpd_i2h = {
     "hanti 1",
     "hanti 2"
   ],
-  "hāmi": [
-    "hati"
-  ],
   "hāsi": [
     "hati",
     "hari 1.1",
@@ -380324,9 +380168,6 @@ dpd_i2h = {
   "hatthisoṇḍaṃ": [
     "hatthisoṇḍā"
   ],
-  "hatthisoṇḍa": [
-    "hatthisoṇḍā"
-  ],
   "hatthūpagaṃ": [
     "hatthūpaga"
   ],
@@ -381107,11 +380948,13 @@ dpd_i2h = {
   ],
   "harītakaṃ": [
     "harītaka 1",
-    "harītaka 2"
+    "harītaka 2",
+    "harītaka 3"
   ],
   "harītake": [
     "harītaka 1",
-    "harītaka 2"
+    "harītaka 2",
+    "harītaka 3"
   ],
   "harītakapakkikaṃ": [
     "harītakapakkika"
@@ -382657,9 +382500,6 @@ dpd_i2h = {
   ],
   "hetukappā": [
     "hetukappa"
-  ],
-  "hetujā": [
-    "hetuja"
   ],
   "hetujāte": [
     "hetujāta"
