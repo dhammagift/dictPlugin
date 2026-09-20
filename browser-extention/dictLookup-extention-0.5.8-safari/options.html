@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Dictionary Lookup Settings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            font-size: 12px; 
+            line-height: 1.5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            font-size: 20px;
+            margin: 0 0 25px 0;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        select, input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #reset {
+            background-color: #f44336;
+            margin-right: 10px;
+        }
+        #reset:hover {
+            background-color: #d32f2f;
+        }
+        #status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            display: none;
+            font-size: 13px;
+        }
+        .success {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+        .error {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+        .custom-url-container {
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dictionary Lookup Settings</h1>
+    <p>
+        To enable or edit hotkeys, go to Chrome extensions keyboard shortcuts:
+        <strong><code>chrome://extensions/shortcuts</code></strong>
+    </p>
+    <p>
+        Option below sets the <strong>default</strong> translation language. If you just want to switch the language temporarily, use the <strong>en/ru button<strong> on the page.
+    </p>
+    
+<div class="form-group">
+        <label for="urlPreset">Select Dictionary URL:</label>
+        <select id="urlPreset">
+            <option value="newWindowExt">English - New Window (default)</option>
+            <option value="https://dict.dhamma.gift/?silent&q=">English - Popup</option>
+            <option value="https://dict.dhamma.gift/gd?search=">English - Compact</option>
+            <option value="newWindowRuExt">Russian - New Window</option>
+            <option value="https://dict.dhamma.gift/ru/?silent&q=">Russian - Popup</option>
+            <option value="https://dict.dhamma.gift/ru/gd?search=">Russian - Compact</option>
+            <option value="dharmamitra">Dharmamitra (New Window)</option>
+            <option value="goldendict://">GoldenDict-NG</option>
+            <option value="dttp://app.dicttango/WordLookup?word=">DictTango App</option>
+            <option value="mdict://mdict.cn/search?text=">MDict (macOS)</option>
+            <option value="custom">Custom URL...</option>
+        </select>       
+        <div id="customUrlContainer" class="custom-url-container">
+            <label for="customUrl">Enter Custom URL:</label>
+            <input type="text" id="customUrl" value="https://dict.dhamma.gift/ru/?silent&q=" placeholder="https://dict.dhamma.gift/ru/?silent&q=">
+        </div>
+
+        <div id="status"></div>
+
+    </div>
+
+    <button id="reset">Reset to Defaults</button>
+    <button id="save">Save Settings</button>
+
+    <script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+name: Build macOS Safari Extension
+
+on:
+  push:
+    paths:
+      - 'browser-extention/dictLookup-extention-0.5.8-safari/**'
+      - '.github/workflows/safari-macos.yml'
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'Upload to App Store Connect (TestFlight)'
+        type: boolean
+        default: false
+
+env:
+  EXT_SOURCE: browser-extention/dictLookup-extention-0.5.8-safari
+  APP_NAME: Dhamma.gift Dictionary
+  BUNDLE_ID: gift.dhamma.dictlookup
+
+jobs:
+  build:
+    # Runs on every push — no signing, no secrets needed. Verifies the
+    # safari-web-extension-converter + xcodebuild step doesn't rot, same
+    # purpose as dg-app-full's ios-build job.
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Convert Web Extension to an Xcode project
+        run: |
+          xcrun safari-web-extension-converter "$EXT_SOURCE" \
+            --project-location build/safari \
+            --app-name "$APP_NAME" \
+            --bundle-identifier "$BUNDLE_ID" \
+            --swift --macos-only --no-open --force
+
+      - name: Build (unsigned)
+        run: |
+          cd "build/safari/$APP_NAME"
+          xcodebuild -scheme "$APP_NAME (macOS)" -configuration Release \
+            -destination 'generic/platform=macOS' \
+            CODE_SIGNING_ALLOWED=NO build
+
+      - name: Upload unsigned .app artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: safari-extension-app-unsigned
+          path: build/safari/${{ env.APP_NAME }}/build/Release/*.app
+          retention-days: 14
+
+  release:
+    # Signed archive + App Store Connect upload. Only runs when explicitly
+    # asked for (workflow_dispatch with release=true) — same guard-and-skip
+    # pattern as dg-app-full's ios-release, so a plain push never touches
+    # Apple credentials.
+    if: github.event_name == 'workflow_dispatch' && inputs.release == true
+    runs-on: macos-15
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check required secrets are present
+        id: secrets_check
+        run: |
+          if [ -z "${{ secrets.ASC_KEY_P8 }}" ] || [ -z "${{ secrets.ASC_KEY_ID }}" ] || \
+             [ -z "${{ secrets.ASC_ISSUER_ID }}" ] || [ -z "${{ secrets.APPLE_TEAM_ID }}" ]; then
+            echo "Missing ASC_KEY_P8 / ASC_KEY_ID / ASC_ISSUER_ID / APPLE_TEAM_ID — \
+                  add them to this repo's secrets (same values as dg-app-full) before releasing." >> "$GITHUB_STEP_SUMMARY"
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Convert Web Extension to an Xcode project
+        if: steps.secrets_check.outputs.ready == 'true'
+        run: |
+          xcrun safari-web-extension-converter "$EXT_SOURCE" \
+            --project-location build/safari \
+            --app-name "$APP_NAME" \
+            --bundle-identifier "$BUNDLE_ID" \
+            --swift --macos-only --no-open --force
+
+      - name: Write App Store Connect API key
+        if: steps.secrets_check.outputs.ready == 'true'
+        run: |
+          mkdir -p "$RUNNER_TEMP/asc"
+          printf '%s' "${{ secrets.ASC_KEY_P8 }}" > "$RUNNER_TEMP/asc/AuthKey.p8"
+          chmod 600 "$RUNNER_TEMP/asc/AuthKey.p8"
+
+      - name: Archive
+        if: steps.secrets_check.outputs.ready == 'true'
+        run: |
+          cd "build/safari/$APP_NAME"
+          xcodebuild -scheme "$APP_NAME (macOS)" -configuration Release \
+            -destination 'generic/platform=macOS' \
+            -archivePath build/App.xcarchive \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$RUNNER_TEMP/asc/AuthKey.p8" \
+            -authenticationKeyID "${{ secrets.ASC_KEY_ID }}" \
+            -authenticationKeyIssuerID "${{ secrets.ASC_ISSUER_ID }}" \
+            CURRENT_PROJECT_VERSION=${{ github.run_number }} \
+            MARKETING_VERSION=0.5.8 \
+            DEVELOPMENT_TEAM=${{ secrets.APPLE_TEAM_ID }} \
+            archive
+
+      - name: Export & upload to App Store Connect
+        if: steps.secrets_check.outputs.ready == 'true'
+        run: |
+          cd "build/safari/$APP_NAME"
+          cat > ExportOptions.plist <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>teamID</key><string>${{ secrets.APPLE_TEAM_ID }}</string>
+          </dict>
+          </plist>
+          PLIST
+          xcodebuild -exportArchive -archivePath build/App.xcarchive \
+            -exportOptionsPlist ExportOptions.plist \
+            -authenticationKeyPath "$RUNNER_TEMP/asc/AuthKey.p8" \
+            -authenticationKeyID "${{ secrets.ASC_KEY_ID }}" \
+            -authenticationKeyIssuerID "${{ secrets.ASC_ISSUER_ID }}" \
+            | tee macos-export.log
+          grep -q "Upload succeeded" macos-export.log
