@@ -8,7 +8,7 @@
 },
   "name": "Dhamma.gift Search and Word Lookup",
   "version": "0.5.8",
-  "description": "Search any word in Suttas - powered by Dhamma.gift and Lookup word Pali translation - powered by DPD",
+  "description": "Search Suttas on Dhamma.gift and look up any Pali word on any site - powered by Dict.Dhamma.Gift (DPD, PTS, Gandhari, Sanskrit dictionaries and more)",
   "permissions": [
     "storage",
     "activeTab",
