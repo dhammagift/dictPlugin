@@ -155,10 +155,17 @@ jobs:
           </dict>
           </plist>
           PLIST
+          set +e
           xcodebuild -exportArchive -archivePath build/App.xcarchive \
             -exportOptionsPlist ExportOptions.plist \
             -authenticationKeyPath "$RUNNER_TEMP/asc/AuthKey.p8" \
             -authenticationKeyID "${{ secrets.ASC_KEY_ID }}" \
             -authenticationKeyIssuerID "${{ secrets.ASC_ISSUER_ID }}" \
+            -verbose \
             | tee macos-export.log
+          echo "--- xcdistributionlogs (the real error usually hides here) ---"
+          find /var/folders -iname "*.xcdistributionlogs" 2>/dev/null | while read -r d; do
+            find "$d" -type f \( -name "*.log" -o -name "*.txt" \) -exec sh -c 'echo "== {} =="; cat "{}"' \;
+          done
+          set -e
           grep -q "Upload succeeded" macos-export.log
