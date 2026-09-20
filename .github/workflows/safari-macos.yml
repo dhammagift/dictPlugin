@@ -38,8 +38,12 @@ jobs:
         id: scheme
         run: |
           cd "build/safari/$APP_NAME"
-          PROJ=$(ls *.xcodeproj | head -1)
-          xcodebuild -list -project "$PROJ" -json > /tmp/schemes.json
+          ls -la
+          # No -project flag: xcodebuild auto-finds the one project in the current
+          # directory, same as the plain `xcodebuild -scheme ... build` call below does —
+          # an explicit `-project "$(ls *.xcodeproj)"` here failed ("project.pbxproj does
+          # not exist") even though that auto-discovery works fine.
+          xcodebuild -list -json > /tmp/schemes.json
           cat /tmp/schemes.json
           SCHEME=$(python3 -c "
           import json
@@ -101,8 +105,7 @@ jobs:
         if: steps.secrets_check.outputs.ready == 'true'
         run: |
           cd "build/safari/$APP_NAME"
-          PROJ=$(ls *.xcodeproj | head -1)
-          xcodebuild -list -project "$PROJ" -json > /tmp/schemes.json
+          xcodebuild -list -json > /tmp/schemes.json
           cat /tmp/schemes.json
           SCHEME=$(python3 -c "
           import json
@@ -124,7 +127,7 @@ jobs:
         if: steps.secrets_check.outputs.ready == 'true'
         run: |
           cd "build/safari/$APP_NAME"
-          xcodebuild -scheme "$APP_NAME (macOS)" -configuration Release \
+          xcodebuild -scheme "${{ steps.scheme.outputs.name }}" -configuration Release \
             -destination 'generic/platform=macOS' \
             -archivePath build/App.xcarchive \
             -allowProvisioningUpdates \
