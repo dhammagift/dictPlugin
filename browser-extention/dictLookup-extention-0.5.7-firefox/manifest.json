@@ -7,7 +7,7 @@
     }
 },
   "name": "Dhamma.gift Search and Word Lookup",
-  "version": "0.5.7",
+  "version": "0.5.8",
   "description": "Search any word in Suttas - powered by Dhamma.gift and Lookup word Pali translation - powered by DPD",
   "permissions": [
     "storage",
@@ -25,6 +25,11 @@
   },
   "background": {
     "scripts": ["background.js"]
+  },
+  "sidebar_action": {
+    "default_panel": "sidepanel.html",
+    "default_title": "Dhamma.gift Dictionary",
+    "default_icon": "icon-32x32.png"
   },
   "action": {
     "default_icon": {
@@ -45,6 +50,12 @@
         "mac": "Command+Shift+L"
       },
       "description": "Toggle the extension on/off"
+    },
+    "_execute_sidebar_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
+      }
     }
   },
   "content_scripts": [

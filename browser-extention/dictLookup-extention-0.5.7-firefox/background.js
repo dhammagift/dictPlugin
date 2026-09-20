@@ -44,6 +44,13 @@ browserAPI.runtime.onInstalled.addListener(() => {
       title: "Dhamma.gift",
       contexts: ["selection"]
     });
+
+    // Word-aware grammar parse, same URL pattern as paliLookup.js on the site
+    browserAPI.contextMenus.create({
+      id: "explainGrammarSelection",
+      title: "Explain grammar (DharmaMitra)",
+      contexts: ["selection"]
+    });
   });
   
   // Принудительно выключаем расширение при установке
@@ -71,6 +78,9 @@ browserAPI.contextMenus.onClicked.addListener((info, tab) => {
             text: info.selectionText
         });
     }).catch(err => console.error("Message send failed:", err));
+  } else if (info.menuItemId === "explainGrammarSelection") {
+    const url = `https://dharmamitra.org/translate?translate_mode=explain-grammar&input_sentence=${encodeURIComponent(info.selectionText || '')}`;
+    browserAPI.tabs.create({ url });
   }
 });
 
@@ -87,6 +97,15 @@ browserAPI.runtime.onMessage.addListener((request, sender, sendResponse) => {
         isEnabled = true;
         browserAPI.storage.local.remove('isEnabled');
         updateIcon();
+    } else if (request.action === 'update_side_panel' && sender.tab) {
+        const panel = `sidepanel.html?src=${encodeURIComponent(request.url)}`;
+        browserAPI.sidebarAction.setPanel({ tabId: sender.tab.id, panel }).then(() => {
+            // Firefox only allows programmatic open() from a direct user-action handler;
+            // this best-effort call may silently fail outside that context, but setPanel
+            // above still updates the content for when the user opens the sidebar manually
+            // or via the "_execute_sidebar_action" shortcut in manifest.json.
+            return browserAPI.sidebarAction.open();
+        }).catch(() => {});
     }
 });
 

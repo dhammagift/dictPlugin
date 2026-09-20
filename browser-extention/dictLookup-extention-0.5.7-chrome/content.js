@@ -596,7 +596,16 @@ async function showTranslation(word) {
             url = `https://dharmamitra.org/translate?input_sentence=${encodedWord}`;
             openDictionaryWindowExt(url);
             break;
-            
+
+        // --- SIDE PANEL (часть экрана, не popup/new window) ---
+        case 'sidePanelExt':
+        case 'sidePanelRuExt': {
+            const isRu = currentModeOrUrl === 'sidePanelRuExt';
+            url = `https://dict.dhamma.gift${isRu ? '/ru' : ''}/?silent&theme=${theme}&q=${encodedWord}`;
+            browserApi.runtime.sendMessage({ action: 'update_side_panel', url });
+            break;
+        }
+
         // --- ПРИЛОЖЕНИЯ ---
         case 'goldendict://':
         case 'dttp://app.dicttango/WordLookup?word=':
