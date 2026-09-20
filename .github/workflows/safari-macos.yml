@@ -34,10 +34,26 @@ jobs:
             --bundle-identifier "$BUNDLE_ID" \
             --swift --macos-only --no-open --force
 
+      - name: Discover Xcode scheme
+        id: scheme
+        run: |
+          cd "build/safari/$APP_NAME"
+          PROJ=$(ls *.xcodeproj | head -1)
+          xcodebuild -list -project "$PROJ" -json > /tmp/schemes.json
+          cat /tmp/schemes.json
+          SCHEME=$(python3 -c "
+          import json
+          d = json.load(open('/tmp/schemes.json'))
+          schemes = d['project']['schemes']
+          print(next((s for s in schemes if 'extension' not in s.lower()), schemes[0]))
+          ")
+          echo "Selected scheme: $SCHEME"
+          echo "name=$SCHEME" >> "$GITHUB_OUTPUT"
+
       - name: Build (unsigned)
         run: |
           cd "build/safari/$APP_NAME"
-          xcodebuild -scheme "$APP_NAME (macOS)" -configuration Release \
+          xcodebuild -scheme "${{ steps.scheme.outputs.name }}" -configuration Release \
             -destination 'generic/platform=macOS' \
             CODE_SIGNING_ALLOWED=NO build
 
@@ -79,6 +95,23 @@ jobs:
             --app-name "$APP_NAME" \
             --bundle-identifier "$BUNDLE_ID" \
             --swift --macos-only --no-open --force
+
+      - name: Discover Xcode scheme
+        id: scheme
+        if: steps.secrets_check.outputs.ready == 'true'
+        run: |
+          cd "build/safari/$APP_NAME"
+          PROJ=$(ls *.xcodeproj | head -1)
+          xcodebuild -list -project "$PROJ" -json > /tmp/schemes.json
+          cat /tmp/schemes.json
+          SCHEME=$(python3 -c "
+          import json
+          d = json.load(open('/tmp/schemes.json'))
+          schemes = d['project']['schemes']
+          print(next((s for s in schemes if 'extension' not in s.lower()), schemes[0]))
+          ")
+          echo "Selected scheme: $SCHEME"
+          echo "name=$SCHEME" >> "$GITHUB_OUTPUT"
 
       - name: Write App Store Connect API key
         if: steps.secrets_check.outputs.ready == 'true'
