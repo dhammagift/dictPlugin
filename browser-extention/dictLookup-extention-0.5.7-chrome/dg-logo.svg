@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="500" height="500">
+  <circle cx="50" cy="50" r="49" fill="#00b2ff"/>
+  <text x="50" y="52" text-anchor="middle" dominant-baseline="central"
+        font-family="'Roboto','Helvetica','Arial',sans-serif" font-weight="700"
+        font-size="58" letter-spacing="-2" fill="#e5f7ff">DG</text>
+</svg>
