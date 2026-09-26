@@ -4,114 +4,202 @@
     <meta charset="utf-8">
     <title>Dictionary Lookup Settings</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            font-size: 12px; 
-            line-height: 1.5;
+        :root{
+            --dg-page:#faf9f6;--dg-surface:#ffffff;--dg-surface-hover:#f5f4f1;
+            --dg-border:#e7e5de;--dg-border-strong:#d7d4c9;
+            --dg-text:#1b1d19;--dg-text-2:#5c6058;--dg-text-muted:#6e716a;
+            --dg-navy:#243448;
+            --dg-accent:#149c7c;--dg-accent-ink:#0f7c63;--dg-accent-bg:#dff3ec;
+            --dg-danger:#a8341c;--dg-danger-bg:#fbe9e5;
+            --dg-font:"Lato","Segoe UI","Helvetica Neue",Arial,sans-serif;
+            --dg-radius:12px;--dg-ease:cubic-bezier(.22,.68,0,1);
+            --dg-shadow:0 10px 30px rgba(27,29,25,.08);
         }
-        h1 {
-            color: #333;
-            text-align: center;
-            font-size: 20px;
-            margin: 0 0 25px 0;
+        @media (prefers-color-scheme: dark){
+            :root{
+                --dg-page:#111111;--dg-surface:#191919;--dg-surface-hover:#202020;
+                --dg-border:#2c2c2c;--dg-border-strong:#3b3b3b;
+                --dg-text:#dddddd;--dg-text-2:#a8a8a8;--dg-text-muted:#8a8a8a;
+                --dg-navy:#a9c4dc;
+                --dg-accent:#16b394;--dg-accent-ink:#3fd6b6;--dg-accent-bg:#12241f;
+                --dg-danger:#ff6b45;--dg-danger-bg:#2a1712;
+                --dg-shadow:0 10px 30px rgba(0,0,0,.4);
+            }
         }
-        .form-group {
-            margin-bottom: 20px;
+        *{box-sizing:border-box}
+        body{
+            font-family:var(--dg-font);
+            background:var(--dg-page);
+            color:var(--dg-text);
+            margin:0;
+            padding:28px 20px 40px;
+            font-size:14px;
+            line-height:1.5;
         }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            font-size: 13px;
+        .wrap{max-width:440px;margin:0 auto}
+        .brand{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+        .brand svg{width:34px;height:31px;flex:none;color:var(--dg-text)}
+        .brand svg .dg-mark-rule{stroke:var(--dg-accent)}
+        .brand .name{font-weight:700;font-size:16px;letter-spacing:-.01em}
+        .brand .sub{font-size:12px;color:var(--dg-text-muted)}
+        .card{
+            background:var(--dg-surface);
+            border:1px solid var(--dg-border);
+            border-radius:var(--dg-radius);
+            box-shadow:var(--dg-shadow);
+            padding:22px;
+            margin-bottom:16px;
         }
-        select, input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 12px;
-            margin-bottom: 10px;
+        .hint{
+            display:flex;gap:10px;
+            background:var(--dg-surface-hover);
+            border:1px solid var(--dg-border);
+            border-radius:10px;
+            padding:12px 14px;
+            font-size:12.5px;
+            color:var(--dg-text-2);
+            margin-bottom:18px;
         }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 14px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 13px;
+        .hint code{
+            background:var(--dg-border);
+            border-radius:4px;
+            padding:1px 5px;
+            font-size:11.5px;
         }
-        button:hover {
-            background-color: #45a049;
+        .hint b{color:var(--dg-text)}
+        .form-group{margin-bottom:6px}
+        label{
+            display:block;
+            margin-bottom:8px;
+            font-weight:700;
+            font-size:12.5px;
+            letter-spacing:.01em;
+            color:var(--dg-text)
         }
-        #reset {
-            background-color: #f44336;
-            margin-right: 10px;
+        select, input[type="text"]{
+            width:100%;
+            padding:11px 12px;
+            border:1px solid var(--dg-border-strong);
+            border-radius:9px;
+            box-sizing:border-box;
+            font-size:13.5px;
+            font-family:inherit;
+            color:var(--dg-text);
+            background:var(--dg-surface);
+            margin-bottom:10px;
+            transition:border-color .15s var(--dg-ease), box-shadow .15s var(--dg-ease);
         }
-        #reset:hover {
-            background-color: #d32f2f;
+        select:focus, input[type="text"]:focus{
+            outline:none;
+            border-color:var(--dg-accent);
+            box-shadow:0 0 0 3px var(--dg-accent-bg);
         }
-        #status {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 4px;
-            display: none;
-            font-size: 13px;
+        .custom-url-container{display:none;margin-top:2px}
+        .seg{display:flex;border:1px solid var(--dg-border-strong);border-radius:9px;overflow:hidden;margin-bottom:6px}
+        .seg-btn{flex:1;background:var(--dg-surface);color:var(--dg-text-2);border:0;border-radius:0;padding:10px 12px;font-size:13px;font-weight:700;cursor:pointer}
+        .seg-btn+.seg-btn{border-left:1px solid var(--dg-border-strong)}
+        .seg-btn[aria-pressed="true"]{background:var(--dg-accent);color:#fff}
+        .seg-btn:hover:not([aria-pressed="true"]){background:var(--dg-surface-hover)}
+        .field-note{font-size:11.5px;color:var(--dg-text-muted);margin:0 0 18px}
+        .actions{display:flex;gap:10px;margin-top:4px}
+        button{
+            font-family:inherit;
+            font-size:13.5px;
+            font-weight:700;
+            padding:11px 18px;
+            border-radius:9px;
+            cursor:pointer;
+            border:1px solid transparent;
+            transition:background .15s var(--dg-ease), border-color .15s var(--dg-ease), color .15s var(--dg-ease);
         }
-        .success {
-            background-color: #dff0d8;
-            color: #3c763d;
+        #save{
+            background:var(--dg-accent);
+            color:#fff;
+            flex:1;
         }
-        .error {
-            background-color: #f2dede;
-            color: #a94442;
+        #save:hover{background:var(--dg-accent-ink)}
+        #reset{
+            background:none;
+            border-color:var(--dg-border-strong);
+            color:var(--dg-text-2);
         }
-        .custom-url-container {
-            display: none;
-            margin-top: 10px;
+        #reset:hover{border-color:var(--dg-danger);color:var(--dg-danger)}
+        #status{
+            margin-top:14px;
+            padding:10px 14px;
+            border-radius:9px;
+            display:none;
+            font-size:12.5px;
+            font-weight:600;
         }
+        .success{background:var(--dg-accent-bg);color:var(--dg-accent-ink)}
+        .error{background:var(--dg-danger-bg);color:var(--dg-danger)}
+        .footer{
+            text-align:center;
+            font-size:11.5px;
+            color:var(--dg-text-muted);
+        }
+        .footer a{color:var(--dg-text-2);text-decoration:none}
+        .footer a:hover{color:var(--dg-accent-ink);text-decoration:underline}
     </style>
 </head>
 <body>
-    <h1>Dictionary Lookup Settings</h1>
-    <p>
-        To enable or edit hotkeys, go to Chrome extensions keyboard shortcuts:
-        <strong><code>chrome://extensions/shortcuts</code></strong>
-    </p>
-    <p>
-        Option below sets the <strong>default</strong> translation language. If you just want to switch the language temporarily, use the <strong>en/ru button<strong> on the page.
-    </p>
-    
-<div class="form-group">
-        <label for="urlPreset">Select Dictionary URL:</label>
-        <select id="urlPreset">
-            <option value="newWindowExt">English - New Window (default)</option>
-            <option value="https://dict.dhamma.gift/?silent&q=">English - Popup</option>
-            <option value="https://dict.dhamma.gift/gd?search=">English - Compact</option>
-            <option value="newWindowRuExt">Russian - New Window</option>
-            <option value="https://dict.dhamma.gift/ru/?silent&q=">Russian - Popup</option>
-            <option value="https://dict.dhamma.gift/ru/gd?search=">Russian - Compact</option>
-            <option value="dharmamitra">Dharmamitra (New Window)</option>
-            <option value="goldendict://">GoldenDict-NG</option>
-            <option value="dttp://app.dicttango/WordLookup?word=">DictTango App</option>
-            <option value="mdict://mdict.cn/search?text=">MDict (macOS)</option>
-            <option value="custom">Custom URL...</option>
-        </select>       
-        <div id="customUrlContainer" class="custom-url-container">
-            <label for="customUrl">Enter Custom URL:</label>
-            <input type="text" id="customUrl" value="https://dict.dhamma.gift/ru/?silent&q=" placeholder="https://dict.dhamma.gift/ru/?silent&q=">
+    <div class="wrap">
+        <div class="brand">
+            <svg viewBox="218 232 700 640" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="48" stroke-linejoin="miter"><path d="M410 381H282V600C282 690 330 721 372 721C420 721 462 690 462 612"/><path d="M608 690V545H738V380H855V292"/></g><circle cx="608" cy="712" r="38" fill="currentColor"/><path class="dg-mark-rule" d="M258 826.0H879" stroke-width="30"/></svg>
+            <div>
+                <div class="name">Dict.Dhamma.Gift</div>
+                <div class="sub">Extension Settings</div>
+            </div>
         </div>
 
-        <div id="status"></div>
+        <div class="card">
+            <div class="hint">
+                <div>
+                    To enable or edit hotkeys, go to <b>chrome://extensions/shortcuts</b><br>
+                    Pick a lookup mode and a default language below. Switching language with the <b>en/ru</b> button on the page updates it automatically too.
+                </div>
+            </div>
 
+            <div class="form-group">
+                <label for="urlPreset">Dictionary lookup mode</label>
+                <select id="urlPreset">
+                    <option value="newWindowExt">New Window (default)</option>
+                    <option value="https://dict.dhamma.gift/?silent&q=">Popup</option>
+                    <option value="https://dict.dhamma.gift/gd?search=">Compact</option>
+                    <option value="dharmamitra">Dharmamitra (New Window)</option>
+                    <option value="goldendict://">GoldenDict-NG</option>
+                    <option value="dttp://app.dicttango/WordLookup?word=">DictTango App</option>
+                    <option value="mdict://mdict.cn/search?text=">MDict (macOS)</option>
+                    <option value="custom">Custom URL...</option>
+                </select>
+                <div id="customUrlContainer" class="custom-url-container">
+                    <label for="customUrl">Custom URL</label>
+                    <input type="text" id="customUrl" value="https://dict.dhamma.gift/ru/?silent&q=" placeholder="https://dict.dhamma.gift/ru/?silent&q=">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Default language</label>
+                <div class="seg" id="langSeg" role="group" aria-label="Default language">
+                    <button type="button" class="seg-btn" id="langEn" data-lang="en" aria-pressed="true">English</button>
+                    <button type="button" class="seg-btn" id="langRu" data-lang="ru" aria-pressed="false">Русский</button>
+                </div>
+                <p class="field-note">Applies to New Window, Popup, Compact and Side Panel.</p>
+            </div>
+
+            <div class="actions">
+                <button id="reset">Reset</button>
+                <button id="save">Save Settings</button>
+            </div>
+
+            <div id="status"></div>
+        </div>
+
+        <div class="footer">
+            <a href="https://dict.dhamma.gift" target="_blank" rel="noopener">dict.dhamma.gift</a>
+        </div>
     </div>
-
-    <button id="reset">Reset to Defaults</button>
-    <button id="save">Save Settings</button>
 
     <script src="options.js"></script>
 </body>
