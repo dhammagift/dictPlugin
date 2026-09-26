@@ -37,8 +37,11 @@
             line-height:1.5;
         }
         .wrap{max-width:440px;margin:0 auto}
-        .brand{display:flex;align-items:center;gap:10px;margin-bottom:20px}
-        .brand svg{width:34px;height:31px;flex:none;color:var(--dg-text)}
+        .brand{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+        .brand .logos{display:flex;align-items:center;gap:7px;flex:none}
+        .brand .logos img{width:30px;height:30px;display:block}
+        .brand .logos .plus{color:var(--dg-text-muted);font-size:14px;font-weight:700}
+        .brand .logos svg{width:28px;height:26px;color:var(--dg-text)}
         .brand svg .dg-mark-rule{stroke:var(--dg-accent)}
         .brand .name{font-weight:700;font-size:16px;letter-spacing:-.01em}
         .brand .sub{font-size:12px;color:var(--dg-text-muted)}
@@ -146,10 +149,14 @@
 <body>
     <div class="wrap">
         <div class="brand">
-            <svg viewBox="218 232 700 640" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="48" stroke-linejoin="miter"><path d="M410 381H282V600C282 690 330 721 372 721C420 721 462 690 462 612"/><path d="M608 690V545H738V380H855V292"/></g><circle cx="608" cy="712" r="38" fill="currentColor"/><path class="dg-mark-rule" d="M258 826.0H879" stroke-width="30"/></svg>
+            <div class="logos">
+                <img src="icon-32x32.png" alt="Dhamma.gift">
+                <span class="plus">+</span>
+                <svg viewBox="218 232 700 640" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="48" stroke-linejoin="miter"><path d="M410 381H282V600C282 690 330 721 372 721C420 721 462 690 462 612"/><path d="M608 690V545H738V380H855V292"/></g><circle cx="608" cy="712" r="38" fill="currentColor"/><path class="dg-mark-rule" d="M258 826.0H879" stroke-width="30"/></svg>
+            </div>
             <div>
-                <div class="name">Dict.Dhamma.Gift</div>
-                <div class="sub">Extension Settings</div>
+                <div class="name">Dhamma.gift</div>
+                <div class="sub">Powered by Dict.Dhamma.Gift — Extension Settings</div>
             </div>
         </div>
 
