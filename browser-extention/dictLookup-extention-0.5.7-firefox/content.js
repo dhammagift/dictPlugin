@@ -176,12 +176,20 @@ if (typeof window.dhammaGiftExtInjected === 'undefined') {
             const dgParams = '&p=-kn';
             const storageKey = 'dictPopupSize';
             const dictUrlKey = 'dictUrl';
-            
-            const DEFAULT_POPUP_URL = 'https://dict.dhamma.gift/?silent&q='; 
-            const NEW_WINDOW_URL_EN = 'https://dict.dhamma.gift/?silent&q=';
-            const NEW_WINDOW_URL_RU = 'https://dict.dhamma.gift/ru/?silent&q=';
+            const dictLangKey = 'dictLang';
+
             let currentModeOrUrl = 'newWindowExt';
+            let currentLang = 'en'; // 'en' | 'ru' — independent of the mode; set from options or the site's own en/ru button
             let contextMenuOnlyExt = false; // Добавлено для опции контекстного меню
+
+            // Pre-simplification: language used to be baked into the mode itself (e.g. 'newWindowRuExt',
+            // the '/ru/...' popup URLs). Collapse an old stored value onto a base mode + 'ru', once.
+            const LEGACY_RU_MODE = {
+                'newWindowRuExt': 'newWindowExt',
+                'sidePanelRuExt': 'sidePanelExt',
+                'https://dict.dhamma.gift/ru/?silent&q=': 'https://dict.dhamma.gift/?silent&q=',
+                'https://dict.dhamma.gift/ru/gd?search=': 'https://dict.dhamma.gift/gd?search='
+            };
 
             try {
                 const result = await browserApi.storage.local.get(['popup_reset_flag']);
@@ -198,11 +206,20 @@ if (typeof window.dhammaGiftExtInjected === 'undefined') {
             }
 
             try {
-                // Изменено для загрузки двух параметров
-                const result = await browserApi.storage.sync.get([dictUrlKey, 'contextMenuOnly']);
+                // Загружаем режим, язык и настройку контекстного меню
+                const result = await browserApi.storage.sync.get([dictUrlKey, dictLangKey, 'contextMenuOnly']);
                 if (result) {
                     if (result[dictUrlKey]) currentModeOrUrl = result[dictUrlKey];
                     if (result.contextMenuOnly !== undefined) contextMenuOnlyExt = result.contextMenuOnly;
+
+                    if (result[dictLangKey] === 'ru' || result[dictLangKey] === 'en') {
+                        currentLang = result[dictLangKey];
+                    } else if (LEGACY_RU_MODE[currentModeOrUrl]) {
+                        // Migrate a pre-simplification Russian-specific mode, once.
+                        currentLang = 'ru';
+                        currentModeOrUrl = LEGACY_RU_MODE[currentModeOrUrl];
+                        browserApi.storage.sync.set({ [dictUrlKey]: currentModeOrUrl, [dictLangKey]: 'ru' });
+                    }
                 }
             } catch (error) {
                 console.error("Error loading settings from storage:", error);
@@ -212,46 +229,24 @@ if (typeof window.dhammaGiftExtInjected === 'undefined') {
     browserApi.storage.onChanged.addListener((changes, namespace) => {
         if (namespace === 'sync') {
             if (changes[dictUrlKey]) currentModeOrUrl = changes[dictUrlKey].newValue;
+            if (changes[dictLangKey]) currentLang = changes[dictLangKey].newValue;
             if (changes.contextMenuOnly) contextMenuOnlyExt = changes.contextMenuOnly.newValue;
         }
     });
 
-    // --- НОВОЕ: Слушатель смены языка из словаря (iframe или новое окно) ---
+    // The dictionary site broadcasts its own language switch (iframe popup or new window).
+    // Language is independent of the mode now, so this applies everywhere, Side Panel included.
     window.addEventListener('message', function(event) {
-        // Проверяем источник сообщения для безопасности
         if (event.origin !== 'https://dict.dhamma.gift') return;
 
         if (event.data && event.data.action === 'dg_language_changed') {
-            const newLang = event.data.lang; // 'ru' или 'en'
-            let newUrl = currentModeOrUrl;
-
-            // Логика сопоставления режимов
-            if (newLang === 'ru') {
-                if (currentModeOrUrl === 'https://dict.dhamma.gift/?silent&q=') {
-                    newUrl = 'https://dict.dhamma.gift/ru/?silent&q=';
-                } else if (currentModeOrUrl === 'https://dict.dhamma.gift/gd?search=') {
-                    newUrl = 'https://dict.dhamma.gift/ru/gd?search=';
-                } else if (currentModeOrUrl === 'newWindowExt') {
-                    newUrl = 'newWindowRuExt';
-                }
-            } else if (newLang === 'en') {
-                if (currentModeOrUrl === 'https://dict.dhamma.gift/ru/?silent&q=') {
-                    newUrl = 'https://dict.dhamma.gift/?silent&q=';
-                } else if (currentModeOrUrl === 'https://dict.dhamma.gift/ru/gd?search=') {
-                    newUrl = 'https://dict.dhamma.gift/gd?search=';
-                } else if (currentModeOrUrl === 'newWindowRuExt') {
-                    newUrl = 'newWindowExt';
-                }
-            }
-
-            // Если режим изменился, сохраняем его
-            if (newUrl !== currentModeOrUrl) {
-                currentModeOrUrl = newUrl;
-                browserApi.storage.sync.set({ [dictUrlKey]: newUrl });
+            const newLang = event.data.lang === 'ru' ? 'ru' : 'en';
+            if (newLang !== currentLang) {
+                currentLang = newLang;
+                browserApi.storage.sync.set({ [dictLangKey]: newLang });
             }
         }
     });
-    // --- КОНЕЦ НОВОГО БЛОКА ---
 
     let isEnabled = false;
 
@@ -550,22 +545,17 @@ async function showTranslation(word) {
         popupExt.classList.remove('dark-theme');
     }
 
-    // Список ссылок, которые должны открываться строго в попапе (iframe)
+    // Список ссылок, которые должны открываться строго в попапе (iframe); язык добавляется отдельно
     const popupUrls = [
         'https://dict.dhamma.gift/?silent&q=',
-        'https://dict.dhamma.gift/gd?search=',
-        'https://dict.dhamma.gift/ru/?silent&q=',
-        'https://dict.dhamma.gift/ru/gd?search='
+        'https://dict.dhamma.gift/gd?search='
     ];
+    const isRu = currentLang === 'ru';
 
     switch (currentModeOrUrl) {
         // --- НОВЫЕ ОКНА ---
         case 'newWindowExt':
-            url = `https://dict.dhamma.gift/?silent&theme=${theme}&q=${encodedWord}`;
-            openDictionaryWindowExt(url);
-            break;
-        case 'newWindowRuExt':
-            url = `https://dict.dhamma.gift/ru/?silent&theme=${theme}&q=${encodedWord}`;
+            url = `https://dict.dhamma.gift${isRu ? '/ru' : ''}/?silent&theme=${theme}&q=${encodedWord}`;
             openDictionaryWindowExt(url);
             break;
         case 'dharmamitra':
@@ -575,12 +565,9 @@ async function showTranslation(word) {
 
         // --- SIDE PANEL (часть экрана, не popup/new window) ---
         case 'sidePanelExt':
-        case 'sidePanelRuExt': {
-            const isRu = currentModeOrUrl === 'sidePanelRuExt';
             url = `https://dict.dhamma.gift${isRu ? '/ru' : ''}/?silent&theme=${theme}&q=${encodedWord}`;
             browserApi.runtime.sendMessage({ action: 'update_side_panel', url });
             break;
-        }
 
         // --- ПРИЛОЖЕНИЯ ---
         case 'goldendict://':
@@ -589,28 +576,25 @@ async function showTranslation(word) {
             url = `${currentModeOrUrl}${encodedWord}`;
             triggerCustomProtocol(url);
             break;
-            
+
         // --- ПОПАПЫ И CUSTOM URL ---
         default:
             if (popupUrls.includes(currentModeOrUrl)) {
-                // Это одна из 4 стандартных ссылок для попапа
-                const isRussianDict = currentModeOrUrl.includes('/ru/');
-                
                 // Формируем правильный URL в зависимости от режима (обычный или компактный gd)
                 if (currentModeOrUrl.includes('gd?search=')) {
-                    url = `https://dict.dhamma.gift${isRussianDict ? '/ru' : ''}/gd?search=${encodedWord}&theme=${theme}`;
+                    url = `https://dict.dhamma.gift${isRu ? '/ru' : ''}/gd?search=${encodedWord}&theme=${theme}`;
                 } else {
-                    url = `https://dict.dhamma.gift${isRussianDict ? '/ru' : ''}/?silent&theme=${theme}&q=${encodedWord}`;
+                    url = `https://dict.dhamma.gift${isRu ? '/ru' : ''}/?silent&theme=${theme}&q=${encodedWord}`;
                 }
-                
+
                 iframeExt.src = url;
                 popupExt.style.display = 'block';
                 overlayExt.style.display = 'block';
-                
-                const searchBaseUrl = isRussianDict ? 'https://f.dhamma.gift/?q=' : 'https://dhamma.gift/?q=';
+
+                const searchBaseUrl = isRu ? 'https://f.dhamma.gift/?q=' : 'https://dhamma.gift/?q=';
                 openBtnExt.href = `${searchBaseUrl}${encodedWord}${dgParams}`;
                 dictBtnExt.href = url;
-                
+
             } else {
                 // Ссылки нет в списке попапов -> это Custom URL. Открываем в новом окне.
                 url = `${currentModeOrUrl}${encodedWord}`;
@@ -640,7 +624,7 @@ async function showTranslation(word) {
 
             browserApi.runtime.onMessage.addListener((request) => {
                 if (request.action === "show_extension_status") {
-                    const isRu = currentModeOrUrl.includes('/ru/') || localStorage.getItem('siteLanguage') === 'ru';
+                    const isRu = currentLang === 'ru' || localStorage.getItem('siteLanguage') === 'ru';
                     let statusText;
                     if (isRu) {
                         statusText = request.enabled ? "Dhamma.Gift расширение: Вкл" : "Dhamma.Gift расширение: Выкл";

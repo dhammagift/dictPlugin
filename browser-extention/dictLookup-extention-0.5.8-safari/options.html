@@ -95,6 +95,12 @@
             box-shadow:0 0 0 3px var(--dg-accent-bg);
         }
         .custom-url-container{display:none;margin-top:2px}
+        .seg{display:flex;border:1px solid var(--dg-border-strong);border-radius:9px;overflow:hidden;margin-bottom:6px}
+        .seg-btn{flex:1;background:var(--dg-surface);color:var(--dg-text-2);border:0;border-radius:0;padding:10px 12px;font-size:13px;font-weight:700;cursor:pointer}
+        .seg-btn+.seg-btn{border-left:1px solid var(--dg-border-strong)}
+        .seg-btn[aria-pressed="true"]{background:var(--dg-accent);color:#fff}
+        .seg-btn:hover:not([aria-pressed="true"]){background:var(--dg-surface-hover)}
+        .field-note{font-size:11.5px;color:var(--dg-text-muted);margin:0 0 18px}
         .actions{display:flex;gap:10px;margin-top:4px}
         button{
             font-family:inherit;
@@ -142,8 +148,8 @@
         <div class="brand">
             <svg viewBox="218 232 700 640" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="48" stroke-linejoin="miter"><path d="M410 381H282V600C282 690 330 721 372 721C420 721 462 690 462 612"/><path d="M608 690V545H738V380H855V292"/></g><circle cx="608" cy="712" r="38" fill="currentColor"/><path class="dg-mark-rule" d="M258 826.0H879" stroke-width="30"/></svg>
             <div>
-                <div class="name">Dhamma.gift</div>
-                <div class="sub">Dictionary Lookup Settings</div>
+                <div class="name">Dict.Dhamma.Gift</div>
+                <div class="sub">Extension Settings</div>
             </div>
         </div>
 
@@ -151,19 +157,16 @@
             <div class="hint">
                 <div>
                     To enable or edit hotkeys, go to <b>chrome://extensions/shortcuts</b><br>
-                    The option below sets the <b>default</b> lookup mode. To switch language temporarily, use the <b>en/ru</b> button on the page &mdash; the choice is remembered automatically.
+                    Pick a lookup mode and a default language below. Switching language with the <b>en/ru</b> button on the page updates it automatically too.
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="urlPreset">Dictionary lookup mode</label>
                 <select id="urlPreset">
-                    <option value="newWindowExt">English - New Window (default)</option>
-                    <option value="https://dict.dhamma.gift/?silent&q=">English - Popup</option>
-                    <option value="https://dict.dhamma.gift/gd?search=">English - Compact</option>
-                    <option value="newWindowRuExt">Russian - New Window</option>
-                    <option value="https://dict.dhamma.gift/ru/?silent&q=">Russian - Popup</option>
-                    <option value="https://dict.dhamma.gift/ru/gd?search=">Russian - Compact</option>
+                    <option value="newWindowExt">New Window (default)</option>
+                    <option value="https://dict.dhamma.gift/?silent&q=">Popup</option>
+                    <option value="https://dict.dhamma.gift/gd?search=">Compact</option>
                     <option value="dharmamitra">Dharmamitra (New Window)</option>
                     <option value="goldendict://">GoldenDict-NG</option>
                     <option value="dttp://app.dicttango/WordLookup?word=">DictTango App</option>
@@ -174,6 +177,15 @@
                     <label for="customUrl">Custom URL</label>
                     <input type="text" id="customUrl" value="https://dict.dhamma.gift/ru/?silent&q=" placeholder="https://dict.dhamma.gift/ru/?silent&q=">
                 </div>
+            </div>
+
+            <div class="form-group">
+                <label>Default language</label>
+                <div class="seg" id="langSeg" role="group" aria-label="Default language">
+                    <button type="button" class="seg-btn" id="langEn" data-lang="en" aria-pressed="true">English</button>
+                    <button type="button" class="seg-btn" id="langRu" data-lang="ru" aria-pressed="false">Русский</button>
+                </div>
+                <p class="field-note">Applies to New Window, Popup, Compact and Side Panel.</p>
             </div>
 
             <div class="actions">
