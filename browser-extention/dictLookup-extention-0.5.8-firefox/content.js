@@ -352,11 +352,8 @@ if (typeof window.dhammaGiftExtInjected === 'undefined') {
                 const dictBtnExt = document.createElement('a');
                 dictBtnExt.className = 'dg-ext-btn dg-ext-dict-btn';
                 dictBtnExt.target = '_blank';
-                dictBtnExt.title = 'Open in DPD full mode';
-                const dictIconExt = document.createElement('img');
-                dictIconExt.src = browserApi.runtime.getURL('dpd-logo-dark.svg');
-                Object.assign(dictIconExt.style, { width: '16px', height: '16px' });
-                dictBtnExt.appendChild(dictIconExt);
+                dictBtnExt.title = 'Open on Dict.Dhamma.Gift';
+                dictBtnExt.innerHTML = `<svg width="17" height="16" viewBox="218 232 700 640" style="display:block"><g fill="none" stroke="white" stroke-width="48" stroke-linejoin="miter"><path d="M410 381H282V600C282 690 330 721 372 721C420 721 462 690 462 612"/><path d="M608 690V545H738V380H855V292"/></g><circle cx="608" cy="712" r="38" fill="white"/><path d="M258 826.0H879" stroke="white" stroke-width="30"/></svg>`;
 
                 const iframeExt = document.createElement('iframe');
                 iframeExt.className = 'dg-ext-iframe';
