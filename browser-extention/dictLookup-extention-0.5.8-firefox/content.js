@@ -178,7 +178,7 @@ if (typeof window.dhammaGiftExtInjected === 'undefined') {
             const dictUrlKey = 'dictUrl';
             const dictLangKey = 'dictLang';
 
-            let currentModeOrUrl = 'newWindowExt';
+            let currentModeOrUrl = 'sidePanelExt';
             let currentLang = 'en'; // 'en' | 'ru' — independent of the mode; set from options or the site's own en/ru button
             let contextMenuOnlyExt = false; // Добавлено для опции контекстного меню
 
