@@ -34,6 +34,30 @@ jobs:
             --bundle-identifier "$BUNDLE_ID" \
             --swift --macos-only --no-open --force
 
+      - name: Force bundle identifiers to match the registered App Store Connect app
+        run: |
+          cd "build/safari/$APP_NAME"
+          # safari-web-extension-converter's --bundle-identifier is NOT the final bundle
+          # ID — it's treated as an org prefix, and the tool appends its own app-name-
+          # derived suffix (e.g. BUNDLE_ID=gift.dhamma.dictlookup became
+          # gift.dhamma.Dhamma-gift-Dictionary). App Store Connect only has an app record
+          # for the exact BUNDLE_ID, so exportArchive fails with
+          # DistributionAppRecordProviderError.missingApp. Rewrite whatever
+          # PRODUCT_BUNDLE_IDENTIFIER the converter picked back to ours, keeping the
+          # .Extension suffix distinction it already established between the two targets.
+          PBXPROJ=$(find . -name project.pbxproj)
+          python3 - "$PBXPROJ" "$BUNDLE_ID" <<'PY'
+          import re, sys
+          path, bundle_id = sys.argv[1], sys.argv[2]
+          text = open(path).read()
+          def repl(m):
+              suffix = '.Extension' if m.group(1).endswith('.Extension') else ''
+              return f'PRODUCT_BUNDLE_IDENTIFIER = {bundle_id}{suffix};'
+          text = re.sub(r'PRODUCT_BUNDLE_IDENTIFIER = ([^;]+);', repl, text)
+          open(path, 'w').write(text)
+          PY
+          grep -n PRODUCT_BUNDLE_IDENTIFIER "$PBXPROJ"
+
       - name: Discover Xcode scheme
         id: scheme
         run: |
@@ -104,6 +128,27 @@ jobs:
             --app-name "$APP_NAME" \
             --bundle-identifier "$BUNDLE_ID" \
             --swift --macos-only --no-open --force
+
+      - name: Force bundle identifiers to match the registered App Store Connect app
+        if: steps.secrets_check.outputs.ready == 'true'
+        run: |
+          cd "build/safari/$APP_NAME"
+          # See the same-named step in the build job for why this is needed:
+          # safari-web-extension-converter ignores --bundle-identifier as a literal ID
+          # and derives its own from the app name instead, which App Store Connect
+          # doesn't have an app record for.
+          PBXPROJ=$(find . -name project.pbxproj)
+          python3 - "$PBXPROJ" "$BUNDLE_ID" <<'PY'
+          import re, sys
+          path, bundle_id = sys.argv[1], sys.argv[2]
+          text = open(path).read()
+          def repl(m):
+              suffix = '.Extension' if m.group(1).endswith('.Extension') else ''
+              return f'PRODUCT_BUNDLE_IDENTIFIER = {bundle_id}{suffix};'
+          text = re.sub(r'PRODUCT_BUNDLE_IDENTIFIER = ([^;]+);', repl, text)
+          open(path, 'w').write(text)
+          PY
+          grep -n PRODUCT_BUNDLE_IDENTIFIER "$PBXPROJ"
 
       - name: Discover Xcode scheme
         id: scheme
