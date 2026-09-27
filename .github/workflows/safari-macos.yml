@@ -51,7 +51,7 @@ jobs:
           path, bundle_id = sys.argv[1], sys.argv[2]
           text = open(path).read()
           def repl(m):
-              suffix = '.Extension' if m.group(1).endswith('.Extension') else ''
+              suffix = '.Extension' if m.group(1).strip('"').endswith('.Extension') else ''
               return f'PRODUCT_BUNDLE_IDENTIFIER = {bundle_id}{suffix};'
           text = re.sub(r'PRODUCT_BUNDLE_IDENTIFIER = ([^;]+);', repl, text)
           open(path, 'w').write(text)
@@ -144,7 +144,7 @@ jobs:
           path, bundle_id = sys.argv[1], sys.argv[2]
           text = open(path).read()
           def repl(m):
-              suffix = '.Extension' if m.group(1).endswith('.Extension') else ''
+              suffix = '.Extension' if m.group(1).strip('"').endswith('.Extension') else ''
               return f'PRODUCT_BUNDLE_IDENTIFIER = {bundle_id}{suffix};'
           text = re.sub(r'PRODUCT_BUNDLE_IDENTIFIER = ([^;]+);', repl, text)
           open(path, 'w').write(text)
@@ -206,6 +206,7 @@ jobs:
             -authenticationKeyID "${{ secrets.ASC_KEY_ID }}" \
             -authenticationKeyIssuerID "${{ secrets.ASC_ISSUER_ID }}" \
             CURRENT_PROJECT_VERSION=${{ github.run_number }} \
+            INFOPLIST_KEY_LSApplicationCategoryType=public.app-category.reference \
             MARKETING_VERSION=0.5.8 \
             DEVELOPMENT_TEAM=${{ secrets.APPLE_TEAM_ID }} \
             archive
