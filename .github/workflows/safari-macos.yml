@@ -234,7 +234,7 @@ jobs:
             -authenticationKeyPath "$RUNNER_TEMP/asc/AuthKey.p8" \
             -authenticationKeyID "${{ secrets.ASC_KEY_ID }}" \
             -authenticationKeyIssuerID "${{ secrets.ASC_ISSUER_ID }}" \
-            -verbose \
+            -verbose 2>&1 \
             | tee macos-export.log
           echo "--- xcdistributionlogs (the real error usually hides here) ---"
           find /var/folders -iname "*.xcdistributionlogs" 2>/dev/null | while read -r d; do
