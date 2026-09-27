@@ -228,6 +228,7 @@ jobs:
           PLIST
           set +e
           xcodebuild -exportArchive -archivePath build/App.xcarchive \
+            -allowProvisioningUpdates \
             -exportOptionsPlist ExportOptions.plist \
             -authenticationKeyPath "$RUNNER_TEMP/asc/AuthKey.p8" \
             -authenticationKeyID "${{ secrets.ASC_KEY_ID }}" \
