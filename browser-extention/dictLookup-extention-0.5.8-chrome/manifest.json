@@ -1,61 +1,55 @@
 {
-  "manifest_version": 3,
-  "name": "Dhamma.gift Search and Word Lookup",
-  "version": "0.5.8",
-  "description": "Search Suttas on Dhamma.gift and look up any Pali word on any site - powered by Dict.Dhamma.Gift (DPD, PTS, Gandhari, Sanskrit dictionaries and more)",
-  "permissions": [
-    "storage",
-    "activeTab",
-     "contextMenus",
-    "scripting",
-    "sidePanel"
-      ],
-  "host_permissions": [
-    "https://dict.dhamma.gift/*",
-    "https://dhamma.gift/*",
-    "https://dpdict.net/*"
-  ],
-"content_security_policy": {
-  "extension_pages": "script-src 'self'; object-src 'none'; frame-src 'self' https://dict.dhamma.gift;",
-  "sandbox": "sandbox allow-scripts; child-src https://dict.dhamma.gift;"
-},
-  "background": {
-    "service_worker": "background.js"
-  },
-  "side_panel": {
-    "default_path": "sidepanel.html"
-  },
-  "action": {
-    "default_icon": {
-      "16": "icon.png",    
-      "32": "icon-32x32.png",
-      "48": "icon-48x48.png",
-      "128": "icon-128x128.png"
+    "manifest_version": 3,
+    "name": "Dhamma.gift Search and Word Lookup",
+    "version": "0.5.9",
+    "description": "Search Suttas on Dhamma.gift and look up any Pali word on any site - powered by Dict.Dhamma.Gift (DPD, PTS, Gandhari, Sanskrit dictionaries and more)",
+    "permissions": [
+          "storage",
+          "activeTab",
+          "contextMenus",
+          "scripting",
+          "sidePanel"
+    ],
+    "host_permissions": [
+          "https://dict.dhamma.gift/*",
+          "https://dhamma.gift/*",
+          "https://dpdict.net/*"
+    ],
+    "content_security_policy": {
+          "extension_pages": "script-src 'self'; object-src 'none'; frame-src 'self' https://dict.dhamma.gift;",
+          "sandbox": "sandbox allow-scripts; child-src https://dict.dhamma.gift;"
+    },
+    "background": {
+          "service_worker": "background.js"
+    },
+    "side_panel": {
+          "default_path": "sidepanel.html"
+    },
+    "action": {
+          "default_icon": {
+                  "16": "icon.png",
+                  "32": "icon-32x32.png",
+                  "48": "icon-48x48.png",
+                  "128": "icon-128x128.png"
+          }
+    },
+    "options_ui": {
+          "page": "options.html",
+          "open_in_tab": false
+    },
+    "commands": {
+          "toggle_extension": {
+                  "suggested_key": {
+                            "default": "Ctrl+Shift+L",
+                            "mac": "Command+Shift+L"
+                  },
+                  "description": "Toggle the extension on/off"
+          }
+    },
+    "icons": {
+          "16": "icon-32x32.png",
+          "32": "icon-32x32.png",
+          "48": "icon-48x48.png",
+          "128": "icon-128x128.png"
     }
-  },
-  "options_ui": {
-    "page": "options.html",
-    "open_in_tab": false
-  },
-  "commands": {
-    "toggle_extension": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+L",
-        "mac": "Command+Shift+L"
-      },
-      "description": "Toggle the extension on/off"
-    }
-  },
-  "content_scripts": [
-    {
-      "matches": ["*://*/*"],
-      "js": ["content.js"]
-    }
-  ],
-  "icons": {
-    "16": "icon-32x32.png",
-    "32": "icon-32x32.png",
-    "48": "icon-48x48.png",
-    "128": "icon-128x128.png"
-  }
 }
