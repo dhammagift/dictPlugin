@@ -1,21 +1,73 @@
 {
-      "manifest_version": 3,
-      "browser_specific_settings": {
-                "gecko": {
-                              "id": "dictlookup-extention@dhamma.gift",
-                              "strict_min_version": "109.0"
-                }
-      },
-      "name": "Dhamma.gift Search and Word Lookup",
-      "version": "0.5.9",
-      "permissions": ["storage", "activeTab", "contextMenus", "scripting"],
-      "host_permissions": [
-                "https://dict.dhamma.gift/*",
-                "https://dhamma.gift/*",
-                "https://dpdict.net/*"
+  "manifest_version": 3,
+  "browser_specific_settings": {
+    "gecko": {
+        "id": "dictlookup-extention@dhamma.gfit",
+        "strict_min_version": "109.0" 
+    }
+},
+  "name": "Dhamma.gift Search and Word Lookup",
+  "version": "0.5.8",
+  "description": "Search Suttas on Dhamma.gift and look up any Pali word on any site - powered by Dict.Dhamma.Gift (DPD, PTS, Gandhari, Sanskrit dictionaries and more)",
+  "permissions": [
+    "storage",
+    "activeTab",
+     "contextMenus",
+    "scripting"
       ],
-      "sidebar_action": {
-                "default_panel": "sidepanel.html",
-                "default_title": "Dhamma.gift Dictionary"
+  "host_permissions": [
+    "https://dict.dhamma.gift/*",
+    "https://dhamma.gift/*",
+    "https://dpdict.net/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'; frame-src https://dict.dhamma.gift; "
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "sidebar_action": {
+    "default_panel": "sidepanel.html",
+    "default_title": "Dhamma.gift Dictionary",
+    "default_icon": "icon-32x32.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icon-16x16.png",    
+      "32": "icon-32x32.png",
+      "48": "icon-48x48.png",
+      "128": "icon-128x128.png"
+    }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
+  "commands": {
+    "toggle_extension": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L",
+        "mac": "Command+Shift+L"
+      },
+      "description": "Toggle the extension on/off"
+    },
+    "_execute_sidebar_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
       }
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "icons": {
+    "16": "icon-32x32.png",
+    "32": "icon-32x32.png",
+    "48": "icon-48x48.png",
+    "128": "icon-128x128.png"
+  }
 }
