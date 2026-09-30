@@ -3,7 +3,8 @@ name: Build macOS Safari Extension
 on:
   push:
     paths:
-      - 'browser-extention/dictLookup-extention-0.6.0-safari/**'
+      # Any version: the folder is renamed on every release, and a pinned name broke the build (0.5.8 -> 0.6.0).
+      - 'browser-extention/dictLookup-extention-*-safari/**'
       - '.github/workflows/safari-macos.yml'
   workflow_dispatch:
     inputs:
@@ -13,7 +14,6 @@ on:
         default: false
 
 env:
-  EXT_SOURCE: browser-extention/dictLookup-extention-0.6.0-safari
   APP_NAME: Dhamma.gift Dictionary
   BUNDLE_ID: gift.dhamma.dictlookup
 
@@ -25,6 +25,15 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
+
+      - name: Locate the Safari extension source
+        # Newest dictLookup-extention-<version>-safari folder; its manifest version becomes MARKETING_VERSION.
+        run: |
+          EXT_SOURCE=$(ls -d browser-extention/dictLookup-extention-*-safari | sort -V | tail -1)
+          EXT_VERSION=$(python3 -c "import json,sys;print(json.load(open(sys.argv[1]))['version'])" "$EXT_SOURCE/manifest.json")
+          echo "EXT_SOURCE=$EXT_SOURCE" >> "$GITHUB_ENV"
+          echo "EXT_VERSION=$EXT_VERSION" >> "$GITHUB_ENV"
+          echo "Source: $EXT_SOURCE, version $EXT_VERSION"
 
       - name: Convert Web Extension to an Xcode project
         run: |
@@ -107,6 +116,15 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v4
+
+      - name: Locate the Safari extension source
+        # Newest dictLookup-extention-<version>-safari folder; its manifest version becomes MARKETING_VERSION.
+        run: |
+          EXT_SOURCE=$(ls -d browser-extention/dictLookup-extention-*-safari | sort -V | tail -1)
+          EXT_VERSION=$(python3 -c "import json,sys;print(json.load(open(sys.argv[1]))['version'])" "$EXT_SOURCE/manifest.json")
+          echo "EXT_SOURCE=$EXT_SOURCE" >> "$GITHUB_ENV"
+          echo "EXT_VERSION=$EXT_VERSION" >> "$GITHUB_ENV"
+          echo "Source: $EXT_SOURCE, version $EXT_VERSION"
 
       - name: Check required secrets are present
         id: secrets_check
@@ -207,7 +225,7 @@ jobs:
             -authenticationKeyIssuerID "${{ secrets.ASC_ISSUER_ID }}" \
             CURRENT_PROJECT_VERSION=${{ github.run_number }} \
             INFOPLIST_KEY_LSApplicationCategoryType=public.app-category.reference \
-            MARKETING_VERSION=0.5.8 \
+            MARKETING_VERSION=$EXT_VERSION \
             DEVELOPMENT_TEAM=${{ secrets.APPLE_TEAM_ID }} \
             archive
 
