@@ -10,7 +10,7 @@ browserAPI.storage.local.get(['isEnabled']).then((result) => {
 });
 
 // Добавляем создание контекстных меню при установке/обновлении расширения
-browserAPI.runtime.onInstalled.addListener(() => {
+browserAPI.runtime.onInstalled.addListener((details) => {
   browserAPI.contextMenus.removeAll(() => {
     // Firefox поддерживает 'action' в MV3 (или 'browser_action' в MV2)
     const actionContext = browserAPI.contextMenus.ContextType ? "action" : "browser_action";
@@ -53,9 +53,12 @@ browserAPI.runtime.onInstalled.addListener(() => {
     });
   });
   
-  // Принудительно выключаем расширение при установке
-  browserAPI.storage.local.set({ isEnabled: false });
-  isEnabled = false;
+  // Off on a fresh install only. onInstalled also fires on every extension update and browser update,
+  // and switching off there silently turned the extension off for everyone after each release.
+  if (details.reason === 'install') {
+    browserAPI.storage.local.set({ isEnabled: false });
+    isEnabled = false;
+  }
   updateIcon();
 });
 
@@ -84,18 +87,29 @@ browserAPI.contextMenus.onClicked.addListener((info, tab) => {
   }
 });
 
+// The service worker is restarted after ~30 s idle and `isEnabled` starts as the default again, while
+// the stored value is read asynchronously. Toggling from memory right after a wake-up (hotkey, icon)
+// flipped the default instead of the real state, so the first press often seemed to do nothing.
+// Always toggle from storage.
+function toggleEnabled(tab) {
+  browserAPI.storage.local.get(['isEnabled'], (result) => {
+    isEnabled = !(result.isEnabled !== undefined ? result.isEnabled : false);
+    browserAPI.storage.local.set({ isEnabled });
+    updateExtensionState(tab);
+  });
+}
+
 // Обработчик клика по значку расширения
 browserAPI.action.onClicked.addListener((tab) => {
-  isEnabled = !isEnabled;
-  browserAPI.storage.local.set({ isEnabled });
-  updateExtensionState(tab);
+  toggleEnabled(tab);
 });
 
 // Обработчик сообщений
 browserAPI.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'reset_extension_state') {
+        // Explicit value: background reads a missing key as off, content.js as on.
         isEnabled = true;
-        browserAPI.storage.local.remove('isEnabled');
+        browserAPI.storage.local.set({ isEnabled: true });
         updateIcon();
     } else if (request.action === 'update_side_panel' && sender.tab) {
         const panel = `sidepanel.html?src=${encodeURIComponent(request.url)}`;
@@ -114,23 +128,35 @@ browserAPI.commands.onCommand.addListener((command) => {
   if (command === 'toggle_extension') {
     browserAPI.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
       if (tabs.length > 0) {
-        isEnabled = !isEnabled;
-        browserAPI.storage.local.set({ isEnabled });
-        updateExtensionState(tabs[0]);
+        toggleEnabled(tabs[0]);
       }
     });
   }
 });
+
+// Shortcut currently bound to toggle_extension, e.g. "Ctrl+Shift+L"; "" if unassigned or unsupported.
+function getToggleShortcut(callback) {
+  try {
+    browserAPI.commands.getAll((commands) => {
+      const cmd = (commands || []).find((c) => c.name === 'toggle_extension');
+      callback((cmd && cmd.shortcut) || '');
+    });
+  } catch (e) {
+    callback('');
+  }
+}
 
 // Функция обновления состояния расширения
 function updateExtensionState(tab) {
   if (tab.id && tab.url && !tab.url.startsWith('about:') && !tab.url.startsWith('moz-extension://')) {
     updateIcon();
 
-    browserAPI.tabs.sendMessage(tab.id, { 
-        action: "show_extension_status", 
-        enabled: isEnabled 
-    }).catch(() => {});
+    // The toast names the hotkey the browser actually assigned (none if the default was taken).
+    getToggleShortcut((shortcut) => browserAPI.tabs.sendMessage(tab.id, {
+        action: "show_extension_status",
+        enabled: isEnabled,
+        shortcut
+    }).catch(() => {}));
 
     if (isEnabled) {
       executeScript(tab.id, { files: ['content.js'] });

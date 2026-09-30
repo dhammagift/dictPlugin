@@ -1,25 +1,28 @@
 {
   "manifest_version": 3,
   "name": "Dhamma.gift Search and Word Lookup",
-  "version": "0.5.8",
-  "description": "Look up any Pali word on any site. Powered by Dict.Dhamma.Gift: DPD, PTS, Gandhari, Sanskrit and more.",
+  "version": "0.6.0",
+  "description": "Search Suttas on Dhamma.gift and look up any Pali word on any site - powered by Dict.Dhamma.Gift (DPD, PTS, Gandhari, Sanskrit dictionaries and more)",
   "permissions": [
     "storage",
     "activeTab",
      "contextMenus",
-    "scripting"
+    "scripting",
+    "sidePanel"
       ],
   "host_permissions": [
     "https://dict.dhamma.gift/*",
-    "https://dhamma.gift/*",
-    "https://dpdict.net/*"
+    "https://dhamma.gift/*"
   ],
 "content_security_policy": {
-  "extension_pages": "script-src 'self'; object-src 'none'; frame-src 'self' https://dict.dhamma.gift;",
+  "extension_pages": "script-src 'self'; object-src 'none'; frame-src 'self' https://dict.dhamma.gift https://dhamma.gift;",
   "sandbox": "sandbox allow-scripts; child-src https://dict.dhamma.gift;"
 },
   "background": {
     "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
   },
   "action": {
     "default_icon": {

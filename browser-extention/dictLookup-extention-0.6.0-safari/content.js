@@ -7,21 +7,6 @@ if (typeof window.dhammaGiftExtInjected === 'undefined') {
 (function() {
     'use strict';
     const extStyles = `
-        ::-webkit-scrollbar {
-            width: 6px !important;
-            height: 6px !important;
-            background: transparent !important;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent !important;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(150, 150, 150, 0.4) !important;
-            border-radius: 3px !important;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(150, 150, 150, 0.7) !important;
-        }
 
         .popupExt.dragging {
             opacity: 0.9;
@@ -458,7 +443,9 @@ function getEffectiveThemeExt() {
 
         return { overlayExt, popupExt, iframeExt, openBtnExt, dictBtnExt };
     }
-    const { overlayExt, popupExt, iframeExt, openBtnExt, dictBtnExt } = createPopupExt();
+    // Built on the first popup lookup, not on every page the content script runs in.
+    let popupRefsExt = null;
+    const getPopupExt = () => popupRefsExt || (popupRefsExt = createPopupExt());
 
     // --- CORE LOGIC ---
     const getSelectedText = () => window.getSelection().toString().trim();
@@ -556,12 +543,6 @@ async function showTranslation(word) {
     const theme = getEffectiveThemeExt();
     let url;
 
-    // Применяем класс темы к самому попапу, чтобы закрасить шапку
-    if (theme === 'dark') {
-        popupExt.classList.add('dark-theme');
-    } else {
-        popupExt.classList.remove('dark-theme');
-    }
 
     // Список ссылок, которые должны открываться строго в попапе (iframe); язык добавляется отдельно
     const popupUrls = [
@@ -602,16 +583,19 @@ async function showTranslation(word) {
                     url = `https://dict.dhamma.gift${isRu ? '/ru' : ''}/?silent&theme=${theme}&q=${encodedWord}`;
                 }
 
+                const { overlayExt, popupExt, iframeExt, openBtnExt, dictBtnExt } = getPopupExt();
+                popupExt.classList.toggle('dark-theme', theme === 'dark');
                 iframeExt.src = url;
                 popupExt.style.display = 'block';
                 overlayExt.style.display = 'block';
 
-                const searchBaseUrl = isRu ? 'https://f.dhamma.gift/?q=' : 'https://dhamma.gift/?q=';
+                const searchBaseUrl = isRu ? 'https://dhamma.gift/ru/?q=' : 'https://dhamma.gift/?q=';
                 openBtnExt.href = `${searchBaseUrl}${encodedWord}${dgParams}`;
                 dictBtnExt.href = url;
 
             } else {
                 // Ссылки нет в списке попапов -> это Custom URL. Открываем в новом окне.
+                if (!/^https?:\/\//i.test(currentModeOrUrl)) return;
                 url = `${currentModeOrUrl}${encodedWord}`;
                 openDictionaryWindowExt(url);
             }
@@ -653,6 +637,7 @@ async function showTranslation(word) {
                     : "Dhamma.Gift extension: Off";
             }
             
+            if (request.shortcut) statusText += ` (${request.shortcut})`;
             showStatusBubble(statusText);
         } else if (request.action === "translate_from_context_menu") {
             if (request.text) {
@@ -689,8 +674,10 @@ async function showTranslation(word) {
                 document.addEventListener('click', handleClickExt);
             } else {
                 document.removeEventListener('click', handleClickExt);
-                popupExt.style.display = 'none';
-                overlayExt.style.display = 'none';
+                if (popupRefsExt) {
+                    popupRefsExt.popupExt.style.display = 'none';
+                    popupRefsExt.overlayExt.style.display = 'none';
+                }
             }
         }
     });

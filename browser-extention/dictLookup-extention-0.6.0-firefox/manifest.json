@@ -7,7 +7,7 @@
     }
 },
   "name": "Dhamma.gift Search and Word Lookup",
-  "version": "0.5.8",
+  "version": "0.6.0",
   "description": "Search Suttas on Dhamma.gift and look up any Pali word on any site - powered by Dict.Dhamma.Gift (DPD, PTS, Gandhari, Sanskrit dictionaries and more)",
   "permissions": [
     "storage",
@@ -17,11 +17,10 @@
       ],
   "host_permissions": [
     "https://dict.dhamma.gift/*",
-    "https://dhamma.gift/*",
-    "https://dpdict.net/*"
+    "https://dhamma.gift/*"
   ],
   "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'none'; frame-src https://dict.dhamma.gift; "
+    "extension_pages": "script-src 'self'; object-src 'none'; frame-src 'self' https://dict.dhamma.gift https://dhamma.gift; "
   },
   "background": {
     "scripts": ["background.js"]

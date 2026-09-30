@@ -48,6 +48,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 showStatus('Please enter a custom URL', 'error');
                 return;
             }
+            if (!/^https?:\/\//i.test(selectedValue)) {
+                showStatus('The custom URL must start with http:// or https://', 'error');
+                return;
+            }
         } else {
             selectedValue = urlPreset.value;
         }
