@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Dhamma.gift Search and Word Lookup",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Look up any Pali word on any site. Powered by Dict.Dhamma.Gift: DPD, PTS, Gandhari, Sanskrit and more.",
   "permissions": [
     "storage",
@@ -33,12 +33,11 @@
     "open_in_tab": false
   },
   "commands": {
-    "toggle_extension": {
+    "_execute_action": {
       "suggested_key": {
-        "default": "Ctrl+Shift+L",
-        "mac": "Command+Shift+L"
-      },
-      "description": "Toggle the extension on/off"
+        "default": "Ctrl+Shift+X",
+        "mac": "MacCtrl+Shift+X"
+      }
     }
   },
   "content_scripts": [

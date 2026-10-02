@@ -7,7 +7,7 @@
     }
 },
   "name": "Dhamma.gift Search and Word Lookup",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Search Suttas on Dhamma.gift and look up any Pali word on any site - powered by Dict.Dhamma.Gift (DPD, PTS, Gandhari, Sanskrit dictionaries and more)",
   "permissions": [
     "storage",
@@ -45,8 +45,8 @@
   "commands": {
     "toggle_extension": {
       "suggested_key": {
-        "default": "Ctrl+Shift+L",
-        "mac": "Command+Shift+L"
+        "default": "Ctrl+Shift+X",
+        "mac": "MacCtrl+Shift+X"
       },
       "description": "Toggle the extension on/off"
     },
