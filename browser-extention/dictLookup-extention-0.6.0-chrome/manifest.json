@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Dhamma.gift Search and Word Lookup",
   "version": "0.6.1",
-  "description": "Search Suttas on Dhamma.gift and look up any Pali word on any site - powered by Dict.Dhamma.Gift (DPD, PTS, Gandhari, Sanskrit dictionaries and more)",
+  "description": "Search Suttas and look up any Pali word on any site. Powered by Dict.Dhamma.Gift: DPD, PTS, Gandhari, Sanskrit dictionaries",
   "permissions": [
     "storage",
     "activeTab",
