@@ -6,6 +6,8 @@ on:
       # Any version: the folder is renamed on every release, and a pinned name broke the build (0.5.8 -> 0.6.0).
       - 'browser-extention/dictLookup-extention-*-safari/**'
       - '.github/workflows/safari-macos.yml'
+      - '.github/scripts/safari-app-ui.py'
+      - 'assets/safari/**'
   workflow_dispatch:
     inputs:
       release:
@@ -72,7 +74,7 @@ jobs:
           grep -rn --include='*.swift' 'extensionBundleIdentifier =' .
           grep -rqF --include='*.swift' "extensionBundleIdentifier = \"$BUNDLE_ID.Extension\"" .
 
-      - name: Add setup steps to the app window
+      - name: Add setup steps and the full-size icon to the app
         run: python3 .github/scripts/safari-app-ui.py "build/safari/$APP_NAME"
 
       - name: Discover Xcode scheme
@@ -182,7 +184,7 @@ jobs:
           grep -rn --include='*.swift' 'extensionBundleIdentifier =' .
           grep -rqF --include='*.swift' "extensionBundleIdentifier = \"$BUNDLE_ID.Extension\"" .
 
-      - name: Add setup steps to the app window
+      - name: Add setup steps and the full-size icon to the app
         if: steps.secrets_check.outputs.ready == 'true'
         run: python3 .github/scripts/safari-app-ui.py "build/safari/$APP_NAME"
 
