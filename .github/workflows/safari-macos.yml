@@ -66,6 +66,11 @@ jobs:
           open(path, 'w').write(text)
           PY
           grep -n PRODUCT_BUNDLE_IDENTIFIER "$PBXPROJ"
+          # The app's ViewController.swift hardcodes the converter's extension ID too; a stale one
+          # breaks "Quit and Open Safari Extensions Preferences" (App Review rejection, 0.6.1).
+          find . -name '*.swift' -exec perl -pi -e 's/(extensionBundleIdentifier\s*=\s*)"[^"]*"/$1"$ENV{BUNDLE_ID}.Extension"/' {} +
+          grep -rn --include='*.swift' 'extensionBundleIdentifier =' .
+          grep -rqF --include='*.swift' "extensionBundleIdentifier = \"$BUNDLE_ID.Extension\"" .
 
       - name: Discover Xcode scheme
         id: scheme
@@ -168,6 +173,11 @@ jobs:
           open(path, 'w').write(text)
           PY
           grep -n PRODUCT_BUNDLE_IDENTIFIER "$PBXPROJ"
+          # The app's ViewController.swift hardcodes the converter's extension ID too; a stale one
+          # breaks "Quit and Open Safari Extensions Preferences" (App Review rejection, 0.6.1).
+          find . -name '*.swift' -exec perl -pi -e 's/(extensionBundleIdentifier\s*=\s*)"[^"]*"/$1"$ENV{BUNDLE_ID}.Extension"/' {} +
+          grep -rn --include='*.swift' 'extensionBundleIdentifier =' .
+          grep -rqF --include='*.swift' "extensionBundleIdentifier = \"$BUNDLE_ID.Extension\"" .
 
       - name: Discover Xcode scheme
         id: scheme
