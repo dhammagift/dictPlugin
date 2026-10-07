@@ -12,7 +12,7 @@ import sys
 
 STEPS = """<ol class="dg-steps">
     <li>Click the button below and turn on Dhamma.gift.</li>
-    <li>Click &ldquo;Edit Websites&hellip;&rdquo; and set &ldquo;When visiting other websites&rdquo; to Allow, so it works on every site without asking.</li>
+    <li>Click &ldquo;Edit Websites&hellip;&rdquo; and set other websites to Allow, so it works on every site without asking. (Or, when Safari asks, choose &ldquo;Always Allow on Every Website&rdquo;.)</li>
     <li>Done: click any Pali word on a web page.</li>
 </ol>
 """
