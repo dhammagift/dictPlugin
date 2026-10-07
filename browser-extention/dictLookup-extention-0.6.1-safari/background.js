@@ -4,59 +4,54 @@ let isEnabled = true;
 const browserAPI = self.chrome || self.browser;
 
 // Загружаем сохраненное состояние расширения из хранилища
+// Safari: on by default. The user already switches the extension on in Safari Settings and grants
+// website access there, so a second "off until you press the toolbar button" step made lookups look
+// broken (App Review 2.1(a)). content.js reads a missing key as on too.
 browserAPI.storage.local.get(['isEnabled'], (result) => {
-  isEnabled = result.isEnabled !== undefined ? result.isEnabled : false; // ИЗМЕНЕНО: true -> false
+  isEnabled = result.isEnabled !== false;
   updateIcon();
 });
+
+// One failing item must not abort the rest: Safari may reject a context it doesn't support
+// (e.g. 'action'), and the selection items below are the ones that matter.
+function createMenu(props) {
+  try {
+    browserAPI.contextMenus.create(props, () => void browserAPI.runtime.lastError);
+  } catch (e) {
+    console.warn('contextMenus.create failed', props.id, e);
+  }
+}
 
 // Добавляем создание контекстных меню при установке/обновлении расширения
 browserAPI.runtime.onInstalled.addListener((details) => {
   // Удаляем все существующие меню, чтобы избежать дублирования при обновлении
   browserAPI.contextMenus.removeAll(() => {
-    browserAPI.contextMenus.create({
-      id: "openDhammaGiftMain",
-      title: "Dhamma.gift",
-      contexts: ["action"] // 'action' для меню кнопки расширения
-    });
-
-    browserAPI.contextMenus.create({
-      id: "openDict",
-      title: "Dict.Dhamma.Gift",
-      contexts: ["action"]
-    });
-
-    browserAPI.contextMenus.create({
-      id: "openAkshara",
-      title: "Aksharamukha.com",
-      contexts: ["action"]
-    });
-
-    browserAPI.contextMenus.create({
-      id: "openMitra",
-      title: "DharmaMitra.org",
-      contexts: ["action"]
-    });
-
     // Пункт меню для выделенного текста
-    browserAPI.contextMenus.create({
+    createMenu({
       id: "translateSelection",
       title: "Dhamma.gift",
       contexts: ["selection"]
     });
 
     // Word-aware grammar parse, same URL pattern as paliLookup.js on the site
-    browserAPI.contextMenus.create({
+    createMenu({
       id: "explainGrammarSelection",
       title: "Explain grammar (DharmaMitra)",
       contexts: ["selection"]
     });
+
+    // 'action' для меню кнопки расширения
+    createMenu({ id: "openDhammaGiftMain", title: "Dhamma.gift", contexts: ["action"] });
+    createMenu({ id: "openDict", title: "Dict.Dhamma.Gift", contexts: ["action"] });
+    createMenu({ id: "openAkshara", title: "Aksharamukha.com", contexts: ["action"] });
+    createMenu({ id: "openMitra", title: "DharmaMitra.org", contexts: ["action"] });
   });
-  
-  // Off on a fresh install only. onInstalled also fires on every extension update and browser update,
-  // and switching off there silently turned the extension off for everyone after each release.
+
+  // Explicit value on a fresh install only. onInstalled also fires on every extension update and
+  // browser update, and resetting there overrode the user's own choice after each release.
   if (details.reason === 'install') {
-    browserAPI.storage.local.set({ isEnabled: false });
-    isEnabled = false;
+    browserAPI.storage.local.set({ isEnabled: true });
+    isEnabled = true;
   }
   updateIcon();
 });
@@ -91,7 +86,7 @@ browserAPI.contextMenus.onClicked.addListener((info, tab) => {
 // Always toggle from storage.
 function toggleEnabled(tab) {
   browserAPI.storage.local.get(['isEnabled'], (result) => {
-    isEnabled = !(result.isEnabled !== undefined ? result.isEnabled : false);
+    isEnabled = !(result.isEnabled !== false);
     browserAPI.storage.local.set({ isEnabled });
     updateExtensionState(tab);
   });
@@ -110,9 +105,24 @@ browserAPI.runtime.onMessage.addListener((request, sender, sendResponse) => {
         browserAPI.storage.local.set({ isEnabled: true });
         updateIcon();
     }
+    // window.open from a context-menu message has no user gesture, so Safari's popup blocker
+    // dropped it and "Dhamma.gift" in the selection menu did nothing. Open the window from here.
+    if (request.action === 'open_dictionary_window' && /^https?:\/\//i.test(request.url || '')) {
+      openDictionaryWindow(request);
+    }
     // No chrome.sidePanel equivalent in Safari — 'update_side_panel' is never sent
     // because content.js here has no sidePanelExt/sidePanelRuExt option to trigger it.
 });
+
+function openDictionaryWindow({ url, width, height, left, top }) {
+  const fallback = () => browserAPI.tabs.create({ url });
+  try {
+    const p = browserAPI.windows.create({ url, type: 'popup', width, height, left, top });
+    if (p && p.catch) p.catch(fallback);
+  } catch (e) {
+    fallback();
+  }
+}
 
 // Обработчик горячей клавиши
 browserAPI.commands.onCommand.addListener((command) => {
@@ -129,7 +139,8 @@ browserAPI.commands.onCommand.addListener((command) => {
 function getToggleShortcut(callback) {
   try {
     browserAPI.commands.getAll((commands) => {
-      const cmd = (commands || []).find((c) => c.name === 'toggle_extension');
+      // Safari's manifest binds the hotkey to _execute_action (the action click toggles).
+      const cmd = (commands || []).find((c) => c.name === 'toggle_extension' || c.name === '_execute_action');
       callback((cmd && cmd.shortcut) || '');
     });
   } catch (e) {
@@ -139,8 +150,10 @@ function getToggleShortcut(callback) {
 
 // Функция обновления состояния расширения
 function updateExtensionState(tab) {
-  if (tab.id && tab.url && !tab.url.startsWith('chrome://') && !tab.url.startsWith('edge://')) {
-    updateIcon();
+  // Badge first and unconditionally: Safari often leaves tab.url empty (no "tabs" permission,
+  // start page), and requiring it left the badge stale, so the toolbar button seemed dead.
+  updateIcon();
+  if (tab && tab.id) {
 
     // Send notification to the content script to show the bubble
     // The toast names the hotkey the browser actually assigned (none if the default was taken).
@@ -164,19 +177,27 @@ function updateExtensionState(tab) {
 
 // Функция обновления иконки расширения
 function updateIcon() {
-  const iconPath = isEnabled ? "icon.png" : "icon_disabled.png";
-  browserAPI.action.setIcon({ path: iconPath });
-  browserAPI.action.setBadgeText({ text: isEnabled ? "ON" : "OFF" });
-  browserAPI.action.setBadgeBackgroundColor({ color: isEnabled ? "#4CAF50" : "#B71C1C" });
+  const path = isEnabled
+    ? { 16: "icon-16x16.png", 32: "icon-32x32.png" }
+    : { 16: "icon_disabled.png", 32: "icon_disabled.png" };
+  const action = browserAPI.action;
+  // Each call guarded: an API Safari lacks must not abort the toggle that called us.
+  const safe = (fn) => { try { const p = fn(); if (p && p.catch) p.catch(() => {}); } catch (e) {} };
+  safe(() => action.setIcon({ path }));
+  safe(() => action.setBadgeText({ text: isEnabled ? "ON" : "OFF" }));
+  if (action.setBadgeBackgroundColor) {
+    safe(() => action.setBadgeBackgroundColor({ color: isEnabled ? "#4CAF50" : "#B71C1C" }));
+  }
 }
 
 // Функция выполнения скрипта (универсальная для Chrome и Edge)
 function executeScript(tabId, scriptDetails) {
   if (browserAPI.scripting && browserAPI.scripting.executeScript) {
+    // Rejects on pages the extension can't access (start page, other extensions); nothing to do there.
     browserAPI.scripting.executeScript({
       target: { tabId },
       ...scriptDetails
-    });
+    }).catch(() => {});
   } else {
     if (scriptDetails.files) {
       browserAPI.tabs.executeScript(tabId, { file: scriptDetails.files[0] });

@@ -312,12 +312,20 @@ function getEffectiveThemeExt() {
 
     // --- NEW WINDOW MODE LOGIC ---
     let dictionaryWindow = null;
-    function openDictionaryWindowExt(url) {
+    // viaBackground: no user gesture here (context-menu message), so Safari would block window.open.
+    function openDictionaryWindowExt(url, viaBackground) {
         
         const newWindowWidth = 500, newWindowHeight = 500;
         const screenWidth = window.screen.availWidth, screenHeight = window.screen.availHeight;
         const newWindowLeft = screenWidth - newWindowWidth - 30;
         const newWindowTop = screenHeight - newWindowHeight - 50;
+        if (viaBackground) {
+            browserApi.runtime.sendMessage({
+                action: 'open_dictionary_window', url,
+                width: newWindowWidth, height: newWindowHeight, left: newWindowLeft, top: newWindowTop
+            });
+            return;
+        }
         const popupFeatures = `width=${newWindowWidth},height=${newWindowHeight},left=${newWindowLeft},top=${newWindowTop},scrollbars=yes,resizable=yes`;
         dictionaryWindow = window.open(url, 'dictionaryPopup', popupFeatures);
         if (dictionaryWindow) dictionaryWindow.focus();
@@ -526,18 +534,20 @@ function getWordUnderCursorExt(event) {
     return null;
 }
 
+    // A link click, not a hidden iframe: Safari doesn't hand iframe navigations to a custom scheme
+    // over to the app, and page CSP (frame-src) can block the iframe outright.
+    // handleClickExt ignores clicks on <a>, so this click doesn't trigger another lookup.
     function triggerCustomProtocol(url) {
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        document.body.appendChild(iframe);
-        iframe.contentWindow.location.href = url;
-        setTimeout(() => {
-            document.body.removeChild(iframe);
-        }, 500);
+        const link = document.createElement('a');
+        link.href = url;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
     }
 
 
-async function showTranslation(word) {
+async function showTranslation(word, fromContextMenu = false) {
     const processedWord = processWordExt(word);
     const encodedWord = encodeURIComponent(processedWord);
     const theme = getEffectiveThemeExt();
@@ -555,19 +565,19 @@ async function showTranslation(word) {
         // --- НОВЫЕ ОКНА ---
         case 'newWindowExt':
             url = `https://dict.dhamma.gift${isRu ? '/ru' : ''}/?silent&theme=${theme}&q=${encodedWord}`;
-            openDictionaryWindowExt(url);
+            openDictionaryWindowExt(url, fromContextMenu);
             break;
         case 'dharmamitra':
             url = `https://dharmamitra.org/translate?input_sentence=${encodedWord}`;
-            openDictionaryWindowExt(url);
+            openDictionaryWindowExt(url, fromContextMenu);
             break;
 
         // No Side Panel case here — Safari has no chrome.sidePanel equivalent,
         // and options.html doesn't offer it, so currentModeOrUrl never equals it.
 
         // --- ПРИЛОЖЕНИЯ ---
+        // DictTango is Android-only; options.html no longer offers it on Safari.
         case 'goldendict://':
-        case 'dttp://app.dicttango/WordLookup?word=':
         case 'mdict://mdict.cn/search?text=':
             url = `${currentModeOrUrl}${encodedWord}`;
             triggerCustomProtocol(url);
@@ -597,7 +607,7 @@ async function showTranslation(word) {
                 // Ссылки нет в списке попапов -> это Custom URL. Открываем в новом окне.
                 if (!/^https?:\/\//i.test(currentModeOrUrl)) return;
                 url = `${currentModeOrUrl}${encodedWord}`;
-                openDictionaryWindowExt(url);
+                openDictionaryWindowExt(url, fromContextMenu);
             }
             break;
     }
@@ -641,7 +651,7 @@ async function showTranslation(word) {
             showStatusBubble(statusText);
         } else if (request.action === "translate_from_context_menu") {
             if (request.text) {
-                showTranslation(request.text);
+                showTranslation(request.text, true);
             }
         }
     }); 

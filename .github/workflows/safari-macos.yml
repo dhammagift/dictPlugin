@@ -72,6 +72,9 @@ jobs:
           grep -rn --include='*.swift' 'extensionBundleIdentifier =' .
           grep -rqF --include='*.swift' "extensionBundleIdentifier = \"$BUNDLE_ID.Extension\"" .
 
+      - name: Add setup steps to the app window
+        run: python3 .github/scripts/safari-app-ui.py "build/safari/$APP_NAME"
+
       - name: Discover Xcode scheme
         id: scheme
         run: |
@@ -179,6 +182,10 @@ jobs:
           grep -rn --include='*.swift' 'extensionBundleIdentifier =' .
           grep -rqF --include='*.swift' "extensionBundleIdentifier = \"$BUNDLE_ID.Extension\"" .
 
+      - name: Add setup steps to the app window
+        if: steps.secrets_check.outputs.ready == 'true'
+        run: python3 .github/scripts/safari-app-ui.py "build/safari/$APP_NAME"
+
       - name: Discover Xcode scheme
         id: scheme
         if: steps.secrets_check.outputs.ready == 'true'
@@ -233,7 +240,7 @@ jobs:
             -authenticationKeyPath "$RUNNER_TEMP/asc/AuthKey.p8" \
             -authenticationKeyID "${{ secrets.ASC_KEY_ID }}" \
             -authenticationKeyIssuerID "${{ secrets.ASC_ISSUER_ID }}" \
-            CURRENT_PROJECT_VERSION=${{ github.run_number }} \
+            CURRENT_PROJECT_VERSION=${{ github.run_number }}.${{ github.run_attempt }} \
             INFOPLIST_KEY_LSApplicationCategoryType=public.app-category.reference \
             MARKETING_VERSION=$EXT_VERSION \
             DEVELOPMENT_TEAM=${{ secrets.APPLE_TEAM_ID }} \
