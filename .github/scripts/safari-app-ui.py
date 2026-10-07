@@ -11,9 +11,9 @@ import subprocess
 import sys
 
 STEPS = """<ol class="dg-steps">
-    <li>Click the button below and turn on the Dhamma.gift extension in Safari Settings &rarr; Extensions.</li>
-    <li>In Safari Settings &rarr; Websites, select the extension and set &ldquo;When visiting other websites&rdquo; to Allow.</li>
-    <li>Click any Pali word on a web page to look it up, or select text and choose Dhamma.gift from the context menu. The toolbar button turns lookups on and off.</li>
+    <li>Click the button below and turn on Dhamma.gift.</li>
+    <li>Click &ldquo;Edit Websites&hellip;&rdquo; and set &ldquo;When visiting other websites&rdquo; to Allow, so it works on every site without asking.</li>
+    <li>Done: click any Pali word on a web page.</li>
 </ol>
 """
 
