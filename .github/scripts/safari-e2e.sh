@@ -37,6 +37,9 @@ osascript -e "quit app \"$(basename "$APP" .app)\""
 # through Authorization Services, root can pre-approve its rights in the authorization database.
 sudo sqlite3 /var/db/auth.db "select name from rules where name like '%afari%'" | tee "$OUT/auth-rules.txt"
 for r in $(cat "$OUT/auth-rules.txt"); do sudo security authorizationdb write "$r" allow 2>&1 | tail -1; done
+for r in authenticate-session-owner authenticate-session-owner-or-admin; do sudo security authorizationdb write "$r" allow 2>&1 | tail -1; done
+security authorizationdb read com.apple.Safari.allow-unsigned-app-extensions 2>/dev/null | grep -A1 "<key>rule\|<key>class" | tr -d '\t\n'; echo
+sudo killall authd 2>/dev/null
 PW=runner
 
 open -a Safari "about:blank"
@@ -67,6 +70,7 @@ dev_on() {
   end tell"
   sleep 2
   shot "auth-$2"
+  ps axo pid,comm | grep -iE "SecurityAgent|coreautha|authorizationhost|LocalAuth" | grep -v grep
   ui 'tell application "System Events" to get {name, name of windows} of (processes whose background only is false)'
   ui "tell application \"System Events\" to tell process \"SecurityAgent\" to get entire contents of window 1" > "$OUT/ui-auth-$2.txt"
   # The prompt (Safari's lock sheet) has the password field focused: just type.
