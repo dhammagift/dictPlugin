@@ -20,6 +20,8 @@ defaults read /Applications/Safari.app/Contents/Info.plist CFBundleShortVersionS
 cp -R "$APP_SRC" /Applications/
 APP="/Applications/$(basename "$APP_SRC")"
 xattr -cr "$APP"
+# upload-artifact zips drop the executable bit.
+chmod +x "$APP"/Contents/MacOS/* "$APP"/Contents/PlugIns/*.appex/Contents/MacOS/*
 codesign -dv --entitlements - "$APP" 2>&1 | head -30
 open "$APP"
 sleep 8
@@ -31,9 +33,15 @@ log show --last 1m --style compact --predicate 'process CONTAINS "Dhamma" OR eve
 pluginkit -mAvvv -p com.apple.Safari.web-extension | tee "$OUT/pluginkit.txt"
 osascript -e "quit app \"$(basename "$APP" .app)\""
 
-# "Allow unsigned extensions" asks for an admin password; the runner user has none we know, so set one.
+# "Allow unsigned extensions" asks for the user's password; the runner's is not published, so set a new one
+# (root may, without the old one, through sysadminctl), or fall back to the usual image defaults.
 PW=e2e-$RANDOM$RANDOM
-sudo dscl . -passwd /Users/runner "$PW"
+sudo sysadminctl -resetPasswordFor "$USER" -newPassword "$PW" 2>&1 | tail -2
+if ! dscl . -authonly "$USER" "$PW" 2>/dev/null; then
+  PW=""
+  for p in runner admin anka; do dscl . -authonly "$USER" "$p" 2>/dev/null && { PW=$p; break; }; done
+fi
+[ -n "$PW" ] && echo "password: known" || echo "password: unknown"
 
 open -a Safari "about:blank"
 sleep 5
@@ -65,14 +73,10 @@ dev_on() {
   shot "auth-$2"
   ui 'tell application "System Events" to get {name, name of windows} of (processes whose background only is false)'
   ui "tell application \"System Events\" to tell process \"SecurityAgent\" to get entire contents of window 1" > "$OUT/ui-auth-$2.txt"
+  # The prompt (Safari's lock sheet) has the password field focused: just type.
   ui "tell application \"System Events\"
-    if exists process \"SecurityAgent\" then
-      tell process \"SecurityAgent\"
-        set frontmost to true
-        keystroke \"$PW\"
-        keystroke return
-      end tell
-    end if
+    keystroke \"$PW\"
+    keystroke return
   end tell"
   sleep 2
   ui "tell application \"System Events\" to tell process \"Safari\" to get value of checkbox \"$1\" of group 1 of group 1 of window 1"
@@ -103,6 +107,38 @@ end tell"
 sleep 2
 shot extension-on
 dump Safari extension-on
+# Website access: Edit Websites... > "When visiting other websites" = Allow, as the app window tells people to do.
+ui 'tell application "System Events" to tell process "Safari"
+  set L to entire contents of window 1
+  repeat with i from 1 to count of L
+    set c to item i of L
+    try
+      if role of c is "AXButton" and (name of c as text) starts with "Edit Websites" then
+        click c
+        exit repeat
+      end if
+    end try
+  end repeat
+end tell'
+sleep 2
+dump Safari websites
+ui 'tell application "System Events" to tell process "Safari"
+  set L to entire contents of window 1
+  set pops to {}
+  repeat with i from 1 to count of L
+    set c to item i of L
+    try
+      if role of c is "AXPopUpButton" then set end of pops to c
+    end try
+  end repeat
+  set p to last item of pops
+  click p
+  delay 1
+  click menu item "Allow" of menu 1 of p
+  return value of p
+end tell'
+sleep 1
+shot websites-allow
 ui 'tell application "System Events" to keystroke "w" using command down'
 
 # A page with Pali; record the rest.
