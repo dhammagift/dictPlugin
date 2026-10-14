@@ -14,6 +14,10 @@ on:
         description: 'Upload to App Store Connect (TestFlight)'
         type: boolean
         default: false
+      e2e:
+        description: 'Try the extension in Safari on the CI Mac (screenshots + video)'
+        type: boolean
+        default: false
 
 env:
   APP_NAME: Dhamma.gift Dictionary
@@ -114,6 +118,41 @@ jobs:
           name: safari-extension-app-unsigned
           path: build/safari/${{ env.APP_NAME }}/DerivedData/Build/Products/Release/*.app
           if-no-files-found: error
+          retention-days: 14
+
+  e2e:
+    # Install the built app on the runner, switch the extension on in Safari, click a Pali word on a page.
+    if: github.event_name == 'workflow_dispatch' && inputs.e2e == true
+    runs-on: macos-15
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: safari-extension-app-unsigned
+          path: app
+      - name: Sign to run locally
+        # The build is unsigned; Safari needs the extension sandboxed, so ad-hoc sign it with the converter's entitlements.
+        run: |
+          APP=$(ls -d app/*.app | head -1)
+          cat > ent.plist <<'PLIST'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>com.apple.security.app-sandbox</key><true/>
+            <key>com.apple.security.files.user-selected.read-only</key><true/>
+            <key>com.apple.security.network.client</key><true/>
+          </dict></plist>
+          PLIST
+          for x in "$APP"/Contents/PlugIns/*.appex "$APP"; do codesign --force --sign - --entitlements ent.plist "$x"; done
+          codesign --verify --deep --strict "$APP" && echo "APP=$APP" >> "$GITHUB_ENV"
+      - name: Try it in Safari
+        run: OUT=e2e bash .github/scripts/safari-e2e.sh "$APP"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: safari-e2e
+          path: e2e
           retention-days: 14
 
   release:
