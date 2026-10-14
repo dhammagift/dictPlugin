@@ -22,8 +22,12 @@ APP="/Applications/$(basename "$APP_SRC")"
 xattr -cr "$APP"
 codesign -dv --entitlements - "$APP" 2>&1 | head -30
 open "$APP"
-sleep 6
+sleep 8
 shot app-window
+pgrep -fl "Dhamma.gift Dictionary" || echo "app is not running"
+ui 'tell application "System Events" to get {name, name of windows} of (processes whose background only is false)'
+ls -la ~/Library/Logs/DiagnosticReports/ 2>/dev/null | tail -5
+log show --last 1m --style compact --predicate 'process CONTAINS "Dhamma" OR eventMessage CONTAINS "dictlookup"' 2>/dev/null | tail -40
 pluginkit -mAvvv -p com.apple.Safari.web-extension | tee "$OUT/pluginkit.txt"
 osascript -e "quit app \"$(basename "$APP" .app)\""
 
@@ -54,19 +58,12 @@ shot developer-tab
 # Each of these developer switches may ask for the admin password (the prompt belongs to SecurityAgent).
 dev_on() {
   ui "tell application \"System Events\" to tell process \"Safari\"
-    set found to false
-    repeat with c in (entire contents of window 1)
-      try
-        if class of c is checkbox and name of c contains \"$1\" then
-          if value of c is 0 then click c
-          set found to true
-        end if
-      end try
-    end repeat
-    return found
+    set c to checkbox \"$1\" of group 1 of group 1 of window 1
+    if value of c is 0 then click c
   end tell"
   sleep 2
   shot "auth-$2"
+  ui 'tell application "System Events" to get {name, name of windows} of (processes whose background only is false)'
   ui "tell application \"System Events\" to tell process \"SecurityAgent\" to get entire contents of window 1" > "$OUT/ui-auth-$2.txt"
   ui "tell application \"System Events\"
     if exists process \"SecurityAgent\" then
@@ -78,9 +75,10 @@ dev_on() {
     end if
   end tell"
   sleep 2
+  ui "tell application \"System Events\" to tell process \"Safari\" to get value of checkbox \"$1\" of group 1 of group 1 of window 1"
 }
-dev_on unsigned unsigned
-dev_on "Apple Events" apple-events
+dev_on "Allow unsigned extensions" unsigned
+dev_on "Allow JavaScript from Apple Events" apple-events
 dump Safari settings-developer-after
 shot developer-after
 
@@ -89,11 +87,18 @@ ui 'tell application "System Events" to tell process "Safari" to click button "E
 sleep 2
 dump Safari settings-extensions
 ui "tell application \"System Events\" to tell process \"Safari\"
-  repeat with c in (entire contents of window 1)
+  set L to entire contents of window 1
+  set seen to {}
+  repeat with i from 1 to count of L
+    set c to item i of L
     try
-      if class of c is checkbox and name of c contains \"Dhamma\" and value of c is 0 then click c
+      if role of c is \"AXCheckBox\" then
+        set end of seen to (name of c as text) & \" = \" & (value of c as text)
+        if (name of c as text) contains \"Dhamma\" and value of c is 0 then click c
+      end if
     end try
   end repeat
+  return seen
 end tell"
 sleep 2
 shot extension-on
