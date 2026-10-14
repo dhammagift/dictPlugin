@@ -33,15 +33,9 @@ log show --last 1m --style compact --predicate 'process CONTAINS "Dhamma" OR eve
 pluginkit -mAvvv -p com.apple.Safari.web-extension | tee "$OUT/pluginkit.txt"
 osascript -e "quit app \"$(basename "$APP" .app)\""
 
-# "Allow unsigned extensions" asks for the user's password, and the runner's is not published. If Safari asks
-# through Authorization Services, root can pre-approve its rights in the authorization database.
-sudo sqlite3 /var/db/auth.db "select name from rules where name like '%afari%'" | tee "$OUT/auth-rules.txt"
-for r in $(cat "$OUT/auth-rules.txt"); do sudo security authorizationdb write "$r" allow 2>&1 | tail -1; done
-for r in authenticate-session-owner authenticate-session-owner-or-admin; do sudo security authorizationdb write "$r" allow 2>&1 | tail -1; done
-security authorizationdb read com.apple.Safari.allow-unsigned-app-extensions 2>/dev/null | grep -A1 "<key>rule\|<key>class" | tr -d '\t\n'; echo
-sudo killall authd 2>/dev/null
-PW=runner
-
+# Enabling the extension globally needs "Allow unsigned extensions", which asks for the runner's password (not
+# published). Instead load it the developer way, with "Add Temporary Extension...": an unsigned extension for the
+# current session, no password prompt. First show the Developer tab.
 open -a Safari "about:blank"
 sleep 5
 ui 'tell application "Safari" to activate'
@@ -62,29 +56,6 @@ ui 'tell application "System Events" to tell process "Safari" to click button "D
 sleep 1
 dump Safari settings-developer
 shot developer-tab
-# Each of these developer switches may ask for the admin password (the prompt belongs to SecurityAgent).
-dev_on() {
-  ui "tell application \"System Events\" to tell process \"Safari\"
-    set c to checkbox \"$1\" of group 1 of group 1 of window 1
-    if value of c is 0 then click c
-  end tell"
-  sleep 2
-  shot "auth-$2"
-  ps axo pid,comm | grep -iE "SecurityAgent|coreautha|authorizationhost|LocalAuth" | grep -v grep
-  ui 'tell application "System Events" to get {name, name of windows} of (processes whose background only is false)'
-  ui "tell application \"System Events\" to tell process \"SecurityAgent\" to get entire contents of window 1" > "$OUT/ui-auth-$2.txt"
-  # The prompt (Safari's lock sheet) has the password field focused: just type.
-  ui "tell application \"System Events\"
-    keystroke \"$PW\"
-    keystroke return
-  end tell"
-  sleep 2
-  ui "tell application \"System Events\" to tell process \"Safari\" to get value of checkbox \"$1\" of group 1 of group 1 of window 1"
-}
-dev_on "Allow unsigned extensions" unsigned
-dev_on "Allow JavaScript from Apple Events" apple-events
-dump Safari settings-developer-after
-shot developer-after
 
 # The app's button must take people to Safari's Extensions settings (App Review rejected 0.6.1 when it did not).
 open "$APP"
@@ -107,7 +78,54 @@ shot app-button-opens-settings
 pgrep -fl "Dhamma.gift Dictionary" && echo "app still running" || echo "app quit"
 ui 'tell application "System Events" to get {name, name of windows} of (processes whose background only is false)'
 
-# Extensions tab: switch ours on.
+# Load the extension for this session: Developer tab > "Add Temporary Extension..." > pick the built .app.
+open -a Safari "about:blank"
+sleep 3
+ui 'tell application "System Events" to keystroke "," using command down'
+sleep 2
+ui 'tell application "System Events" to tell process "Safari" to click button "Developer" of toolbar 1 of window 1'
+sleep 1
+ui 'tell application "System Events" to tell process "Safari"
+  set L to entire contents of window 1
+  repeat with i from 1 to count of L
+    set c to item i of L
+    try
+      if role of c is "AXButton" and (name of c as text) starts with "Add Temporary Extension" then
+        click c
+        return "clicked add temporary"
+      end if
+    end try
+  end repeat
+  return "no add-temporary button"
+end tell'
+sleep 2
+shot add-temp-panel
+# NSOpenPanel: Go to Folder (Cmd+Shift+G), type the .app path, Return to fill, Return to choose.
+ui 'tell application "System Events" to keystroke "g" using {command down, shift down}'
+sleep 1
+ui "tell application \"System Events\" to keystroke \"$APP\""
+sleep 1
+ui 'tell application "System Events" to keystroke return'
+sleep 1
+ui 'tell application "System Events" to keystroke return'
+sleep 4
+shot temp-extension-added
+dump Safari after-add-temp
+# Safari may raise a sheet to confirm/allow the temporary extension; take the affirmative button.
+ui 'tell application "System Events" to tell process "Safari"
+  set L to entire contents of window 1
+  repeat with i from 1 to count of L
+    set c to item i of L
+    try
+      if role of c is "AXButton" and ((name of c as text) is "Always Allow on Every Website" or (name of c as text) is "Allow" or (name of c as text) starts with "Turn On") then
+        click c
+        exit repeat
+      end if
+    end try
+  end repeat
+end tell'
+sleep 2
+# Extensions tab: confirm ours is listed and on.
 ui 'tell application "System Events" to tell process "Safari" to click button "Extensions" of toolbar 1 of window 1'
 sleep 2
 dump Safari settings-extensions
