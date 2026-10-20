@@ -1,38 +1,32 @@
 {
   "manifest_version": 3,
-  "browser_specific_settings": {
-    "gecko": {
-        "id": "dictlookup-extention@dhamma.gfit",
-        "strict_min_version": "109.0" 
-    }
-},
   "name": "Dhamma.gift Search and Word Lookup",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Search Suttas and look up any Pali word on any site. Powered by Dict.Dhamma.Gift: DPD, PTS, Gandhari, Sanskrit dictionaries",
   "permissions": [
     "storage",
     "activeTab",
      "contextMenus",
-    "scripting"
+    "scripting",
+    "sidePanel"
       ],
   "host_permissions": [
     "https://dict.dhamma.gift/*",
     "https://dhamma.gift/*"
   ],
-  "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'none'; frame-src 'self' https://dict.dhamma.gift https://dhamma.gift; "
-  },
+"content_security_policy": {
+  "extension_pages": "script-src 'self'; object-src 'none'; frame-src 'self' https://dict.dhamma.gift https://dhamma.gift;",
+  "sandbox": "sandbox allow-scripts; child-src https://dict.dhamma.gift;"
+},
   "background": {
-    "scripts": ["background.js"]
+    "service_worker": "background.js"
   },
-  "sidebar_action": {
-    "default_panel": "sidepanel.html",
-    "default_title": "Dhamma.gift Dictionary",
-    "default_icon": "icon-32x32.png"
+  "side_panel": {
+    "default_path": "sidepanel.html"
   },
   "action": {
     "default_icon": {
-      "16": "icon-16x16.png",    
+      "16": "icon.png",    
       "32": "icon-32x32.png",
       "48": "icon-48x48.png",
       "128": "icon-128x128.png"
@@ -49,12 +43,6 @@
         "mac": "Alt+Shift+X"
       },
       "description": "Toggle the extension on/off"
-    },
-    "_execute_sidebar_action": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+Y",
-        "mac": "Command+Shift+Y"
-      }
     }
   },
   "content_scripts": [
