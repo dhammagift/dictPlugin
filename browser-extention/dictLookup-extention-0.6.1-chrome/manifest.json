@@ -40,7 +40,7 @@
     "toggle_extension": {
       "suggested_key": {
         "default": "Alt+Shift+X",
-        "mac": "Command+Shift+X"
+        "mac": "Alt+Shift+X"
       },
       "description": "Toggle the extension on/off"
     }
