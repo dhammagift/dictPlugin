@@ -45,7 +45,7 @@
   "commands": {
     "toggle_extension": {
       "suggested_key": {
-        "default": "Ctrl+Shift+X",
+        "default": "Ctrl+Shift+L",
         "mac": "MacCtrl+Shift+X"
       },
       "description": "Toggle the extension on/off"
