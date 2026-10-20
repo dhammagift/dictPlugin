@@ -34,8 +34,8 @@
   "commands": {
     "_execute_action": {
       "suggested_key": {
-        "default": "Ctrl+Shift+X",
-        "mac": "MacCtrl+Shift+X"
+        "default": "Alt+Shift+X",
+        "mac": "Alt+Shift+X"
       }
     }
   },
