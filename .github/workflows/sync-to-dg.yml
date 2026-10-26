@@ -1,4 +1,4 @@
-name: Sync selected files to dg repo
+name: Sync dictionary files to dg-node
 
 on:
   push:
@@ -20,19 +20,20 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          git clone https://x-access-token:${{ secrets.TARGET_REPO_TOKEN }}@github.com/dhammagift/dg.git target-repo
+          # dg-node serves the site; dg-apps fetches the dictionary from the site, dg-php is legacy.
+          git clone https://x-access-token:${{ secrets.TARGET_REPO_TOKEN }}@github.com/dhammagift/dg-node.git target-repo
 
       - name: Copy selected files
         run: |
-          mkdir -p target-repo/assets/js/standalone-dpd/ru
-          cp assets/standalone-dpd/dpd_deconstructor.js target-repo/assets/js/standalone-dpd/
-          cp assets/standalone-dpd/dpd_ebts.js target-repo/assets/js/standalone-dpd/
-          cp assets/standalone-dpd/dpd_i2h.js target-repo/assets/js/standalone-dpd/
-          cp assets/standalone-dpd/ru/dpd_ebts.js target-repo/assets/js/standalone-dpd/ru/
+          mkdir -p target-repo/public/overrides/js/standalone-dpd/ru
+          cp assets/standalone-dpd/dpd_deconstructor.js target-repo/public/overrides/js/standalone-dpd/
+          cp assets/standalone-dpd/dpd_ebts.js target-repo/public/overrides/js/standalone-dpd/
+          cp assets/standalone-dpd/dpd_i2h.js target-repo/public/overrides/js/standalone-dpd/
+          cp assets/standalone-dpd/ru/dpd_ebts.js target-repo/public/overrides/js/standalone-dpd/ru/
 
       - name: Patch dictionary variables to VAR
         run: |
-          find target-repo/assets/js/standalone-dpd -type f -name "*.js" -exec sed -i -E 's/^([[:space:]]*(const|let|var)?[[:space:]]*)?(dpd_i2h|dpd_deconstructor|dpd_ebts)([[:space:]]*=)/var \3\4/' {} +
+          find target-repo/public/overrides/js/standalone-dpd -type f -name "*.js" -exec sed -i -E 's/^([[:space:]]*(const|let|var)?[[:space:]]*)?(dpd_i2h|dpd_deconstructor|dpd_ebts)([[:space:]]*=)/var \3\4/' {} +
 
       - name: Commit & push changes
         run: |
