@@ -1,0 +1,29 @@
+name: Submit macOS Safari app for App Review
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version string, e.g. 0.6.2'
+        required: true
+      build:
+        description: 'Build number as uploaded, e.g. 60.1'
+        required: true
+      submit:
+        description: 'Actually submit (off = only show the current state)'
+        type: boolean
+        default: false
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install --quiet pyjwt cryptography
+      - name: App Store Connect
+        env:
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          BUNDLE_ID: gift.dhamma.dictlookup
+        run: python3 .github/scripts/asc-submit.py "${{ inputs.version }}" "${{ inputs.build }}" ${{ inputs.submit && '--submit' || '' }}
