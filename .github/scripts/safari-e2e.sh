@@ -16,6 +16,33 @@ dump() { ui "tell application \"System Events\" to tell process \"$1\" to get en
 sw_vers
 defaults read /Applications/Safari.app/Contents/Info.plist CFBundleShortVersionString
 
+# The app's button must take people to Safari's Extensions settings (App Review rejected 0.6.1 and 0.6.2 when it
+# did not). Clicks it in the running app, waits for the retries, reports where it went.
+click_app_button() {
+  ui 'tell application "System Events" to tell process "Dhamma.gift Dictionary"
+  set L to entire contents of window 1
+  repeat with i from 1 to count of L
+    set c to item i of L
+    try
+      if role of c is "AXButton" and (name of c as text) starts with "Quit and Open" then
+        click c
+        return "clicked"
+      end if
+    end try
+  end repeat
+  return "no button"
+end tell'
+  sleep "$2"
+  shot "app-button-$1"
+  if pgrep -fl "Dhamma.gift Dictionary"; then
+    echo "$1: app still running"
+    dump "Dhamma.gift Dictionary" "app-$1"; grep -o "Safari is open[^,]*" "$OUT/ui-app-$1.txt" || echo "$1: no manual steps shown"
+  else
+    echo "$1: app quit"
+  fi
+  ui 'tell application "System Events" to get {name, name of windows} of (processes whose background only is false)'
+}
+
 # Install and launch the container app once: that registers the extension with Safari.
 cp -R "$APP_SRC" /Applications/
 APP="/Applications/$(basename "$APP_SRC")"
@@ -31,7 +58,12 @@ ui 'tell application "System Events" to get {name, name of windows} of (processe
 ls -la ~/Library/Logs/DiagnosticReports/ 2>/dev/null | tail -5
 log show --last 1m --style compact --predicate 'process CONTAINS "Dhamma" OR eventMessage CONTAINS "dictlookup"' 2>/dev/null | tail -40
 pluginkit -mAvvv -p com.apple.Safari.web-extension | tee "$OUT/pluginkit.txt"
+# First case, App Review's: Safari has not run since the install.
+pgrep -x Safari && { echo "Safari already running, killing it"; pkill -x Safari; sleep 2; }
+click_app_button safari-never-ran 20
 osascript -e "quit app \"$(basename "$APP" .app)\""
+osascript -e 'quit app "Safari"'
+sleep 3
 
 # Enabling the extension globally needs "Allow unsigned extensions", which asks for the runner's password (not
 # published). Instead load it the developer way, with "Add Temporary Extension...": an unsigned extension for the
@@ -57,26 +89,10 @@ sleep 1
 dump Safari settings-developer
 shot developer-tab
 
-# The app's button must take people to Safari's Extensions settings (App Review rejected 0.6.1 when it did not).
+# Second case: Safari already ran once and knows the extension.
 open "$APP"
 sleep 5
-ui 'tell application "System Events" to tell process "Dhamma.gift Dictionary"
-  set L to entire contents of window 1
-  repeat with i from 1 to count of L
-    set c to item i of L
-    try
-      if role of c is "AXButton" and (name of c as text) starts with "Quit and Open" then
-        click c
-        return "clicked"
-      end if
-    end try
-  end repeat
-  return "no button"
-end tell'
-sleep 4
-shot app-button-opens-settings
-pgrep -fl "Dhamma.gift Dictionary" && echo "app still running" || echo "app quit"
-ui 'tell application "System Events" to get {name, name of windows} of (processes whose background only is false)'
+click_app_button safari-ran 6
 
 # Load the extension for this session: Developer tab > "Add Temporary Extension..." > pick the built .app.
 open -a Safari "about:blank"
