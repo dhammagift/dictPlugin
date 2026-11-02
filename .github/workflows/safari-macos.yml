@@ -123,7 +123,9 @@ jobs:
   e2e:
     # Install the built app on the runner, switch the extension on in Safari, click a Pali word on a page.
     if: github.event_name == 'workflow_dispatch' && inputs.e2e == true
-    runs-on: macos-15
+    # Intel: GitHub's arm64 macOS pool often never picks the job up ("not acquired by Runner ...
+    # capacity constraints"); the app is built universal, so it runs here too.
+    runs-on: macos-15-intel
     needs: build
     steps:
       - uses: actions/checkout@v4
