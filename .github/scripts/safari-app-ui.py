@@ -5,6 +5,7 @@ enabled the extension, saw nothing happen and rejected for 2.1(a): the extension
 access, and lookups happen on web pages, not in the app. Usage: safari-app-ui.py <project dir>.
 """
 import json
+import re
 import pathlib
 import shutil
 import subprocess
@@ -48,6 +49,31 @@ if 'dg-steps' not in css:
     css_path.write_text(css + CSS)
 
 print(html_path.read_text())
+
+# The app's button: our ViewController (assets/safari/ViewController.swift) replaces the converter's,
+# which quit the app without opening anything when Safari didn't know the extension yet. It relies
+# on the converter's storyboard (class ViewController, outlet webView) and Script.js (message
+# handler "controller", "open-preferences", show(enabled, useSettings) that leaves a non-boolean
+# state alone): check those instead of shipping a button that silently does nothing.
+REPO = pathlib.Path(__file__).resolve().parents[2]
+vc_path = one(root, 'ViewController.swift')
+vc = vc_path.read_text()
+print(vc)
+m = re.search(r'extensionBundleIdentifier\s*=\s*"([^"]+)"', vc)
+if not m or not m.group(1).endswith('.Extension'):
+    sys.exit(f'{vc_path}: no extensionBundleIdentifier ending in .Extension')
+for needle in ('class ViewController: NSViewController', '@IBOutlet var webView: WKWebView!'):
+    if needle not in vc:
+        sys.exit(f'{vc_path}: converter template changed, "{needle}" not found')
+script = one(root, 'Script.js').read_text()
+print(script)
+for needle in ('messageHandlers.controller.postMessage("open-preferences")', 'function show(',
+               'typeof enabled === "boolean"'):
+    if needle not in script:
+        sys.exit(f'Script.js: converter template changed, "{needle}" not found')
+ours = (REPO / 'assets/safari/ViewController.swift').read_text()
+vc_path.write_text(ours.replace('__EXTENSION_BUNDLE_ID__', m.group(1)))
+print(f'{vc_path}: replaced, extension {m.group(1)}')
 
 # App icon: the converter fills AppIcon from the manifest's largest icon (128 px), blurry at the
 # Mac App Store's 1024. Regenerate every macOS size from assets/safari/AppIcon-1024.png with sips.
