@@ -2633,6 +2633,7 @@ dpd_i2h = {
     "anekapariyāyenāvuso",
     "anekaratana",
     "anekavaṇṇavimānavatthu",
+    "anekasataṭhāna",
     "anekasataparivāra",
     "anekasatavaṇṇa",
     "anekasambhāra",
@@ -6420,6 +6421,7 @@ dpd_i2h = {
     "āsavasutta 3",
     "āsavasutta 4",
     "āsavānaṃ khayañāṇa",
+    "āsaḷhī",
     "āsaṃsamāna",
     "āsaṃsasutta",
     "āsaṃsitabba",
@@ -7467,6 +7469,7 @@ dpd_i2h = {
     "upakkhalana",
     "upakkhalitvā",
     "upagaṅgaṃ",
+    "upagañchu",
     "upagantvāna",
     "upagama",
     "upagamanabhaya",
@@ -10636,6 +10639,7 @@ dpd_i2h = {
     "kurupañcālā",
     "kururaghara",
     "kururaṭṭharu",
+    "kururājacariyā",
     "kuruvinda 1",
     "kuruvinda 2",
     "kuruvinda 3",
@@ -13692,6 +13696,7 @@ dpd_i2h = {
     "ṭhānabahula",
     "ṭhānametaṃ",
     "ṭhānametaṃ vijjati",
+    "ṭhānasata",
     "ṭhānasutta 1",
     "ṭhānasutta 2",
     "ṭhānasutta 3",
@@ -17298,6 +17303,7 @@ dpd_i2h = {
     "nāgataka",
     "nāgattherī",
     "nāgadattasutta",
+    "nāgadāna",
     "nāganāsikaloha",
     "nāgapacāra",
     "nāgapalokita",
@@ -18865,6 +18871,7 @@ dpd_i2h = {
     "pañcanimittakathā",
     "pañcannaṃappahitepianujānanā",
     "pañcapañcamāṇavakasataparivāra",
+    "pañcapaññāsaka",
     "pañcapaññāsati",
     "pañcapaṇḍitajātaka",
     "pañcapaṇṇāsabhikkhu",
@@ -20204,6 +20211,7 @@ dpd_i2h = {
     "pabhijjamāna",
     "pabhijjitvā",
     "pabhindi",
+    "pabhinnamātaṅga",
     "pabhutika",
     "pamajjanabhāva",
     "pamajjita",
@@ -24199,6 +24207,7 @@ dpd_i2h = {
     "mahāsiva",
     "mahāsīvatthera",
     "mahāsuññatasutta",
+    "mahāsudassanacariyā",
     "mahāsudassanasutta",
     "mahāsudassanasuttadesanā",
     "mahāsupinajātaka",
@@ -24685,6 +24694,7 @@ dpd_i2h = {
     "muddāpetvā",
     "muddāpesi",
     "muddikābīja",
+    "muddikāma",
     "muddikāsava",
     "muddhatā",
     "muddhanitela",
@@ -27579,6 +27589,7 @@ dpd_i2h = {
     "vimuttāyatanasutta",
     "vimuttāsā",
     "vimuttikusumasañchanna",
+    "vimuttichattapatti",
     "vimuttiñāṇadassanattha",
     "vimuttiñāṇadassanasampadā",
     "vimuttiñāṇadassanasampannatara",
@@ -32193,6 +32204,7 @@ dpd_i2h = {
     "susaṅgahitatta",
     "susaṅgīta",
     "susaññatatta",
+    "susaṇṭhahitvā",
     "susaṇṭhānasurūpatā",
     "susaddala",
     "susamatta 1.1",
@@ -32606,6 +32618,7 @@ dpd_i2h = {
     "sovacassakaraṇa",
     "sovaṇṇaddhaja",
     "sovaṇṇadhaja",
+    "sovaṇṇarūpa",
     "sosana",
     "sosānikatta",
     "sosānikadhutaṅga",
@@ -248681,6 +248694,9 @@ dpd_i2h = {
   "pācittiyadiṭṭhino": [
     "pācittiyadiṭṭhi"
   ],
+  "pācittiyapāḷi": [
+    "pācittiyapāḷi"
+  ],
   "pācittiyāpatti": [
     "pācittiyāpatti"
   ],
@@ -274846,6 +274862,9 @@ dpd_i2h = {
     "bhikkhuniparisā"
   ],
   "bhikkhunivibhaṅga": [
+    "bhikkhunivibhaṅga"
+  ],
+  "bhikkhunivibhaṅgo": [
     "bhikkhunivibhaṅga"
   ],
   "bhikkhunivibhaṅge": [
@@ -325491,22 +325510,26 @@ dpd_i2h = {
   "visayo": [
     "visaya 1",
     "visaya 2",
-    "visaya 3"
+    "visaya 3",
+    "visaya 5"
   ],
   "visayaṃ": [
     "visaya 1",
     "visaya 2",
-    "visaya 3"
+    "visaya 3",
+    "visaya 5"
   ],
   "visaye": [
     "visaya 1",
     "visaya 2",
-    "visaya 3"
+    "visaya 3",
+    "visaya 5"
   ],
   "visayoti": [
     "visaya 1",
     "visaya 2",
-    "visaya 3"
+    "visaya 3",
+    "visaya 5"
   ],
   "visayha": [
     "visayha"
