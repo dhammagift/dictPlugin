@@ -26,4 +26,5 @@ jobs:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           BUNDLE_ID: gift.dhamma.dictlookup
+          REVIEW_NOTES: .github/appstore-review-notes.txt
         run: python3 .github/scripts/asc-submit.py "${{ inputs.version }}" "${{ inputs.build }}" ${{ inputs.submit && '--submit' || '' }}

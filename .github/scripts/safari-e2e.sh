@@ -24,7 +24,7 @@ click_app_button() {
   repeat with i from 1 to count of L
     set c to item i of L
     try
-      if role of c is "AXButton" and (name of c as text) starts with "Quit and Open" then
+      if role of c is "AXButton" and (name of c as text) starts with "Open Safari" then
         click c
         return "clicked"
       end if
@@ -35,11 +35,13 @@ end tell'
   sleep "$2"
   shot "app-button-$1"
   if pgrep -fl "Dhamma.gift Dictionary"; then
-    echo "$1: app still running"
+    echo "$1: app still running (expected)"
     dump "Dhamma.gift Dictionary" "app-$1"; grep -o "Safari is open[^,]*" "$OUT/ui-app-$1.txt" || echo "$1: no manual steps shown"
   else
     echo "$1: app quit"
   fi
+  osascript -e 'quit app "Dhamma.gift Dictionary"'
+  sleep 2
   ui 'tell application "System Events" to get {name, name of windows} of (processes whose background only is false)'
 }
 

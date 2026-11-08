@@ -285,6 +285,7 @@ jobs:
             -authenticationKeyIssuerID "${{ secrets.ASC_ISSUER_ID }}" \
             CURRENT_PROJECT_VERSION=${{ github.run_number }}.${{ github.run_attempt }} \
             INFOPLIST_KEY_LSApplicationCategoryType=public.app-category.reference \
+            INFOPLIST_KEY_ITSAppUsesNonExemptEncryption=NO \
             MARKETING_VERSION=$EXT_VERSION \
             DEVELOPMENT_TEAM=${{ secrets.APPLE_TEAM_ID }} \
             archive

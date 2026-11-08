@@ -94,6 +94,19 @@ if target is None:
 elif target['attributes'].get('appStoreState') not in EDITABLE:
     sys.exit(f'version {version} is in state {target["attributes"].get("appStoreState")}, not editable')
 
+notes_path = os.environ.get('REVIEW_NOTES')
+if notes_path:
+    notes = open(notes_path).read().strip()
+    detail = call('GET', f'/appStoreVersions/{target["id"]}/appStoreReviewDetail').get('data')
+    if detail:
+        call('PATCH', f'/appStoreReviewDetails/{detail["id"]}', body={'data': {
+            'type': 'appStoreReviewDetails', 'id': detail['id'], 'attributes': {'notes': notes}}})
+    else:
+        call('POST', '/appStoreReviewDetails', body={'data': {
+            'type': 'appStoreReviewDetails', 'attributes': {'notes': notes},
+            'relationships': {'appStoreVersion': {'data': {'type': 'appStoreVersions', 'id': target['id']}}}}})
+    print(f'review notes set from {notes_path}')
+
 print(f'attaching build {build_number} to version {version}')
 call('PATCH', f'/appStoreVersions/{target["id"]}/relationships/build',
      body={'data': {'type': 'builds', 'id': build['id']}})
