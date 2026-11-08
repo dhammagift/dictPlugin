@@ -32,11 +32,13 @@ password() {  # find the password prompt in whichever process owns it (it does n
     try
       repeat with w in (windows of p)
         try
-          set f to secure text field 1 of w
-          set focused of f to true
-          set value of f to \"$PW\"
-          click button \"OK\" of w
-          return \"password entered in \" & (name of p)
+          set f to text field 1 of w
+          if (subrole of f) is \"AXSecureTextField\" then
+            set focused of f to true
+            set value of f to \"$PW\"
+            click button \"OK\" of w
+            return \"password entered in \" & (name of p)
+          end if
         end try
       end repeat
     end try
