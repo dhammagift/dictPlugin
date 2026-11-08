@@ -150,6 +150,9 @@ jobs:
           codesign --verify --deep --strict "$APP" && echo "APP=$APP" >> "$GITHUB_ENV"
       - name: Try it in Safari
         run: OUT=e2e bash .github/scripts/safari-e2e.sh "$APP"
+      - name: Screenshots of each setup step
+        continue-on-error: true
+        run: OUT=e2e/steps bash .github/scripts/safari-steps.sh
       - uses: actions/upload-artifact@v4
         if: always()
         with:
