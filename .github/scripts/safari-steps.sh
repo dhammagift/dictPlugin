@@ -25,16 +25,13 @@ click_named() {  # process, role, name prefix
   return \"not found: $3\"
 end tell"
 }
-password() {  # answer Safari's password prompt, if one is up
+password() {  # type into Safari's password prompt; it has the focus but its process is not always visible to System Events
   sleep 2
-  if ui 'tell application "System Events" to get name of every process' | grep -q SecurityAgent; then
-    ui 'tell application "System Events" to tell process "SecurityAgent" to set frontmost to true'
-    ui 'tell application "System Events" to keystroke "a" using command down'
-    ui "tell application \"System Events\" to keystroke \"$PW\""
-    ui 'tell application "System Events" to keystroke return'
-    sleep 2
-    echo "password entered"
-  fi
+  ui 'tell application "System Events" to keystroke "a" using command down'
+  ui "tell application \"System Events\" to keystroke \"$PW\""
+  ui 'tell application "System Events" to keystroke return'
+  sleep 3
+  shot "pw-$(date +%s)"
 }
 
 osascript -e 'quit app "Safari"'; osascript -e 'quit app "Dhamma.gift Dictionary"'; sleep 3
