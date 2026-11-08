@@ -25,11 +25,24 @@ click_named() {  # process, role, name prefix
   return \"not found: $3\"
 end tell"
 }
-password() {  # type into Safari's password prompt; it has the focus but its process is not always visible to System Events
-  sleep 2
-  ui 'tell application "System Events" to keystroke "a" using command down'
-  ui "tell application \"System Events\" to keystroke \"$PW\""
-  ui 'tell application "System Events" to keystroke return'
+password() {  # find the password prompt in whichever process owns it (it does not take the keyboard focus), fill it, OK
+  sleep 3
+  ui "tell application \"System Events\"
+  repeat with p in (every process)
+    try
+      repeat with w in (windows of p)
+        try
+          set f to secure text field 1 of w
+          set focused of f to true
+          set value of f to \"$PW\"
+          click button \"OK\" of w
+          return \"password entered in \" & (name of p)
+        end try
+      end repeat
+    end try
+  end repeat
+  return \"no password prompt found\"
+end tell"
   sleep 3
   shot "pw-$(date +%s)"
 }
