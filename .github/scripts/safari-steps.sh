@@ -1,14 +1,13 @@
 #!/bin/bash
 # Screenshots of each step a person takes to turn the extension on, as on a real Mac: the extension is listed in
 # Settings > Extensions only with "Allow unsigned extensions" on (the CI build is ad-hoc signed), which asks for the
-# user's password; the runner's is unknown, so set one first. Run after safari-e2e.sh (the app is installed).
+# user's password, read from the image's auto-login file. Run after safari-e2e.sh (the app is installed).
 set -uo pipefail
 OUT=${OUT:-e2e/steps}
 mkdir -p "$OUT"
 APP="/Applications/Dhamma.gift Dictionary.app"
 EXT="Dhamma.gift Search and Word Lookup"
 PAGE="https://dhamma.gift/mn1"
-PW="dg-$RANDOM-$RANDOM-$RANDOM"
 shot() { screencapture -x "$OUT/$1.png" || echo "screencapture failed"; }
 ui() { osascript -e "$1" 2>&1; }
 click_named() {  # process, role, name prefix
@@ -39,9 +38,16 @@ password() {  # answer Safari's password prompt, if one is up
 }
 
 osascript -e 'quit app "Safari"'; osascript -e 'quit app "Dhamma.gift Dictionary"'; sleep 3
-# dscl -passwd asks for the old password; sysadminctl as root resets it without one.
-sudo sysadminctl -resetPasswordFor runner -newPassword "$PW" 2>&1 | tail -2
-dscl . -authonly runner "$PW" && echo "runner password set" || echo "runner password NOT set"
+# The hosted image logs "runner" in automatically: its password sits in /etc/kcpassword, XOR-obfuscated with
+# macOS's fixed auto-login key (the approach of qixing-jk/all-api-hub's Safari smoke test).
+PW=$(sudo cat /etc/kcpassword | python3 -c '
+import sys
+key = bytes([0x7D, 0x89, 0x52, 0x23, 0xD2, 0xBC, 0xDD, 0xEA, 0xA3, 0xB9, 0x1F])
+raw = sys.stdin.buffer.read()
+out = bytes(b ^ key[i % len(key)] for i, b in enumerate(raw))
+print(out.split(b"\0")[0].decode())')
+echo "::add-mask::$PW"
+dscl . -authonly runner "$PW" && echo "runner password found" || echo "runner password NOT found"
 
 # Developer tab: allow unsigned extensions and JavaScript from Apple Events (to find a word to click).
 open -a Safari "about:blank"; sleep 5
