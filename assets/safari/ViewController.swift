@@ -7,10 +7,10 @@ let extensionBundleIdentifier = "__EXTENSION_BUNDLE_ID__"
 
 // Replaces the converter's ViewController (App Review 2.1(a), 0.6.1 and 0.6.2). Differences:
 // - The app stays open after opening Safari's settings: Safari does not select a disabled extension
-//   (it lands on "Add Extensions"), so the steps naming what to tick must stay readable.
+//   (it lands on "Add Extensions"), so the line naming what to tick must stay readable.
 // - Safari may not know a freshly installed extension until it has run once: a failed attempt
 //   launches Safari, retries, and finally shows the manual steps.
-// - The window is made tall enough for the steps and the button (the template's clipped it).
+// - The window is made tall enough for the button (the template's clipped it).
 class ViewController: NSViewController, WKNavigationDelegate, WKScriptMessageHandler {
 
     @IBOutlet var webView: WKWebView!
@@ -22,7 +22,7 @@ class ViewController: NSViewController, WKNavigationDelegate, WKScriptMessageHan
 
         self.webView.configuration.userContentController.add(self, name: "controller")
 
-        self.preferredContentSize = NSSize(width: 520, height: 560)
+        self.preferredContentSize = NSSize(width: 460, height: 360)
 
         self.webView.loadFileURL(Bundle.main.url(forResource: "Main", withExtension: "html")!, allowingReadAccessTo: Bundle.main.resourceURL!)
     }
@@ -32,8 +32,8 @@ class ViewController: NSViewController, WKNavigationDelegate, WKScriptMessageHan
         guard let window = view.window else { return }
         window.styleMask.insert(.resizable)
         let size = window.contentLayoutRect.size
-        if size.width < 520 || size.height < 560 {
-            window.setContentSize(NSSize(width: max(size.width, 520), height: max(size.height, 560)))
+        if size.width < 460 || size.height < 360 {
+            window.setContentSize(NSSize(width: max(size.width, 460), height: max(size.height, 360)))
             window.center()
         }
     }
@@ -98,10 +98,10 @@ class ViewController: NSViewController, WKNavigationDelegate, WKScriptMessageHan
     }
 
     private func showManualSteps() {
-        let text = "Safari is open: choose Safari > Settings > Extensions, turn on Dhamma.gift, then allow it on all websites."
+        let text = "Safari is open: choose Safari > Settings > Extensions, tick Dhamma.gift, then allow it on all websites."
         webView.evaluateJavaScript("document.querySelectorAll('p').forEach(function(p){p.style.display='none'});"
             + "var n=document.createElement('p');n.textContent=\(String(reflecting: text));"
-            + "document.body.insertBefore(n,document.querySelector('ol')||document.querySelector('button'));")
+            + "document.body.insertBefore(n,document.querySelector('button'));")
     }
 
 }
