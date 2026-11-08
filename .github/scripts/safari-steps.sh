@@ -39,7 +39,9 @@ password() {  # answer Safari's password prompt, if one is up
 }
 
 osascript -e 'quit app "Safari"'; osascript -e 'quit app "Dhamma.gift Dictionary"'; sleep 3
-sudo dscl . -passwd /Users/runner "$PW" && echo "runner password set"
+# dscl -passwd asks for the old password; sysadminctl as root resets it without one.
+sudo sysadminctl -resetPasswordFor runner -newPassword "$PW" 2>&1 | tail -2
+dscl . -authonly runner "$PW" && echo "runner password set" || echo "runner password NOT set"
 
 # Developer tab: allow unsigned extensions and JavaScript from Apple Events (to find a word to click).
 open -a Safari "about:blank"; sleep 5
