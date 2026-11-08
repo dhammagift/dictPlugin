@@ -673,7 +673,7 @@ async function showTranslation(word, fromContextMenu = false) {
 
     // Initialize and add/remove event listeners
     browserApi.storage.local.get(['isEnabled'], (result) => {
-        isEnabled = result.isEnabled !== false;
+        isEnabled = result.isEnabled === true;
         if (isEnabled) document.addEventListener('click', handleClickExt);
     });
 

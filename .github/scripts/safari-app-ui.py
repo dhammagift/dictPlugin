@@ -21,6 +21,7 @@ EXT_NAME = (json.load(open(pathlib.Path(EXT_SOURCE) / 'manifest.json'))['name'] 
 
 # One short line under the button: the template's paragraphs are hidden (CSS below).
 HINT = f"""<p class="dg-hint">Then tick &ldquo;{html.escape(EXT_NAME)}&rdquo; and allow it on all websites.</p>
+    <p class="dg-hint">Look up a word: select it, right-click, Dhamma.gift. To look up any word with one click, press the Dhamma.gift button in the Safari toolbar.</p>
 """
 
 # The page's CSP is default-src 'self': no inline styles, so the CSS goes into Style.css.
@@ -28,7 +29,7 @@ CSS = """
 /* Dhamma.gift: icon, button, one line */
 img { width: 72px; height: 72px; }
 body > p[class^="state-"] { display: none !important; }
-.dg-hint { font-size: 12px; opacity: 0.75; max-width: 30em; margin: 0; }
+.dg-hint { font-size: 12px; opacity: 0.75; max-width: 32em; margin: 0; }
 /* Never clip the button: let the page grow and scroll instead of centring in a fixed 100vh. */
 body { height: auto; min-height: 100vh; box-sizing: border-box; padding: 16px 0; overflow-y: auto; }
 """

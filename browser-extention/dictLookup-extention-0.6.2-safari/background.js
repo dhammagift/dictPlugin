@@ -1,14 +1,13 @@
-let isEnabled = true;
+let isEnabled = false;
 
 // Определяем API браузера (Chrome или Edge)
 const browserAPI = self.chrome || self.browser;
 
 // Загружаем сохраненное состояние расширения из хранилища
-// Safari: on by default. The user already switches the extension on in Safari Settings and grants
-// website access there, so a second "off until you press the toolbar button" step made lookups look
-// broken (App Review 2.1(a)). content.js reads a missing key as on too.
+// Off by default, as in Chrome and Firefox: a lookup popup on every click anywhere is not wanted.
+// Right-click > Dhamma.gift always works; the toolbar button or the hotkey turns click-lookup on.
 browserAPI.storage.local.get(['isEnabled'], (result) => {
-  isEnabled = result.isEnabled !== false;
+  isEnabled = result.isEnabled === true;
   updateIcon();
 });
 
@@ -50,8 +49,8 @@ browserAPI.runtime.onInstalled.addListener((details) => {
   // Explicit value on a fresh install only. onInstalled also fires on every extension update and
   // browser update, and resetting there overrode the user's own choice after each release.
   if (details.reason === 'install') {
-    browserAPI.storage.local.set({ isEnabled: true });
-    isEnabled = true;
+    browserAPI.storage.local.set({ isEnabled: false });
+    isEnabled = false;
   }
   updateIcon();
 });
@@ -68,11 +67,13 @@ browserAPI.contextMenus.onClicked.addListener((info, tab) => {
     browserAPI.tabs.create({ url: "https://dharmamitra.org/?target_lang=english-explained" });
   } else if (info.menuItemId === "translateSelection") {
     // Работает всегда, независимо от isEnabled
-    browserAPI.tabs.sendMessage(tab.id, {
-        action: "translate_from_context_menu",
-        text: info.selectionText
-    }).catch(() => {
-        // Ошибка может возникнуть, если контентный скрипт еще не загружен на странице
+    const msg = { action: "translate_from_context_menu", text: info.selectionText };
+    // Without "allow on all websites" Safari has not loaded content.js on the page; the menu click
+    // grants activeTab access, so load it now and ask again.
+    browserAPI.tabs.sendMessage(tab.id, msg).catch(() => {
+      browserAPI.scripting.executeScript({ target: { tabId: tab.id }, files: ["content.js"] })
+        .then(() => browserAPI.tabs.sendMessage(tab.id, msg))
+        .catch((e) => console.warn('Dhamma.gift: could not reach the page', e));
     });
   } else if (info.menuItemId === "explainGrammarSelection") {
     const url = `https://dharmamitra.org/translate?translate_mode=explain-grammar&input_sentence=${encodeURIComponent(info.selectionText || '')}`;
@@ -86,7 +87,7 @@ browserAPI.contextMenus.onClicked.addListener((info, tab) => {
 // Always toggle from storage.
 function toggleEnabled(tab) {
   browserAPI.storage.local.get(['isEnabled'], (result) => {
-    isEnabled = !(result.isEnabled !== false);
+    isEnabled = result.isEnabled !== true;
     browserAPI.storage.local.set({ isEnabled });
     updateExtensionState(tab);
   });
@@ -100,7 +101,7 @@ browserAPI.action.onClicked.addListener((tab) => {
 // Обработчик сообщений (для сброса настроек)
 browserAPI.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'reset_extension_state') {
-        // Explicit value: background reads a missing key as off, content.js as on.
+        // Reset turns click-lookup on, as in Chrome.
         isEnabled = true;
         browserAPI.storage.local.set({ isEnabled: true });
         updateIcon();
@@ -215,4 +216,4 @@ function disablePopup() {
     popup.style.display = 'none';
     overlay.style.display = 'none';
   }
-}
+}

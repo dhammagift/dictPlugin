@@ -1,8 +1,13 @@
-This is a Safari Web Extension. The app only explains how to turn it on; the dictionary works on web pages in Safari.
+This is a Safari Web Extension: a Pali dictionary for web pages. The app only explains how to turn it on.
 
-1. Open the Dhamma.gift Dictionary app and click "Open Safari Settings…". Safari opens Settings > Extensions. The app window stays open with these steps.
+Turn it on:
+1. Open the Dhamma.gift Dictionary app and click "Open Safari Settings…". Safari opens Settings > Extensions; the app window stays open.
 2. In the list on the left, tick "Dhamma.gift Search and Word Lookup". (Safari does not pre-select an extension that is still off, so it may first show "Add Extensions"; the extension is in the left column.)
-3. Click "Edit Websites…" and set "When visiting other websites" to Allow, or choose "Always Allow on Every Website" when Safari asks.
-4. Open https://dhamma.gift/mn1 in Safari and click any Pali word: a dictionary popup appears.
+3. Click "Edit Websites…" and set "When visiting other websites" to Allow (or choose "Always Allow on Every Website" when Safari asks).
+
+Test case:
+4. Open https://dhamma.gift/mn1 in Safari.
+5. Select a Pali word (for example "Evaṃ"), right-click it and choose "Dhamma.gift": the dictionary popup appears. This works by default.
+6. Click the Dhamma.gift button in the Safari toolbar (or press Option+Shift+X). Click-lookup is now on: clicking any word opens the dictionary popup. Click the button again to turn it off. It is off by default so that ordinary clicks on web pages do not open the dictionary.
 
 Note: if Safari refuses to tick the box with "Safari detected an app or service that interfered with clicking", an app with Accessibility permission (remote access, automation or menu-bar utilities) is running. Quit it and tick the box again.
