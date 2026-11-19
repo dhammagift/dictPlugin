@@ -175,7 +175,7 @@ if (window.self === window.top) {
         'newWindowRuExt': 'newWindowExt',
         'sidePanelRuExt': 'sidePanelExt',
         'https://dict.dhamma.gift/ru/?silent&q=': 'https://dict.dhamma.gift/?silent&q=',
-        'https://dict.dhamma.gift/ru/gd?search=': 'https://dict.dhamma.gift/gd?search='
+        'https://dict.dhamma.gift/ru/gd?search=': 'https://dict.dhamma.gift/?silent&q='
     };
 
     // Reset popup settings logic
@@ -209,6 +209,11 @@ if (window.self === window.top) {
                 currentModeOrUrl = LEGACY_RU_MODE[currentModeOrUrl];
                 browserApi.storage.sync.set({ [dictUrlKey]: currentModeOrUrl, [dictLangKey]: 'ru' });
             }
+        }
+        // Compact (dict.dhamma.gift/gd?search=) is gone: the dictionary read "gd" as the word to look up.
+        if (/\/gd\?search=$/.test(currentModeOrUrl)) {
+            currentModeOrUrl = 'https://dict.dhamma.gift/?silent&q=';
+            browserApi.storage.sync.set({ [dictUrlKey]: currentModeOrUrl });
         }
     } catch (error) {
         console.error("Error loading settings from storage:", error);
@@ -314,13 +319,21 @@ function getEffectiveThemeExt() {
 
     // --- NEW WINDOW MODE LOGIC ---
     let dictionaryWindow = null;
-    function openDictionaryWindowExt(url) {
+    // viaBackground: no user gesture here (context-menu message), so window.open would be blocked.
+    function openDictionaryWindowExt(url, viaBackground) {
         
         const newWindowWidth = 500, newWindowHeight = 500;
         const screenWidth = window.screen.availWidth, screenHeight = window.screen.availHeight;
         const newWindowLeft = screenWidth - newWindowWidth - 30;
         const newWindowTop = screenHeight - newWindowHeight - 50;
         const popupFeatures = `width=${newWindowWidth},height=${newWindowHeight},left=${newWindowLeft},top=${newWindowTop},scrollbars=yes,resizable=yes`;
+        if (viaBackground) {
+            browserApi.runtime.sendMessage({
+                action: 'open_dictionary_window', url,
+                width: newWindowWidth, height: newWindowHeight, left: newWindowLeft, top: newWindowTop
+            });
+            return;
+        }
         dictionaryWindow = window.open(url, 'dictionaryPopup', popupFeatures);
         if (dictionaryWindow) dictionaryWindow.focus();
     }
@@ -529,17 +542,18 @@ function getWordUnderCursorExt(event) {
 }
 
     function triggerCustomProtocol(url) {
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        document.body.appendChild(iframe);
-        iframe.contentWindow.location.href = url;
-        setTimeout(() => {
-            document.body.removeChild(iframe);
-        }, 500);
+        // A link click, not a hidden iframe: page CSP (frame-src) can block the iframe outright.
+        // handleClickExt ignores clicks on <a>, so this click doesn't trigger another lookup.
+        const link = document.createElement('a');
+        link.href = url;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
     }
 
 
-async function showTranslation(word) {
+async function showTranslation(word, fromContextMenu = false) {
     const processedWord = processWordExt(word);
     const encodedWord = encodeURIComponent(processedWord);
     const theme = getEffectiveThemeExt();
@@ -548,8 +562,7 @@ async function showTranslation(word) {
 
     // Список ссылок, которые должны открываться строго в попапе (iframe); язык добавляется отдельно
     const popupUrls = [
-        'https://dict.dhamma.gift/?silent&q=',
-        'https://dict.dhamma.gift/gd?search='
+        'https://dict.dhamma.gift/?silent&q='
     ];
     const isRu = currentLang === 'ru';
 
@@ -557,11 +570,11 @@ async function showTranslation(word) {
         // --- НОВЫЕ ОКНА ---
         case 'newWindowExt':
             url = `https://dict.dhamma.gift${isRu ? '/ru' : ''}/?silent&theme=${theme}&q=${encodedWord}`;
-            openDictionaryWindowExt(url);
+            openDictionaryWindowExt(url, fromContextMenu);
             break;
         case 'dharmamitra':
             url = `https://dharmamitra.org/translate?input_sentence=${encodedWord}`;
-            openDictionaryWindowExt(url);
+            openDictionaryWindowExt(url, fromContextMenu);
             break;
 
         // --- SIDE PANEL (часть экрана, не popup/new window) ---
@@ -572,7 +585,6 @@ async function showTranslation(word) {
 
         // --- ПРИЛОЖЕНИЯ ---
         case 'goldendict://':
-        case 'dttp://app.dicttango/WordLookup?word=':
         case 'mdict://mdict.cn/search?text=':
             url = `${currentModeOrUrl}${encodedWord}`;
             triggerCustomProtocol(url);
@@ -581,12 +593,7 @@ async function showTranslation(word) {
         // --- ПОПАПЫ И CUSTOM URL ---
         default:
             if (popupUrls.includes(currentModeOrUrl)) {
-                // Формируем правильный URL в зависимости от режима (обычный или компактный gd)
-                if (currentModeOrUrl.includes('gd?search=')) {
-                    url = `https://dict.dhamma.gift${isRu ? '/ru' : ''}/gd?search=${encodedWord}&theme=${theme}`;
-                } else {
-                    url = `https://dict.dhamma.gift${isRu ? '/ru' : ''}/?silent&theme=${theme}&q=${encodedWord}`;
-                }
+                url = `https://dict.dhamma.gift${isRu ? '/ru' : ''}/?silent&theme=${theme}&q=${encodedWord}`;
 
                 const { overlayExt, popupExt, iframeExt, openBtnExt, dictBtnExt } = getPopupExt();
                 popupExt.classList.toggle('dark-theme', theme === 'dark');
@@ -600,9 +607,9 @@ async function showTranslation(word) {
 
             } else {
                 // Ссылки нет в списке попапов -> это Custom URL. Открываем в новом окне.
-                if (!/^https?:\/\//i.test(currentModeOrUrl)) return;
+                if (!/^https:\/\//i.test(currentModeOrUrl)) return;
                 url = `${currentModeOrUrl}${encodedWord}`;
-                openDictionaryWindowExt(url);
+                openDictionaryWindowExt(url, fromContextMenu);
             }
             break;
     }
@@ -647,7 +654,7 @@ async function showTranslation(word) {
             showStatusBubble(statusText);
         } else if (request.action === "translate_from_context_menu") {
             if (request.text) {
-                showTranslation(request.text);
+                showTranslation(request.text, true);
             }
         }
     }); 
@@ -669,7 +676,7 @@ async function showTranslation(word) {
 
     // Initialize and add/remove event listeners
     browserApi.storage.local.get(['isEnabled'], (result) => {
-        isEnabled = result.isEnabled !== false;
+        isEnabled = result.isEnabled === true;
         if (isEnabled) document.addEventListener('click', handleClickExt);
     });
 

@@ -143,7 +143,7 @@
         <div class="card">
             <div class="hint">
                 <div>
-                    To enable or edit hotkeys, go to <b>chrome://extensions/shortcuts</b><br>
+                    To enable or edit hotkeys: <b>about:addons</b> → gear menu → <b>Manage Extension Shortcuts</b><br>
                     Pick a lookup mode and a default language below. Switching language with the <b>en/ru</b> button on the page updates it automatically too.
                 </div>
             </div>
@@ -151,13 +151,11 @@
             <div class="form-group">
                 <label for="urlPreset">Dictionary lookup mode</label>
                 <select id="urlPreset">
-                    <option value="sidePanelExt">Side Panel (default)</option>
+                    <option value="https://dict.dhamma.gift/?silent&q=">Popup (default)</option>
+                    <option value="sidePanelExt">Side Panel (opens in a window while the sidebar is closed)</option>
                     <option value="newWindowExt">New Window</option>
-                    <option value="https://dict.dhamma.gift/?silent&q=">Popup</option>
-                    <option value="https://dict.dhamma.gift/gd?search=">Compact</option>
                     <option value="dharmamitra">Dharmamitra (New Window)</option>
                     <option value="goldendict://">GoldenDict-NG</option>
-                    <option value="dttp://app.dicttango/WordLookup?word=">DictTango App</option>
                     <option value="mdict://mdict.cn/search?text=">MDict (macOS)</option>
                     <option value="custom">Custom URL...</option>
                 </select>
@@ -173,7 +171,7 @@
                     <button type="button" class="seg-btn" id="langEn" data-lang="en" aria-pressed="true">English</button>
                     <button type="button" class="seg-btn" id="langRu" data-lang="ru" aria-pressed="false">Русский</button>
                 </div>
-                <p class="field-note">Applies to New Window, Popup, Compact and Side Panel.</p>
+                <p class="field-note">Applies to New Window, Popup and Side Panel.</p>
             </div>
 
             <div class="actions">

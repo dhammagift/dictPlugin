@@ -16,7 +16,9 @@ document.addEventListener('DOMContentLoaded', function() {
         'newWindowRuExt': 'newWindowExt',
         'sidePanelRuExt': 'sidePanelExt',
         'https://dict.dhamma.gift/ru/?silent&q=': 'https://dict.dhamma.gift/?silent&q=',
-        'https://dict.dhamma.gift/ru/gd?search=': 'https://dict.dhamma.gift/gd?search='
+        'https://dict.dhamma.gift/ru/gd?search=': 'https://dict.dhamma.gift/?silent&q=',
+        // Compact is gone (the site read "gd" as the word): Popup instead.
+        'https://dict.dhamma.gift/gd?search=': 'https://dict.dhamma.gift/?silent&q='
     };
 
     let selectedLang = 'en';
@@ -48,8 +50,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 showStatus('Please enter a custom URL', 'error');
                 return;
             }
-            if (!/^https?:\/\//i.test(selectedValue)) {
-                showStatus('The custom URL must start with http:// or https://', 'error');
+            if (!/^https:\/\//i.test(selectedValue)) {
+                showStatus('The custom URL must start with https://', 'error');
                 return;
             }
         } else {
@@ -89,8 +91,8 @@ document.addEventListener('DOMContentLoaded', function() {
         let lang = result.dictLang === 'ru' ? 'ru' : 'en';
 
         if (dictUrl && LEGACY_RU_MODE[dictUrl]) {
+            if (!/\/gd\?search=$/.test(dictUrl) || dictUrl.includes('/ru/')) lang = 'ru';
             dictUrl = LEGACY_RU_MODE[dictUrl];
-            lang = 'ru';
         }
 
         setLang(lang);
