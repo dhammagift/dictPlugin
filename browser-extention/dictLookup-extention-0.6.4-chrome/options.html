@@ -96,6 +96,11 @@
         .seg-btn[aria-pressed="true"]{background:var(--dg-accent);color:#fff}
         .seg-btn:hover:not([aria-pressed="true"]){background:var(--dg-surface-hover)}
         .field-note{font-size:11.5px;color:var(--dg-text-muted);margin:0 0 18px}
+        .check{display:flex;gap:8px;align-items:center;font-weight:400;cursor:pointer;margin-bottom:10px}
+        .check input{margin:0;accent-color:var(--dg-accent)}
+        .keys{font-size:12.5px;color:var(--dg-text-2);margin:0 0 6px}
+        .keys b{color:var(--dg-text)}
+        .link-btn{background:none;border:0;padding:0;color:var(--dg-accent-ink);font-size:12.5px;font-weight:700;cursor:pointer;text-decoration:underline}
         .actions{display:flex;gap:10px;margin-top:4px}
         button{
             font-family:inherit;
@@ -143,7 +148,6 @@
         <div class="card">
             <div class="hint">
                 <div>
-                    To enable or edit hotkeys: <b>about:addons</b> → gear menu → <b>Manage Extension Shortcuts</b><br>
                     Pick a lookup mode and a default language below. Switching language with the <b>en/ru</b> button on the page updates it automatically too.
                 </div>
             </div>
@@ -151,9 +155,9 @@
             <div class="form-group">
                 <label for="urlPreset">Dictionary lookup mode</label>
                 <select id="urlPreset">
-                    <option value="https://dict.dhamma.gift/?silent&q=">Popup (default)</option>
-                    <option value="sidePanelExt">Side Panel (opens in a window while the sidebar is closed)</option>
+                    <option value="sidePanelExt">Side Panel (default)</option>
                     <option value="newWindowExt">New Window</option>
+                    <option value="https://dict.dhamma.gift/?silent&q=">Popup</option>
                     <option value="dharmamitra">Dharmamitra (New Window)</option>
                     <option value="goldendict://">GoldenDict-NG</option>
                     <option value="mdict://mdict.cn/search?text=">MDict (macOS)</option>
@@ -172,6 +176,17 @@
                     <button type="button" class="seg-btn" id="langRu" data-lang="ru" aria-pressed="false">Русский</button>
                 </div>
                 <p class="field-note">Applies to New Window, Popup and Side Panel.</p>
+            </div>
+
+            <div class="form-group">
+                <label>Hotkeys</label>
+                <label class="check" for="doubleCopy">
+                    <input type="checkbox" id="doubleCopy" checked>
+                    <span><b>Ctrl+C+C</b> (<b>⌘C C</b> on a Mac): copy a word twice to look it up</span>
+                </label>
+                <p class="keys">Look up the selected word: <b id="keyLookup">not set</b><br>Turn click lookup on/off: <b id="keyToggle">not set</b></p>
+                <button type="button" class="link-btn" id="editKeys">Change shortcuts</button>
+                <p class="field-note" id="editKeysNote"></p>
             </div>
 
             <div class="actions">

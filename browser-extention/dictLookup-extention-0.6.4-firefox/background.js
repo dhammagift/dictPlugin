@@ -1,22 +1,24 @@
-let isEnabled = true;
+let isEnabled = false; // По умолчанию выключено
 
-// Определяем API браузера (Chrome или Edge)
-const browserAPI = self.chrome || self.browser;
+// Определяем API (Firefox использует browser, Chrome использует chrome)
+const browserAPI = typeof browser !== 'undefined' ? browser : chrome;
 
 // Загружаем сохраненное состояние расширения из хранилища
-browserAPI.storage.local.get(['isEnabled'], (result) => {
-  isEnabled = result.isEnabled !== undefined ? result.isEnabled : false; // ИЗМЕНЕНО: true -> false
+browserAPI.storage.local.get(['isEnabled']).then((result) => {
+  isEnabled = result.isEnabled !== undefined ? result.isEnabled : false;
   updateIcon();
 });
 
 // Добавляем создание контекстных меню при установке/обновлении расширения
 browserAPI.runtime.onInstalled.addListener((details) => {
-  // Удаляем все существующие меню, чтобы избежать дублирования при обновлении
   browserAPI.contextMenus.removeAll(() => {
+    // Firefox поддерживает 'action' в MV3 (или 'browser_action' в MV2)
+    const actionContext = browserAPI.contextMenus.ContextType ? "action" : "browser_action";
+    
     browserAPI.contextMenus.create({
       id: "openDhammaGiftMain",
       title: "Dhamma.gift",
-      contexts: ["action"] // 'action' для меню кнопки расширения
+      contexts: ["action"]
     });
 
     browserAPI.contextMenus.create({
@@ -37,7 +39,6 @@ browserAPI.runtime.onInstalled.addListener((details) => {
       contexts: ["action"]
     });
 
-    // Пункт меню для выделенного текста
     browserAPI.contextMenus.create({
       id: "translateSelection",
       title: "Dhamma.gift",
@@ -72,14 +73,14 @@ browserAPI.contextMenus.onClicked.addListener((info, tab) => {
   } else if (info.menuItemId === "openMitra") {
     browserAPI.tabs.create({ url: "https://dharmamitra.org/translate?target_lang=english-explained" });
   } else if (info.menuItemId === "translateSelection") {
-    // Работает всегда, независимо от isEnabled
-    const msg = { action: "translate_from_context_menu", text: info.selectionText };
-    // Tabs opened before the extension was installed or updated have no content.js yet: load it, ask again.
-    browserAPI.tabs.sendMessage(tab.id, msg).catch(() => {
-      browserAPI.scripting.executeScript({ target: { tabId: tab.id }, files: ["content.js"] })
-        .then(() => browserAPI.tabs.sendMessage(tab.id, msg))
-        .catch((e) => console.warn('Dhamma.gift: could not reach the page', e));
-    });
+    // Гарантируем, что контентный скрипт загружен перед отправкой сообщения,
+    // так как расширение по умолчанию выключено
+    executeScript(tab.id, { files: ['content.js'] }).then(() => {
+        return browserAPI.tabs.sendMessage(tab.id, {
+            action: "translate_from_context_menu",
+            text: info.selectionText
+        });
+    }).catch(err => console.error("Message send failed:", err));
   } else if (info.menuItemId === "explainGrammarSelection") {
     const url = `https://dharmamitra.org/translate?translate_mode=explain-grammar&input_sentence=${encodeURIComponent(info.selectionText || '')}`;
     browserAPI.tabs.create({ url });
@@ -103,7 +104,7 @@ browserAPI.action.onClicked.addListener((tab) => {
   toggleEnabled(tab);
 });
 
-// Обработчик сообщений (для сброса настроек)
+// Обработчик сообщений
 browserAPI.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'reset_extension_state') {
         // Reset = the default: click-lookup off (it used to turn it on).
@@ -111,10 +112,13 @@ browserAPI.runtime.onMessage.addListener((request, sender, sendResponse) => {
         browserAPI.storage.local.set({ isEnabled: false });
         updateIcon();
     } else if (request.action === 'update_side_panel' && sender.tab) {
-        const tabId = sender.tab.id;
-        const path = `sidepanel.html?src=${encodeURIComponent(request.url)}`;
-        browserAPI.sidePanel.setOptions({ tabId, path, enabled: true });
-        browserAPI.sidePanel.open({ tabId });
+        const panel = `sidepanel.html?src=${encodeURIComponent(request.url)}`;
+        // Firefox opens the sidebar only from a click on its own UI, never from a page click (open() here fails
+        // silently). Sidebar open: show the word there. Closed: a dictionary window, so the click is never lost.
+        browserAPI.sidebarAction.isOpen({}).then((open) => {
+            if (open) return browserAPI.sidebarAction.setPanel({ tabId: sender.tab.id, panel });
+            openDictionaryWindow({ url: request.url, width: 500, height: 500 });
+        }).catch(() => openDictionaryWindow({ url: request.url, width: 500, height: 500 }));
     }
     if (request.action === 'open_dictionary_window' && /^https:\/\//i.test(request.url || '')) {
         openDictionaryWindow(request);
@@ -134,13 +138,28 @@ function openDictionaryWindow({ url, width, height, left, top }) {
 // Обработчик горячей клавиши
 browserAPI.commands.onCommand.addListener((command) => {
   if (command === 'toggle_extension') {
-    browserAPI.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    browserAPI.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
       if (tabs.length > 0) {
         toggleEnabled(tabs[0]);
       }
     });
+  } else if (command === 'lookup_selection') {
+    browserAPI.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
+      if (tabs.length > 0) lookupSelectionInTab(tabs[0].id);
+    });
   }
 });
+
+// The "Look up selection" shortcut: ask the page for its selection. Tabs opened before the extension
+// was installed or updated have no content.js yet: load it (the shortcut grants activeTab), ask again.
+function lookupSelectionInTab(tabId) {
+  const msg = { action: 'lookup_selection' };
+  Promise.resolve(browserAPI.tabs.sendMessage(tabId, msg)).catch(() => {
+    Promise.resolve(browserAPI.scripting.executeScript({ target: { tabId }, files: ['content.js'] }))
+      .then(() => browserAPI.tabs.sendMessage(tabId, msg))
+      .catch((e) => console.warn('Dhamma.gift: could not reach the page', e));
+  });
+}
 
 // Shortcut currently bound to toggle_extension, e.g. "Ctrl+Shift+L"; "" if unassigned or unsupported.
 function getToggleShortcut(callback) {
@@ -158,23 +177,18 @@ function getToggleShortcut(callback) {
 function updateExtensionState(tab) {
   // Badge first, on every page: on chrome:// / about: pages the state flipped with no change of icon.
   updateIcon();
-  if (tab.id && tab.url && !tab.url.startsWith('chrome://') && !tab.url.startsWith('edge://')) {
+  if (tab.id && tab.url && !tab.url.startsWith('about:') && !tab.url.startsWith('moz-extension://')) {
 
-    // Send notification to the content script to show the bubble
     // The toast names the hotkey the browser actually assigned (none if the default was taken).
     getToggleShortcut((shortcut) => browserAPI.tabs.sendMessage(tab.id, {
         action: "show_extension_status",
         enabled: isEnabled,
         shortcut
-    }).catch(() => {
-        // Fail silently if content script is not yet injected
-    }));
+    }).catch(() => {}));
 
     if (isEnabled) {
-      // Запускаем content.js
       executeScript(tab.id, { files: ['content.js'] });
     } else {
-      // Выключаем попап на странице
       executeScript(tab.id, { func: disablePopup });
     }
   }
@@ -188,23 +202,25 @@ function updateIcon() {
   browserAPI.action.setBadgeBackgroundColor({ color: isEnabled ? "#4CAF50" : "#B71C1C" });
 }
 
-// Функция выполнения скрипта (универсальная для Chrome и Edge)
+// Универсальная функция выполнения скрипта (с поддержкой Promise для Firefox)
 function executeScript(tabId, scriptDetails) {
   if (browserAPI.scripting && browserAPI.scripting.executeScript) {
-    browserAPI.scripting.executeScript({
+    return browserAPI.scripting.executeScript({
       target: { tabId },
       ...scriptDetails
     });
   } else {
+    // Фолбэк для старых версий
     if (scriptDetails.files) {
-      browserAPI.tabs.executeScript(tabId, { file: scriptDetails.files[0] });
+      return browserAPI.tabs.executeScript(tabId, { file: scriptDetails.files[0] });
     } else if (scriptDetails.func) {
-      browserAPI.tabs.executeScript(tabId, { code: `(${scriptDetails.func.toString()})()` });
+      return browserAPI.tabs.executeScript(tabId, { code: `(${scriptDetails.func.toString()})()` });
     }
   }
+  return Promise.resolve();
 }
 
-// Функция отключения попапа (выполняется в контексте страницы)
+// Функция отключения попапа
 function disablePopup() {
   const popup = document.querySelector('.popupExt');
   const overlay = document.querySelector('.overlayExt');

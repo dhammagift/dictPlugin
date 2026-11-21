@@ -71,7 +71,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Сброс настроек
     resetButton.addEventListener('click', function() {
         // Используем browserApi вместо chrome
-        browserApi.storage.sync.remove(['dictUrl', 'dictLang'], function() {
+        browserApi.storage.sync.remove(['dictUrl', 'dictLang', 'doubleCopyLookup'], function() {
+            doubleCopy.checked = true;
             browserApi.storage.local.set({ 'popup_reset_flag': true });
             browserApi.runtime.sendMessage({ action: 'reset_extension_state' });
 
@@ -109,6 +110,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 customUrl.value = dictUrl;
             }
         }
+    });
+
+    // Hotkeys: Ctrl+C+C (saved at once) and the browser's own shortcuts for our commands.
+    const doubleCopy = document.getElementById('doubleCopy');
+    Promise.resolve(browserApi.storage.sync.get(['doubleCopyLookup']))
+        .then((r) => { doubleCopy.checked = !(r && r.doubleCopyLookup === false); })
+        .catch(() => {});
+    doubleCopy.addEventListener('change', () => {
+        browserApi.storage.sync.set({ doubleCopyLookup: doubleCopy.checked });
+    });
+
+    function showShortcuts() {
+        Promise.resolve(browserApi.commands.getAll()).then((commands) => {
+            const key = (name) => ((commands || []).find((c) => c.name === name) || {}).shortcut || 'not set';
+            document.getElementById('keyLookup').textContent = key('lookup_selection');
+            document.getElementById('keyToggle').textContent = key('toggle_extension');
+        }).catch(() => {});
+    }
+    showShortcuts();
+    window.addEventListener('focus', showShortcuts);
+
+    document.getElementById('editKeys').addEventListener('click', () => {
+        browserApi.tabs.create({ url: 'chrome://extensions/shortcuts' });
     });
 
     function showStatus(message, type) {

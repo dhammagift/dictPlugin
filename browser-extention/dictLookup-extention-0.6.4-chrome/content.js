@@ -656,8 +656,43 @@ async function showTranslation(word, fromContextMenu = false) {
             if (request.text) {
                 showTranslation(request.text, true);
             }
+        } else if (request.action === "lookup_selection") {
+            // The "Look up selection" shortcut: the background has no access to the selection itself.
+            const text = getSelectedText();
+            if (text) {
+                showTranslation(text, true);
+            } else {
+                const isRu = currentLang === 'ru';
+                showStatusBubble(isRu ? 'Dhamma.Gift: сначала выделите слово' : 'Dhamma.Gift: select a word first');
+            }
         }
     }); 
+
+    // Ctrl+C+C (Cmd+C+C on a Mac): copying the same selection twice within 600 ms looks it up. Works
+    // whether click-lookup is on or off, like the right-click menu; can be turned off in the options.
+    // The guard keeps one listener when content.js is injected again into the same page.
+    if (!window.__dgDoubleCopyExt) {
+        window.__dgDoubleCopyExt = true;
+        let doubleCopyExt = true;
+        let lastCopyExt = { text: '', time: 0 };
+        Promise.resolve(browserApi.storage.sync.get(['doubleCopyLookup']))
+            .then((r) => { if (r && r.doubleCopyLookup === false) doubleCopyExt = false; })
+            .catch(() => {});
+        browserApi.storage.onChanged.addListener((changes, namespace) => {
+            if (namespace === 'sync' && changes.doubleCopyLookup) doubleCopyExt = changes.doubleCopyLookup.newValue !== false;
+        });
+        document.addEventListener('copy', () => {
+            if (!doubleCopyExt) return;
+            const text = getSelectedText();
+            const now = Date.now();
+            if (text && text === lastCopyExt.text && now - lastCopyExt.time < 600) {
+                lastCopyExt = { text: '', time: 0 };
+                showTranslation(text);
+                return;
+            }
+            lastCopyExt = { text, time: now };
+        }, true);
+    }
     
     const handleClickExt = (event) => {
         if (!isEnabled || event.target.closest('a, button, input, textarea, select, .popupExt, video, .html5-video-player')) return;
